@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.baizhi.dao.OrderMasterMapper" >
+  <resultMap id="BaseResultMap" type="com.baizhi.entity.OrderMaster" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="user_id" property="userId" jdbcType="VARCHAR" />
+    <result column="address_id" property="addressId" jdbcType="VARCHAR" />
+    <result column="order_num" property="orderNum" jdbcType="VARCHAR" />
+    <result column="create_date" property="createDate" jdbcType="DATE" />
+    <result column="order_amount" property="orderAmount" jdbcType="DECIMAL" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="user_remarks" property="userRemarks" jdbcType="VARCHAR" />
+    <result column="pay_status" property="payStatus" jdbcType="INTEGER" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from order_master
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.baizhi.entity.OrderMaster" >
+    insert into order_master (id, user_id, address_id, 
+      order_num, create_date, order_amount, 
+      status, user_remarks, pay_status
+      )
+    values (#{id,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR}, #{addressId,jdbcType=VARCHAR}, 
+      #{orderNum,jdbcType=VARCHAR}, #{createDate,jdbcType=DATE}, #{orderAmount,jdbcType=DECIMAL}, 
+      #{status,jdbcType=INTEGER}, #{userRemarks,jdbcType=VARCHAR}, #{payStatus,jdbcType=INTEGER}
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.baizhi.entity.OrderMaster" >
+    update order_master
+    set user_id = #{userId,jdbcType=VARCHAR},
+      address_id = #{addressId,jdbcType=VARCHAR},
+      order_num = #{orderNum,jdbcType=VARCHAR},
+      create_date = #{createDate,jdbcType=DATE},
+      order_amount = #{orderAmount,jdbcType=DECIMAL},
+      status = #{status,jdbcType=INTEGER},
+      user_remarks = #{userRemarks,jdbcType=VARCHAR},
+      pay_status = #{payStatus,jdbcType=INTEGER}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select id, user_id, address_id, order_num, create_date, order_amount, status, user_remarks, 
+    pay_status
+    from order_master
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select id, user_id, address_id, order_num, create_date, order_amount, status, user_remarks, 
+    pay_status
+    from order_master
+  </select>
+</mapper>
