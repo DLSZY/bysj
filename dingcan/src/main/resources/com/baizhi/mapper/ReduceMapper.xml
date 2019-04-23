@@ -1,36 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.baizhi.dao.ReduceMapper" >
-  <resultMap id="BaseResultMap" type="com.baizhi.entity.Reduce" >
-    <id column="id" property="id" jdbcType="VARCHAR" />
-    <result column="business_id" property="businessId" jdbcType="VARCHAR" />
-    <result column="achieve_money" property="achieveMoney" jdbcType="DECIMAL" />
-    <result column="reduce_money" property="reduceMoney" jdbcType="DECIMAL" />
-  </resultMap>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
-    delete from reduce
-    where id = #{id,jdbcType=VARCHAR}
-  </delete>
-  <insert id="insert" parameterType="com.baizhi.entity.Reduce" >
-    insert into reduce (id, business_id, achieve_money, 
-      reduce_money)
-    values (#{id,jdbcType=VARCHAR}, #{businessId,jdbcType=VARCHAR}, #{achieveMoney,jdbcType=DECIMAL}, 
-      #{reduceMoney,jdbcType=DECIMAL})
-  </insert>
-  <update id="updateByPrimaryKey" parameterType="com.baizhi.entity.Reduce" >
-    update reduce
-    set business_id = #{businessId,jdbcType=VARCHAR},
-      achieve_money = #{achieveMoney,jdbcType=DECIMAL},
-      reduce_money = #{reduceMoney,jdbcType=DECIMAL}
-    where id = #{id,jdbcType=VARCHAR}
-  </update>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
-    select id, business_id, achieve_money, reduce_money
-    from reduce
-    where id = #{id,jdbcType=VARCHAR}
-  </select>
-  <select id="selectAll" resultMap="BaseResultMap" >
-    select id, business_id, achieve_money, reduce_money
-    from reduce
-  </select>
+
 </mapper>

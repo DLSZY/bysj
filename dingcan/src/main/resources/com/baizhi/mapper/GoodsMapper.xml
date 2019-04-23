@@ -1,52 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.baizhi.dao.GoodsMapper" >
-  <resultMap id="BaseResultMap" type="com.baizhi.entity.Goods" >
-    <id column="id" property="id" jdbcType="VARCHAR" />
-    <result column="business_is" property="businessIs" jdbcType="VARCHAR" />
-    <result column="cate_id" property="cateId" jdbcType="VARCHAR" />
-    <result column="cateinstore_id" property="cateinstoreId" jdbcType="VARCHAR" />
-    <result column="name" property="name" jdbcType="VARCHAR" />
-    <result column="price" property="price" jdbcType="DECIMAL" />
-    <result column="img_url" property="imgUrl" jdbcType="VARCHAR" />
-    <result column="descripiton" property="descripiton" jdbcType="VARCHAR" />
-    <result column="sale_count" property="saleCount" jdbcType="INTEGER" />
-  </resultMap>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
-    delete from goods
-    where id = #{id,jdbcType=VARCHAR}
-  </delete>
-  <insert id="insert" parameterType="com.baizhi.entity.Goods" >
-    insert into goods (id, business_is, cate_id, 
-      cateinstore_id, name, price, 
-      img_url, descripiton, sale_count
-      )
-    values (#{id,jdbcType=VARCHAR}, #{businessIs,jdbcType=VARCHAR}, #{cateId,jdbcType=VARCHAR}, 
-      #{cateinstoreId,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{price,jdbcType=DECIMAL}, 
-      #{imgUrl,jdbcType=VARCHAR}, #{descripiton,jdbcType=VARCHAR}, #{saleCount,jdbcType=INTEGER}
-      )
-  </insert>
-  <update id="updateByPrimaryKey" parameterType="com.baizhi.entity.Goods" >
-    update goods
-    set business_is = #{businessIs,jdbcType=VARCHAR},
-      cate_id = #{cateId,jdbcType=VARCHAR},
-      cateinstore_id = #{cateinstoreId,jdbcType=VARCHAR},
-      name = #{name,jdbcType=VARCHAR},
-      price = #{price,jdbcType=DECIMAL},
-      img_url = #{imgUrl,jdbcType=VARCHAR},
-      descripiton = #{descripiton,jdbcType=VARCHAR},
-      sale_count = #{saleCount,jdbcType=INTEGER}
-    where id = #{id,jdbcType=VARCHAR}
-  </update>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
-    select id, business_is, cate_id, cateinstore_id, name, price, img_url, descripiton, 
-    sale_count
-    from goods
-    where id = #{id,jdbcType=VARCHAR}
-  </select>
-  <select id="selectAll" resultMap="BaseResultMap" >
-    select id, business_is, cate_id, cateinstore_id, name, price, img_url, descripiton, 
-    sale_count
-    from goods
-  </select>
+  
 </mapper>

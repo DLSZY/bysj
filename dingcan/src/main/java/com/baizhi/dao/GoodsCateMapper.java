@@ -1,16 +1,11 @@
 package com.baizhi.dao;
 
+import com.baizhi.entity.Admin;
 import com.baizhi.entity.GoodsCate;
+import tk.mybatis.mapper.common.Mapper;
+
 import java.util.List;
 
-public interface GoodsCateMapper {
-    int deleteByPrimaryKey(String id);
+public interface GoodsCateMapper  extends Mapper<GoodsCate> {
 
-    int insert(GoodsCate record);
-
-    GoodsCate selectByPrimaryKey(String id);
-
-    List<GoodsCate> selectAll();
-
-    int updateByPrimaryKey(GoodsCate record);
 }

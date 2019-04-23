@@ -1,16 +1,11 @@
 package com.baizhi.dao;
 
+import com.baizhi.entity.Admin;
 import com.baizhi.entity.OrderDetail;
+import tk.mybatis.mapper.common.Mapper;
+
 import java.util.List;
 
-public interface OrderDetailMapper {
-    int deleteByPrimaryKey(String id);
+public interface OrderDetailMapper extends Mapper<OrderDetail> {
 
-    int insert(OrderDetail record);
-
-    OrderDetail selectByPrimaryKey(String id);
-
-    List<OrderDetail> selectAll();
-
-    int updateByPrimaryKey(OrderDetail record);
 }

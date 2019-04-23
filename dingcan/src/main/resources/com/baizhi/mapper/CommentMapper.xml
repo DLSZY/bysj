@@ -1,52 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.baizhi.dao.CommentMapper" >
-  <resultMap id="BaseResultMap" type="com.baizhi.entity.Comment" >
-    <id column="id" property="id" jdbcType="VARCHAR" />
-    <result column="user_id" property="userId" jdbcType="VARCHAR" />
-    <result column="goods_id" property="goodsId" jdbcType="VARCHAR" />
-    <result column="business_id" property="businessId" jdbcType="VARCHAR" />
-    <result column="content" property="content" jdbcType="VARCHAR" />
-    <result column="goods_grade" property="goodsGrade" jdbcType="INTEGER" />
-    <result column="package_grade" property="packageGrade" jdbcType="INTEGER" />
-    <result column="distribute_grade" property="distributeGrade" jdbcType="INTEGER" />
-    <result column="createdate" property="createdate" jdbcType="DATE" />
-  </resultMap>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
-    delete from comment
-    where id = #{id,jdbcType=VARCHAR}
-  </delete>
-  <insert id="insert" parameterType="com.baizhi.entity.Comment" >
-    insert into comment (id, user_id, goods_id, 
-      business_id, content, goods_grade, 
-      package_grade, distribute_grade, createdate
-      )
-    values (#{id,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR}, #{goodsId,jdbcType=VARCHAR}, 
-      #{businessId,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, #{goodsGrade,jdbcType=INTEGER}, 
-      #{packageGrade,jdbcType=INTEGER}, #{distributeGrade,jdbcType=INTEGER}, #{createdate,jdbcType=DATE}
-      )
-  </insert>
-  <update id="updateByPrimaryKey" parameterType="com.baizhi.entity.Comment" >
-    update comment
-    set user_id = #{userId,jdbcType=VARCHAR},
-      goods_id = #{goodsId,jdbcType=VARCHAR},
-      business_id = #{businessId,jdbcType=VARCHAR},
-      content = #{content,jdbcType=VARCHAR},
-      goods_grade = #{goodsGrade,jdbcType=INTEGER},
-      package_grade = #{packageGrade,jdbcType=INTEGER},
-      distribute_grade = #{distributeGrade,jdbcType=INTEGER},
-      createdate = #{createdate,jdbcType=DATE}
-    where id = #{id,jdbcType=VARCHAR}
-  </update>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
-    select id, user_id, goods_id, business_id, content, goods_grade, package_grade, distribute_grade, 
-    createdate
-    from comment
-    where id = #{id,jdbcType=VARCHAR}
-  </select>
-  <select id="selectAll" resultMap="BaseResultMap" >
-    select id, user_id, goods_id, business_id, content, goods_grade, package_grade, distribute_grade, 
-    createdate
-    from comment
-  </select>
+
 </mapper>

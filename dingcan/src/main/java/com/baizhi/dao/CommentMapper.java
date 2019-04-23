@@ -1,16 +1,11 @@
 package com.baizhi.dao;
 
+import com.baizhi.entity.Admin;
 import com.baizhi.entity.Comment;
+import tk.mybatis.mapper.common.Mapper;
+
 import java.util.List;
 
-public interface CommentMapper {
-    int deleteByPrimaryKey(String id);
+public interface CommentMapper extends Mapper<Comment> {
 
-    int insert(Comment record);
-
-    Comment selectByPrimaryKey(String id);
-
-    List<Comment> selectAll();
-
-    int updateByPrimaryKey(Comment record);
 }

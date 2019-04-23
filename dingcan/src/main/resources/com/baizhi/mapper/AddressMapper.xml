@@ -1,38 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.baizhi.dao.AddressMapper" >
-  <resultMap id="BaseResultMap" type="com.baizhi.entity.Address" >
-    <id column="id" property="id" jdbcType="VARCHAR" />
-    <result column="name" property="name" jdbcType="VARCHAR" />
-    <result column="detail" property="detail" jdbcType="VARCHAR" />
-    <result column="phone" property="phone" jdbcType="VARCHAR" />
-    <result column="user_id" property="userId" jdbcType="VARCHAR" />
-  </resultMap>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
-    delete from address
-    where id = #{id,jdbcType=VARCHAR}
-  </delete>
-  <insert id="insert" parameterType="com.baizhi.entity.Address" >
-    insert into address (id, name, detail, 
-      phone, user_id)
-    values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{detail,jdbcType=VARCHAR}, 
-      #{phone,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR})
-  </insert>
-  <update id="updateByPrimaryKey" parameterType="com.baizhi.entity.Address" >
-    update address
-    set name = #{name,jdbcType=VARCHAR},
-      detail = #{detail,jdbcType=VARCHAR},
-      phone = #{phone,jdbcType=VARCHAR},
-      user_id = #{userId,jdbcType=VARCHAR}
-    where id = #{id,jdbcType=VARCHAR}
-  </update>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
-    select id, name, detail, phone, user_id
-    from address
-    where id = #{id,jdbcType=VARCHAR}
-  </select>
-  <select id="selectAll" resultMap="BaseResultMap" >
-    select id, name, detail, phone, user_id
-    from address
-  </select>
+
 </mapper>

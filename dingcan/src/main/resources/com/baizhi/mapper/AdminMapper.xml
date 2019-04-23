@@ -1,34 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.baizhi.dao.AdminMapper" >
-  <resultMap id="BaseResultMap" type="com.baizhi.entity.Admin" >
-    <id column="id" property="id" jdbcType="VARCHAR" />
-    <result column="usernane" property="usernane" jdbcType="VARCHAR" />
-    <result column="password" property="password" jdbcType="VARCHAR" />
-  </resultMap>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
-    delete from admin
-    where id = #{id,jdbcType=VARCHAR}
-  </delete>
-  <insert id="insert" parameterType="com.baizhi.entity.Admin" >
-    insert into admin (id, usernane, password
-      )
-    values (#{id,jdbcType=VARCHAR}, #{usernane,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}
-      )
-  </insert>
-  <update id="updateByPrimaryKey" parameterType="com.baizhi.entity.Admin" >
-    update admin
-    set usernane = #{usernane,jdbcType=VARCHAR},
-      password = #{password,jdbcType=VARCHAR}
-    where id = #{id,jdbcType=VARCHAR}
-  </update>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
-    select id, usernane, password
-    from admin
-    where id = #{id,jdbcType=VARCHAR}
-  </select>
-  <select id="selectAll" resultMap="BaseResultMap" >
-    select id, usernane, password
-    from admin
-  </select>
+
 </mapper>

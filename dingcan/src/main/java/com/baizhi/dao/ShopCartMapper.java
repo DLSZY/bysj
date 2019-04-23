@@ -1,16 +1,11 @@
 package com.baizhi.dao;
 
+import com.baizhi.entity.Admin;
 import com.baizhi.entity.ShopCart;
+import tk.mybatis.mapper.common.Mapper;
+
 import java.util.List;
 
-public interface ShopCartMapper {
-    int deleteByPrimaryKey(String id);
+public interface ShopCartMapper  extends Mapper<ShopCart> {
 
-    int insert(ShopCart record);
-
-    ShopCart selectByPrimaryKey(String id);
-
-    List<ShopCart> selectAll();
-
-    int updateByPrimaryKey(ShopCart record);
 }
