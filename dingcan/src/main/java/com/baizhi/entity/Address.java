@@ -14,7 +14,13 @@ public class Address {
 
     private String name;
 
-    private String detail;
+    private Integer provinceId;
+
+    private Integer cityId;
+
+    private Integer countyId;
+
+    private String address;
 
     private String phone;
 

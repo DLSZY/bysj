@@ -3,7 +3,6 @@ server:
   jsp-servlet:
     init-parameters:
       development: true
-  context-path: /cmfz
 spring:
   mvc:
     view:

@@ -20,6 +20,12 @@ public class Business {
 
     private String name;
 
+    private Integer provinceId;
+
+    private Integer cityId;
+
+    private Integer countyId;
+
     private String address;
 
     private String phone;
