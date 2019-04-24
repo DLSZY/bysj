@@ -117,6 +117,13 @@
             <artifactId>aliyun-java-sdk-core</artifactId>
             <version>4.0.3</version>
         </dependency>
+
+        <!-- google 验证码jar包 -->
+        <dependency>
+            <groupId>com.google</groupId>
+            <artifactId>kaptcha</artifactId>
+            <version>2.0.0</version>
+        </dependency>
     </dependencies>
 
     <build>

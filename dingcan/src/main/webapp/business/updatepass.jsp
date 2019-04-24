@@ -1,3 +1,5 @@
+<%@page contentType="text/html; UTF-8" pageEncoding="UTF-8" %>
+<%@include file="../basic/basic.jsp" %>
 <!doctype html>
 <html lang="en">
 <head>
@@ -5,7 +7,7 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="../statics/bootstrap/css/bootstrap.min.css">
+    <%@include file="../basic/resources.jsp" %>
     <title>修改密码</title>
     <style>
         body{
@@ -19,7 +21,38 @@
             margin-bottom: 20px;
             color: #5a5e66;
         }
+        #order li{
+            width: 128px;
+        }
     </style>
+    <script>
+        $(function () {
+
+            //校验验证码
+            $("#inputCode").on("change",function () {
+                var code = $(this).val();
+                $.post("${app}/business/checkCode",{"code":code},function (result) {
+                    var codeDiv = $("#codeDiv").addClass("has-feedback");
+                    $("#codeSpan").remove();
+                    var span = $("<span>").addClass("glyphicon form-control-feedback").css({"height":"40px","line-height":"40px"}).attr({"id":"codeSpan"});
+
+                    if(result == 0){
+                        codeDiv.addClass("has-error").removeClass("has-success");
+                        span.addClass("glyphicon-remove").removeClass("glyphicon-ok");
+                    }else{
+                        codeDiv.addClass("has-success").removeClass("has-error");
+                        span.addClass("glyphicon-ok").removeClass("glyphicon-remove");
+                    }
+                    $("#codeDiv").append(span);
+                })
+            })
+
+            //刷新验证码
+            $("#code").on("click",function () {
+                this.src = "${app}/business/updateCode?u="+Math.random();
+            })
+        })
+    </script>
 </head>
 <body>
 
@@ -38,7 +71,7 @@
                             </div>
                         </div>
 
-                        <ul class="nav nav-pills" role="tablist">
+                        <ul class="nav nav-pills" role="tablist" id="order">
                             <li role="presentation" class="active"><a href="#"> <span class="badge">1</span> 填写用户名</a></li>
                             <li role="presentation"><a href="#"><span class="badge">2</span> 验证身份</a></li>
                             <li role="presentation"><a href="#"><span class="badge">3</span> 设置新密码 </a></li>
@@ -55,10 +88,13 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="lastname" class="col-sm-2 control-label">验证码</label>
-                                <div class="col-sm-7">
-                                    <input type="text" class="form-control" id="lastname" placeholder="请输入右侧验证码">
-                                    <img src="" alt="">
+                                <label class="col-sm-2 control-label">验证码</label>
+                                <div class="col-sm-7" id="codeDiv">
+                                    <input type="text" class="form-control" id="inputCode" maxlength="4" placeholder="请输入右侧验证码">
+                                </div>
+
+                                <div class="col-sm-2">
+                                    <img src="${app}/business/updateCode" id="code">
                                 </div>
                             </div>
 

@@ -78,7 +78,7 @@
                             <div class="form-group">
                                 <div class="col-sm-10 col-sm-offset-1">
                                     <input type="text" class="form-control" id="lastname" placeholder="请输入密码" style="padding-right: 90px">
-                                    <a href="updatepass.html" id="forget">忘记密码?</a>
+                                    <a href="updatepass.jsp" id="forget">忘记密码?</a>
                                 </div>
                             </div>
 
