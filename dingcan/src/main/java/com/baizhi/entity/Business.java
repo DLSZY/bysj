@@ -1,10 +1,12 @@
 package com.baizhi.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+import javax.persistence.Id;
 import java.util.Date;
 
 @Data
@@ -12,6 +14,7 @@ import java.util.Date;
 @AllArgsConstructor
 @ToString
 public class Business {
+    @Id
     private String id;
 
     private String username;
@@ -20,19 +23,25 @@ public class Business {
 
     private String name;
 
-    private Integer provinceId;
+    private String provinceCode;
 
-    private Integer cityId;
+    private String cityCode;
 
-    private Integer countyId;
+    private String areaCode;
 
     private String address;
 
     private String phone;
 
+    @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
     private Date registerTime;
 
-    private Long startPrice;
+    private Double startPrice;
 
-    private Long distributionFee;
+    private Double distributionFee;
+
+    private Integer registerStatus;
+
+    private Integer status;
+
 }
