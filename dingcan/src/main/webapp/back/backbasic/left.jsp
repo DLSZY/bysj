@@ -21,13 +21,14 @@
             <div class="panel-heading">
                 <h4 class="panel-title">
                     <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo1">
-                        类别模块
+                        食品类别模块
                     </a>
                 </h4>
             </div>
             <div id="collapseTwo1" class="panel-collapse collapse">
                 <div class="panel-body">
-                    <a href="./albumue.jsp" class="list-group-item">类别管理</a>
+                    <a href="./firstCategory.jsp" class="list-group-item">一级类别管理</a>
+                    <a href="./secondCategory.jsp" class="list-group-item">二级类别管理</a>
                 </div>
             </div>
         </div>

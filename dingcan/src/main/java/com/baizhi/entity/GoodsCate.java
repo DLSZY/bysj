@@ -5,11 +5,14 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+import javax.persistence.Id;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
 public class GoodsCate {
+    @Id
     private String id;
 
     private String name;
@@ -17,4 +20,6 @@ public class GoodsCate {
     private Integer level;
 
     private String parentId;
+
+    private String parentName;
 }
