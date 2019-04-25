@@ -1,4 +1,4 @@
-<%@page contentType="text/html; UTF-8" pageEncoding="UTF-8" %>
+<%@page pageEncoding="UTF-8" contentType="text/html; UTF-8" %>
 <%@include file="../basic/basic.jsp" %>
 <!doctype html>
 <html lang="en">

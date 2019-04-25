@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" %>
+<%@page pageEncoding="UTF-8" contentType="text/html; UTF-8" %>
 
 <div class="col-sm-2">
     <div class="panel-group" id="accordion">
@@ -12,7 +12,7 @@
             </div>
             <div id="collapseOne" class="panel-collapse collapse">
                 <div class="panel-body">
-                    <a href="./slideshow.jsp" class="list-group-item">店内类别管理</a>
+                    <a href="./cateinstore.jsp" class="list-group-item">店内类别管理</a>
                 </div>
             </div>
         </div>
@@ -26,7 +26,7 @@
             </div>
             <div id="collapseTwo1" class="panel-collapse collapse">
                 <div class="panel-body">
-                    <a href="./albumue.jsp" class="list-group-item">商品管理</a>
+                    <a href="./goods.jsp" class="list-group-item">商品管理</a>
                 </div>
             </div>
         </div>
