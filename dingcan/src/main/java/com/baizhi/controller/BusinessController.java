@@ -68,7 +68,41 @@ public class BusinessController {
     /*
     * 商家操作
     * */
-    /*商家注册*/
+
+    //修改密码
+    @RequestMapping("changePass")
+    public void changePass(String username,String newPassword){
+        System.out.println("----");
+        businessService.changePass(username,newPassword);
+    }
+    //修改密码时，判断账号是否存在
+    @RequestMapping("checkExist")
+    public Integer checkExist(String username){
+        Integer result = businessService.checkExist(username);
+        return result;
+    }
+    //修改密码时，判断手机号和用户名是否匹配 如果匹配则发送验证码
+    @RequestMapping("checkUserPhone")
+    public Integer checkUserPhone(String username,String phone,HttpServletRequest request){
+        Integer integer = businessService.checkUserPhone(username, phone);
+
+        if(integer == 1){
+            String code = PhoneIdentify.sendIdentify(phone);
+            System.out.println(code);
+            request.getSession().setAttribute(phone,code);                 //存入作用域
+        }
+        return integer;
+    }
+    //修改密码时，检验手机短信验证码
+    @RequestMapping("checkUpdatePhoneCode")
+    public Integer checkUpdatePhoneCode(String phone,String phoneCode,HttpSession session){
+        String code = (String) session.getAttribute(phone);
+        System.out.println(code);
+        code.equals(phoneCode);
+        if(code.equals(phoneCode)) return 1;
+        else return 0;
+    }
+
 
     //修改密码时验证码  需要联网使用
     @RequestMapping("updateCode")
@@ -81,7 +115,8 @@ public class BusinessController {
         request.getSession().setAttribute("code",text); //验证码放入session
         ImageIO.write(image,"png",outputStream);
     }
-    //校验验证码
+
+    //校验修改时验证码
     @RequestMapping("checkCode")
     public Integer checkCode(String code,HttpServletRequest request){
         String sessionCode = (String) request.getSession().getAttribute("code");
@@ -89,8 +124,7 @@ public class BusinessController {
         else return 0;
     }
 
-
-
+    /*商家注册*/
     @RequestMapping("register")
     public void register(Business business){
         businessService.register(business);
@@ -98,12 +132,9 @@ public class BusinessController {
 
     /*注册发送验证码*/
     @RequestMapping("sendPhoneCode")
-    public Map<String,String> sendPhoneCode(String phone, HttpServletRequest request){
-        System.out.println(phone);
-        Map<String,String> map = new HashMap<>();
-        String code = PhoneIdentify.sendIdentify(phone, request);
-        map.put(phone,code);
-        return map;
+    public void sendPhoneCode(String phone, HttpServletRequest request){
+        String code = PhoneIdentify.sendIdentify(phone);
+        request.getSession().setAttribute(phone,code);                 //存入作用域
     }
     /*注册检验验证码*/
     @RequestMapping("checkPhoneCode")

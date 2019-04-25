@@ -24,9 +24,17 @@
         #order li{
             width: 128px;
         }
+        .showf{
+            display: block !important;
+        }
+        .nonef{
+            display: none !important;
+        }
     </style>
     <script>
         $(function () {
+
+            var step = 1;
 
             //校验验证码
             $("#inputCode").on("change",function () {
@@ -39,13 +47,100 @@
                     if(result == 0){
                         codeDiv.addClass("has-error").removeClass("has-success");
                         span.addClass("glyphicon-remove").removeClass("glyphicon-ok");
+                        $("#nextBtn").attr({"disabled":true})
                     }else{
                         codeDiv.addClass("has-success").removeClass("has-error");
                         span.addClass("glyphicon-ok").removeClass("glyphicon-remove");
+                        $("#nextBtn").attr({"disabled":false})
                     }
                     $("#codeDiv").append(span);
                 })
             })
+
+            //判断账号是否存在
+            $("#firstBtn").on("click",function () {
+                if(step == 1){
+                    console.log(step);
+                    var username = $("#username").val();
+                    $.post("${app}/business/checkExist",{"username":username},function (result) {
+                        if(result == 0){
+                            alert("账号不存在！");
+                        }
+                        if(result == 1){
+                            alert("此账号被冻结,请联系管理员解冻");
+                        }
+                        if(result == 2){
+                            $(".first").removeClass("showf").addClass("nonef");
+                            $(".second").removeClass("nonef").addClass("showf");
+
+                            $("#fistSpan").removeClass("active");
+                            $("#secondSpan").addClass("active");
+
+                            //$("#firstBtn").attr({"id":"secondBtn"})
+                            step = 2;
+                            console.log("修改为"+step)
+                        }
+
+                    })
+                }
+                else if(step == 2){  //检验手机号验证码
+                    console.log(step);
+                    //测试
+                    $(".second").removeClass("showf").addClass("nonef");
+                    $(".three").removeClass("nonef").addClass("showf");
+                    $("#secondSpan").removeClass("active");
+                    $("#threeSpan").addClass("active");
+                    step = 3;
+                    console.log("修改为"+step)
+
+                   //正式
+                  /*var phone = $("#phone").val();
+                    var phoneCode = $("#phoneCode").val();
+                    $.post("${app}/business/checkUpdatePhoneCode",{"phone":phone,"phoneCode":phoneCode},function (result) {
+                        if(result == 0){
+                            alert("验证码错误！")
+                        }else{
+                            $(".second").removeClass("showf").addClass("nonef");
+                            $(".three").removeClass("nonef").addClass("showf");
+
+                            $("#secondSpan").removeClass("active");
+                            $("#threeSpan").addClass("active");
+                            step = 3;
+                            console.log("修改为"+step)
+                        }
+                    })*/
+
+                }
+                else if(step == 3){      //修改密码页面
+                    console.log(step+"-----");
+                    var username = $("#username").val();
+                    var newPassword = $("#newPass").val();
+                    console.log(newPassword);
+                    $.post("${app}/business/changePass",{"username":username,"newPassword":newPassword},function () {
+                        $(".three").removeClass("showf").addClass("nonef");
+                        $("#threeSpan").removeClass("active");
+                        $("#fourSpan").addClass("active");
+                        $("#fourSpan").addClass("active");
+                        $("#firstBtn").hide();
+                        $("#msg").show()
+                    })
+                }
+
+
+            })
+            //判断手机号是否和用户名匹配
+            $("#sendCode").on("click",function () {
+                var username = $("#username").val();
+                var phone = $("#phone").val();
+                $.post("${app}/business/checkUserPhone",{"username":username,"phone":phone},function (result) {
+                    if(result == 0){
+                        alert("手机号和用户名不匹配！");
+                    }else{
+                        alert("验证码已发送~~");
+                    }
+                })
+            });
+
 
             //刷新验证码
             $("#code").on("click",function () {
@@ -72,22 +167,22 @@
                         </div>
 
                         <ul class="nav nav-pills" role="tablist" id="order">
-                            <li role="presentation" class="active"><a href="#"> <span class="badge">1</span> 填写用户名</a></li>
-                            <li role="presentation"><a href="#"><span class="badge">2</span> 验证身份</a></li>
-                            <li role="presentation"><a href="#"><span class="badge">3</span> 设置新密码 </a></li>
-                            <li role="presentation"><a href="#"><span class="badge">4</span> 完成 </a></li>
+                            <li role="presentation" class="active" id="fistSpan"><a> <span class="badge">1</span> 填写用户名</a></li>
+                            <li role="presentation" id="secondSpan"><a ><span class="badge">2</span> 验证身份</a></li>
+                            <li role="presentation" id="threeSpan"><a ><span class="badge">3</span> 设置新密码 </a></li>
+                            <li role="presentation" id="fourSpan"><a ><span class="badge">4</span> 完成 </a></li>
                         </ul>
                         <hr>
                         <form class="form-horizontal" role="form">
 
                             <!--第一-->
-                            <div class="form-group">
+                            <div class="form-group first showf">
                                 <label for="username" class="col-sm-2 control-label">用户名</label>
                                 <div class="col-sm-7">
                                     <input type="text" class="form-control" id="username" placeholder="请输入用户名">
                                 </div>
                             </div>
-                            <div class="form-group">
+                            <div class="form-group first showf">
                                 <label class="col-sm-2 control-label">验证码</label>
                                 <div class="col-sm-7" id="codeDiv">
                                     <input type="text" class="form-control" id="inputCode" maxlength="4" placeholder="请输入右侧验证码">
@@ -99,40 +194,51 @@
                             </div>
 
                             <!--第二-->
-                            <!--<div class="form-group">
-                                <label for="username" class="col-sm-2 control-label">手机号</label>
-                                <div class="col-sm-8">
-                                    <input type="text" class="form-control" id="username" placeholder="请输入注册手机号">
+                            <div class="form-group second nonef">
+                                <label class="col-sm-2 control-label">手机号</label>
+                                <div class="input-group col-sm-8 " style="padding: 0 15px">
+                                    <input type="text" class="form-control" id="phone" placeholder="请输入注册手机号">
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-info" id="sendCode" style="height: 40px;line-height: 30px" type="button">
+                                            发送验证码
+                                        </button>
+                                    </span>
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <label for="lastname" class="col-sm-2 control-label">验证码</label>
+                            <div class="form-group second nonef">
+                                <label class="col-sm-2 control-label">验证码</label>
                                 <div class="col-sm-8">
-                                    <input type="text" class="form-control" id="lastname" placeholder="请输入收到验证码">
-                                    <img src="" alt="">
+                                    <input type="text" class="form-control" id="phoneCode" placeholder="请输入收到验证码">
                                 </div>
-                            </div>-->
+                            </div>
 
                             <!--第三-->
-                            <!--<div class="form-group">
-                                <label for="username" class="col-sm-3 control-label">输入新密码</label>
+                            <div class="form-group three nonef">
+                                <label class="col-sm-3 control-label">输入新密码</label>
                                 <div class="col-sm-8">
-                                    <input type="text" class="form-control" id="username" placeholder="请输入新密码">
+                                    <input type="text" class="form-control" id="newPass" placeholder="请输入新密码">
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <label for="lastname" class="col-sm-3 control-label">确认密码</label>
+                            <div class="form-group three nonef">
+                                <label class="col-sm-3 control-label">确认密码</label>
                                 <div class="col-sm-8">
-                                    <input type="text" class="form-control" id="lastname" placeholder="再次输入新密码">
-                                    <img src="" alt="">
+                                    <input type="text" class="form-control" id="reNewPass" placeholder="再次输入新密码">
                                 </div>
-                            </div>-->
+                            </div>
+
+                            <div class="alert alert-info" id="msg" style="display: none;">
+                                <a href="#" class="close" data-dismiss="alert">
+                                    &times;
+                                </a>
+                                <strong>修改密码成功！</strong>
+                            </div>
+
+
 
                             <div class="form-group">
                                 <div class="col-sm-4 col-sm-offset-4">
-                                    <button type="submit" class="btn btn-primary btn-block"  style="height: 40px">下一步</button>
+                                    <a id="firstBtn" class="btn btn-primary btn-block"  style="height: 40px;line-height: 30px">下一步</a>
                                 </div>
-
                             </div>
                         </form>
                     </div>

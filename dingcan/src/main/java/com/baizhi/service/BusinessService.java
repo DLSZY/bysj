@@ -6,8 +6,18 @@ import com.baizhi.entity.BusinessRefuseReason;
 import java.util.List;
 
 public interface BusinessService {
-    //商家
+    /*
+    *商家
+    */
+    //注册
     void register (Business business);
+    //修改密码使判断账号是否存在
+    Integer checkExist(String username);
+    //修改谜面时判断用户名和手机号是否匹配
+    Integer checkUserPhone(String username,String phone);
+    //修改密码
+    void changePass(String username,String newPassword);
+
 
     /*
     * 管理员

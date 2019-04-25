@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 
 public class PhoneIdentify {
 
-    public static String sendIdentify(String phone,HttpServletRequest httpServletRequest){
+    public static String sendIdentify(String phone){
         DefaultProfile profile = DefaultProfile.getProfile("cn-hangzhou", "LTAIV8ObMnhcdqzn", "W3HQ3qhqsRbfm9IA27pAEujlTAhorf");
         IAcsClient client = new DefaultAcsClient(profile);
 
@@ -28,7 +28,6 @@ public class PhoneIdentify {
         request.putQueryParameter("SignName", "石头DZY");
         request.putQueryParameter("TemplateCode", "SMS_163431885");
         String code = PhoneVerifyCodeUtil.generateVerifyCode(4);
-        httpServletRequest.getSession().setAttribute(phone,code);                 //存入作用域
         request.putQueryParameter("TemplateParam", "{\"code\":\""+code+"\"}");
         try {
             CommonResponse response = client.getCommonResponse(request);
