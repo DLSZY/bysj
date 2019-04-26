@@ -1,6 +1,8 @@
 package com.baizhi;
 
+import com.baizhi.dao.GoodsMapper;
 import com.baizhi.entity.City;
+import com.baizhi.entity.Goods;
 import com.baizhi.entity.Province;
 import com.baizhi.service.AddressService;
 import org.junit.Test;
@@ -17,6 +19,8 @@ public class CityTest {
 
     @Autowired
     private AddressService addressService;
+    @Autowired
+    private GoodsMapper goodsMapper;
 
     @Test
     public void test(){
@@ -31,6 +35,13 @@ public class CityTest {
         List<City> all = addressService.findCity("130000");
         for (City province : all) {
             System.out.println(province);
+        }
+    }
+    @Test
+    public void test2(){
+        List<Goods> good = goodsMapper.findGood("1");
+        for (Goods goods : good) {
+            System.out.println(goods);
         }
     }
 

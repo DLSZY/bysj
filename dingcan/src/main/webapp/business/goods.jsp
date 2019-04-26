@@ -10,9 +10,9 @@
         td a {
             margin-left: 15px;
         }
-
-        .optionBtn {
-            padding: 3px 20px;
+        #imgDiv{
+            position: absolute;
+            right: 50px;
         }
     </style>
     <script>
@@ -39,7 +39,7 @@
             })
 
             $("#albumList").jqGrid({
-                url: "${app}/cateInStore/findAll",
+                url: "${app}/goods/findFood",
                 colNames: ["食品名", "食品价格","本店类别","月销售量","操作"],
                 autowidth: true,
                 styleUI: "Bootstrap",
@@ -51,11 +51,14 @@
                 colModel: [
                     {"name": "name"},
                     {"name": "price"},
-                    {"name": "cateinstoreId"},
+                    {"name": "cateinstoreName"},
                     {"name": "saleCount"},
                     {
                         formatter: function (value, options, row) {
-                            var content = "<button class=\"btn btn-danger optionBtn\" onclick=\"del(\'\')\">删 除</button>"
+                            var content = ""
+                            content += "<a href=\"javascript:show(\'"+row.id+"\')\" ><span class='glyphicon glyphicon-search'></span></a>"
+                            content += "<a href=\"javascript:showUpdateModel(\'"+row.id+"\')\"><span class=\"glyphicon glyphicon-pencil\"></span></a>"
+                            content += "<a href=\"javascript:del(\'"+row.id+"\')\"><span class=\"glyphicon glyphicon-remove\"></span></a>"
                             return content;
                         }
                     }
@@ -63,28 +66,20 @@
             })
         })
 
-        //添加类别
-        function addCate() {
-            var name = $("#name").val();
-            $.post("${app}/cateInStore/add", {"name": name}, function () {
-                $("#albumList").trigger("reloadGrid");
-                $("#myModal").modal("hide");
-            })
-        }
 
         //删除以及类别
         function del(id) {
-            var b = window.confirm("删除此类别时该类别下的商品也会被删除，是否要删除？");
+            var b = window.confirm("是否要删除此食品？");
             if (b == true) {
-                $.post("${app}/category/deleteFirst", {"id": id}, function () {
+                $.post("${app}/goods/delete", {"id": id}, function () {
                     $("#albumList").trigger("reloadGrid");
                 })
             }
         }
 
-        //弹出模态框
+        //添加模态框
         function showAddModel() {
-            $("#addModel").modal("show");
+            $("#fileForm")[0].reset();
             $.post("${app}/goods/findCate",function (result) {
                 var cate = $("#cate");
                 cate.empty();
@@ -95,19 +90,71 @@
                     cate.append(option);
                 }
             });
-
             $.post("${app}/goods/findCateInStore",function (result) {
                 var cateinstore = $("#cateinstore");
                 cateinstore.empty();
                 var option1 = $("<option>").text("请选择本店类别").attr({"disabled":true,"selected":true})
                 cateinstore.append(option1);
+
                 for(var i = 0; i<result.length; i++){
                     var option = $("<option>").text(result[i].name).val(result[i].id);
                     cateinstore.append(option);
                 }
             });
-
+            $("#addModel").modal("show");
         }
+
+        //修改模态框
+        function showUpdateModel(id) {
+            $.post("${app}/goods/findOne",{"id":id},function (result){
+                $("#id").val(result.goods.id);
+                $("#name").val(result.goods.name);
+                $("#price").val(result.goods.price);
+                $("#description").val(result.goods.description);
+
+                //分类的下拉列表
+                var cate = $("#cate");
+                cate.empty();
+                for(var i = 0; i<result.cate.length; i++){
+                    var option = $("<option>").text(result.cate[i].name).val(result.cate[i].id);
+                    if(result.goods.cateId == result.cate[i].id){
+                        option.attr({"selected":true})
+                    }
+                    cate.append(option);
+                }
+
+                //店内分类的下拉列表
+                var cateinstore = $("#cateinstore");
+                cateinstore.empty();
+                for(var i = 0; i<result.cateinstore.length; i++){
+                    var option = $("<option>").text(result.cateinstore[i].name).val(result.cateinstore[i].id);
+                    if(result.goods.cateinstoreId == result.cateinstore[i].id){
+                        option.attr({"selected":true})
+                    }
+                    cateinstore.append(option);
+                }
+            });
+            $("#addModel").modal("show");
+        }
+
+        //展示详情
+        function show(id) {
+            $("#showModel input").attr({"readonly":true});
+            //console.log($("#showModel input"))
+            $.post("${app}/goods/findOne",{"id":id},function (result){
+                $("#id1").val(result.goods.id);
+                $("#name1").val(result.goods.name);
+                $("#price1").val(result.goods.price);
+                $("#description1").val(result.goods.description);
+                $("#saleCount1").val(result.goods.saleCount);
+                $("#cate1").val(result.goods.cateName);
+                $("#cateinstore1").val(result.goods.cateinstoreName);
+                var imgUrl = "../upload/goodsImg/"+result.goods.imgUrl;
+                $("#goodsImg").attr({"src":imgUrl})
+            });
+            $("#showModel").modal("show");
+        }
+
 
     </script>
 </head>
@@ -138,7 +185,71 @@
         </div>
     </div>
 
-    <%-- 模态框 --%>
+    <%-- 展示详情改模态框 --%>
+    <div class="modal fade bs-example-modal-sm" id="showModel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+             aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content ">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title" id="myModalLabel1">添加本店类别</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form class="form-horizontal" role="form" id="fileForm1">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">食品名称</label>
+                                <div class="col-sm-6">
+                                    <input type="hidden" id="id1" class="form-control"  name="id">
+                                    <input type="text" class="form-control" id="name1" name="name" placeholder="请输入食品名">
+                                </div>
+                                <div class="col-sm-3" id="imgDiv">
+                                    <img src="" class="img-thumbnail" id="goodsImg">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">食品价格</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" id="price1" name="price" placeholder="请输入食品价格">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">食品销量</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" id="saleCount1" name="saleCount" placeholder="请输入食品价格">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">所属类别</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" id="cate1" name="cate1">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">本店类别</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" id="cateinstore1" name="cateinstore1">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="description" class="col-sm-2 control-label">食品描述</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" name="description" id="description1" placeholder="请输入食品描述">
+                                </div>
+                            </div>
+
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal -->
+        </div>
+
+    <%-- 添加修改模态框 --%>
     <div class="modal fade bs-example-modal-sm" id="addModel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
          aria-hidden="true">
         <div class="modal-dialog">

@@ -5,18 +5,28 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+import javax.persistence.Id;
+import javax.persistence.Transient;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
 public class Goods {
+    @Id
     private String id;
 
     private String businessId;
 
     private String cateId;
 
+    @Transient
+    private String cateName;
+
     private String cateinstoreId;
+
+    @Transient
+    private String cateinstoreName;
 
     private String name;
 

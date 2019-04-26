@@ -40,7 +40,7 @@
             </div>
             <div id="collapseTwo" class="panel-collapse collapse">
                 <div class="panel-body">
-                    <a href="./albumue.jsp" class="list-group-item">满减管理</a>
+                    <a href="./reduce.jsp" class="list-group-item">满减管理</a>
                 </div>
             </div>
         </div>
@@ -69,6 +69,21 @@
             <div id="collapseFour" class="panel-collapse collapse">
                 <div class="panel-body">
                     <a href="./albumue.jsp" class="list-group-item">查看本店评论</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" data-parent="#accordion" href="#collapseFive">
+                        本店信息
+                    </a>
+                </h4>
+            </div>
+            <div id="collapseFive" class="panel-collapse collapse">
+                <div class="panel-body">
+                    <a href="./albumue.jsp" class="list-group-item">编辑本店信息</a>
                 </div>
             </div>
         </div>
