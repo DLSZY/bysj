@@ -32,7 +32,7 @@ public class Goods {
 
     private String name;
 
-    private Long price;
+    private Double price;
 
     private String imgUrl;
 

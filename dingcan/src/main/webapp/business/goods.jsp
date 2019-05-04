@@ -79,6 +79,8 @@
 
         //添加模态框
         function showAddModel() {
+            $("#myModalLabel").text("添加食品")
+            $("#addBtn").text("添加")
             $("#fileForm")[0].reset();
             $.post("${app}/goods/findCate",function (result) {
                 var cate = $("#cate");
@@ -107,6 +109,8 @@
         //修改模态框
         function showUpdateModel(id) {
             $.post("${app}/goods/findOne",{"id":id},function (result){
+                $("#myModalLabel").text("修改本店食品信息");
+                $("#addBtn").text("修改")
                 $("#id").val(result.goods.id);
                 $("#name").val(result.goods.name);
                 $("#price").val(result.goods.price);
@@ -122,7 +126,6 @@
                     }
                     cate.append(option);
                 }
-
                 //店内分类的下拉列表
                 var cateinstore = $("#cateinstore");
                 cateinstore.empty();
@@ -193,7 +196,7 @@
                 <div class="modal-content ">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        <h4 class="modal-title" id="myModalLabel1">添加本店类别</h4>
+                        <h4 class="modal-title" id="myModalLabel1">查看食品信息</h4>
                     </div>
                     <div class="modal-body">
                         <form class="form-horizontal" role="form" id="fileForm1">
@@ -257,7 +260,7 @@
             <div class="modal-content ">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title" id="myModalLabel">添加本店类别</h4>
+                    <h4 class="modal-title" id="myModalLabel">添加本店食品</h4>
                 </div>
                 <div class="modal-body">
                     <form class="form-horizontal" role="form" id="fileForm">

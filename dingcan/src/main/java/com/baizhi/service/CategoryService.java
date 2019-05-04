@@ -16,4 +16,6 @@ public interface CategoryService {
     void deleteSecond(String id);
     //删除一级类别
     void deleteFirst(String id);
+    //根据以及类别名查询其下的二级类别
+    List<GoodsCate> selectByFistName(String firstName);
 }

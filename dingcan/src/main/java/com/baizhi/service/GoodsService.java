@@ -13,11 +13,15 @@ public interface GoodsService {
     //修改食品信息
     void update(Goods goods);
     //分页查询本店食品
-    PageBean findFood(Integer page,Integer rows);
+    PageBean findFood(Integer page,Integer rows,String businessId);
     //查看商品详情
     Goods findOne(String id);
     //删除商品
     void delete(String id);
+
+    /**
+     *管理员
+     */
     //查询所有商品
     PageBean findAll(Integer page,Integer rows);
 }

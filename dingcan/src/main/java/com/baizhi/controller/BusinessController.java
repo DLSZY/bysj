@@ -2,12 +2,15 @@ package com.baizhi.controller;
 
 import com.baizhi.entity.Business;
 import com.baizhi.entity.BusinessRefuseReason;
+import com.baizhi.entity.PageBean;
 import com.baizhi.service.BusinessService;
 import com.baizhi.utils.PhoneIdentify;
 import com.google.code.kaptcha.impl.DefaultKaptcha;
+import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.imageio.ImageIO;
 import javax.servlet.ServletOutputStream;
@@ -15,6 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
@@ -29,10 +33,29 @@ public class BusinessController {
     @Autowired
     private DefaultKaptcha defaultKaptcha;
 
-    /*
+    /**
+    * 用户操作
+    * */
+    //查询所有正常商家
+    @RequestMapping("findAllNormal")
+    public List<Business> findAllNormal(){
+        return businessService.findAllNormal();
+    }
+    @RequestMapping("findByFirst")
+    //根据一级类别查询商家
+    public List<Business> findByFirst(String cateName){
+        return businessService.findByFirst(cateName);
+    }
+    @RequestMapping("findBySecond")
+    //根据二级类别查询商家
+    public List<Business> findBySecond(String cateName){
+        return businessService.findBySecond(cateName);
+    }
+
+
+    /**
     * 管理员操作
     * */
-
     //修改商家的状态
     @RequestMapping("changeStatus")
     public void changeStatue(Business business){
@@ -41,15 +64,15 @@ public class BusinessController {
 
     //查询申请的商家
     @RequestMapping("findRegister")
-    public List<Business> findRegister(){
-        List<Business> register = businessService.findBusinessByRegister(0);
-        return register;
+    public PageBean findRegister(Integer page,Integer rows){
+        PageBean pageBean = businessService.findBusinessByRegister(page,rows,0);
+        return pageBean;
     }
     //查询已经通过申请的商家
     @RequestMapping("findBusiness")
-    public List<Business> findBusiness(){
-        List<Business> register = businessService.findBusinessByRegister(1);
-        return register;
+    public PageBean findBusiness(Integer page,Integer rows){
+        PageBean pageBean = businessService.findBusinessByRegister(page,rows,1);
+        return pageBean;
     }
 
     //通过商家的申请
@@ -65,21 +88,40 @@ public class BusinessController {
     }
 
 
-    /*
+    /**
     * 商家操作
     * */
+    //登录
+    @RequestMapping("login")
+    public Map login(String username,String password,HttpSession session){
+        return businessService.login(username,password,session);
+    }
+    @RequestMapping("exit")
+    public void exit(HttpSession session){
+        session.invalidate();
+    }
     //查询个人信息
     @RequestMapping("showInfo")
-    public Business showInfo(){
-        String id = "1";    //从session获取id
+    public Business showInfo(HttpSession session){
+        String id = (String) session.getAttribute("businessId");    //从session获取id
         Business info = businessService.findInfo(id);
         return info;
     }
-
     //修改个人信息
     @RequestMapping("changeInfo")
-    public void changeInfo(Business business){
+    public void changeInfo(Business business, MultipartFile multipartFile,HttpServletRequest request) throws IOException {
+        //判断是否上传文件
+        if(!multipartFile.isEmpty()){
+            String realPath = request.getSession().getServletContext().getRealPath("/upload/storeImg");
+            String extension = "."+ FilenameUtils.getExtension(multipartFile.getOriginalFilename());
+            String imgName = String.valueOf(System.currentTimeMillis());
+            File file = new File(realPath +"/"+imgName + extension);
+            multipartFile.transferTo(file);
+            business.setImgUrl("storeImg/"+imgName+extension);
+        }
+        System.out.println(business);
         businessService.changeInfo(business);
+        System.out.println(multipartFile.getOriginalFilename());
     }
 
 

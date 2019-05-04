@@ -41,5 +41,9 @@ public class CategoryController {
     public void deleteFirst(String id){
         categoryService.deleteFirst(id);
     }
+    @RequestMapping("selectByFirstName")
+    public List<GoodsCate> selectByFirstName(String firstName){
+        return categoryService.selectByFistName(firstName);
+    }
 
 }

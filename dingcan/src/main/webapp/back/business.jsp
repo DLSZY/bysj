@@ -21,10 +21,9 @@
                     $("#albumList").setGridWidth($("#main").width())
                 });
 
-
                 $("#albumList").jqGrid({
                     url:"${app}/business/findBusiness",
-                    colNames:["用户名","密码","店铺名","省份编号","城市编号","区县编号","详细地址","手机号","注册时间","状态","操作"],
+                    colNames:["用户名","密码","店铺名","省份编号","城市编号","区县编号","详细地址","手机号","注册时间","图标路径","状态","操作"],
                     autowidth:true,
                     styleUI:"Bootstrap",
                     rowNum:2,
@@ -42,6 +41,7 @@
                         {"name":"address"},
                         {"name":"phone"},
                         {"name":"registerTime"},
+                        {"name":"imgUrl"},
                         {"name":"status",
                             formatter:function (value,option,row) {
                                 if(row.status == 0) return "冻结";

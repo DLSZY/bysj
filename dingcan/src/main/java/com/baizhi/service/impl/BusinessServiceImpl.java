@@ -4,15 +4,18 @@ import com.baizhi.dao.BusinessMapper;
 import com.baizhi.dao.BusinessRefuseResonMapper;
 import com.baizhi.entity.Business;
 import com.baizhi.entity.BusinessRefuseReason;
+import com.baizhi.entity.PageBean;
 import com.baizhi.service.BusinessService;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tk.mybatis.mapper.entity.Example;
 
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
+import javax.servlet.http.HttpSession;
+import java.util.*;
 
 @Service
 @Transactional
@@ -24,6 +27,24 @@ public class BusinessServiceImpl implements BusinessService {
     private BusinessRefuseResonMapper businessRefuseResonMapper;
 
     @Override
+    public List<Business> findAllNormal() {
+        Business business = new Business();
+        business.setStatus(1);
+        List<Business> select = businessMapper.select(business);
+        return select;
+    }
+
+    @Override
+    public List<Business> findByFirst(String cateName) {
+        return businessMapper.findByFirst(cateName);
+    }
+
+    @Override
+    public List<Business> findBySecond(String cateName) {
+        return businessMapper.findBySecond(cateName);
+    }
+
+    @Override
     public void register(Business business) {
         business.setId(UUID.randomUUID().toString());
         business.setRegisterTime(new Date());
@@ -32,6 +53,38 @@ public class BusinessServiceImpl implements BusinessService {
         business.setDistributionFee(0.0);
         System.out.println(business);
         businessMapper.insertSelective(business);
+    }
+
+    @Override
+    public Map<String,Object> login(String username, String password, HttpSession session) {
+        Map<String,Object> map = new HashMap<>();
+        //根据用户名查询
+        Business business = new Business();
+        business.setUsername(username);
+        List<Business> businesses = businessMapper.select(business);
+
+        if (businesses.size() == 0 || businesses.get(0).getRegisterStatus() != 1){        //账号不存在或申请还未通过
+            map.put("success",0);
+            map.put("msg","该账号不存在");
+        }else{
+            business.setPassword(password);
+            List<Business> businesses1 = businessMapper.select(business);
+            if(businesses1.size() == 0){    //密码错误
+                map.put("success",0);
+                map.put("msg","密码错误！");
+            }else{
+                if(businesses1.get(0).getStatus() == 0){    //被冻结
+                    map.put("success",0);
+                    map.put("msg","该账号被冻结！");
+                }else{
+                    //登录成功
+                    map.put("success",1);
+                    session.setAttribute("businessId",businesses1.get(0).getId());
+                    session.setAttribute("businessUsername",businesses1.get(0).getUsername());
+                }
+            }
+        }
+        return map;
     }
 
     @Override
@@ -84,11 +137,14 @@ public class BusinessServiceImpl implements BusinessService {
     }
 
     @Override
-    public List<Business> findBusinessByRegister(Integer registerStatus) {
+    public PageBean findBusinessByRegister(Integer pageNow,Integer showCount,Integer registerStatus) {
+        PageHelper.startPage(pageNow,showCount);
         Example example = new Example(Business.class);
         example.createCriteria().andEqualTo("registerStatus",registerStatus);
         List<Business> businesses = businessMapper.selectByExample(example);
-        return businesses;
+        PageInfo pageInfo = new PageInfo(businesses);
+        PageBean pageBean = new PageBean(pageNow,pageInfo.getTotal(),pageInfo.getPages(),pageInfo.getList());
+        return pageBean;
     }
 
     @Override

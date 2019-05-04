@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
@@ -61,17 +62,19 @@ public class GoodsController {
     }
     //查看商品详情
     @RequestMapping("findOne")
-    public Map<String,Object> findOne(String id){
+    public Map<String,Object> findOne(String id, HttpSession session){
         Map<String,Object> map = new HashMap<>();
         map.put("goods",goodsService.findOne(id));
         map.put("cate",categoryService.findCateByLevel(2));
-        map.put("cateinstore",cateInStoreService.findAll());
+        String businessId = (String) session.getAttribute("businessId");
+        map.put("cateinstore",cateInStoreService.findAll(businessId));
         return map;
     }
     //分页查询本店食品
     @RequestMapping("findFood")
-    public PageBean findFood(Integer page,Integer rows){
-        return goodsService.findFood(page,rows);
+    public PageBean findFood(Integer page,Integer rows,HttpSession session){
+        String businessId = (String) session.getAttribute("businessId");
+        return goodsService.findFood(page,rows,businessId);
     }
 
     //查询所有食品二级类别
@@ -83,8 +86,9 @@ public class GoodsController {
 
     //查询本店商品类别
     @RequestMapping("findCateInStore")
-    public List<GoodsCateinstore> findCateInStore(){
-        return cateInStoreService.findAll();
+    public List<GoodsCateinstore> findCateInStore(HttpSession session){
+        String businessId = (String) session.getAttribute("businessId");
+        return cateInStoreService.findAll(businessId);
     }
 
     //添加修改食品
@@ -102,7 +106,7 @@ public class GoodsController {
         }
         //添加
         if(StringUtils.isEmpty(goods.getId())){
-            goods.setBusinessId("1");   //从session获取
+            goods.setBusinessId((String) request.getSession().getAttribute("businessId"));   //从session获取
             goodsService.add(goods);
         }else{
             goodsService.update(goods);

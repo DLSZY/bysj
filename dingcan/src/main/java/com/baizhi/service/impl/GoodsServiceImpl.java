@@ -33,10 +33,9 @@ public class GoodsServiceImpl implements GoodsService {
     }
 
     @Override
-    public PageBean findFood(Integer page, Integer rows) {
+    public PageBean findFood(Integer page, Integer rows,String businessId) {
         PageHelper.startPage(page, rows);
         Example example = new Example(Goods.class);
-        String businessId = "1";    //从session获取
         example.createCriteria().andEqualTo("businessId", businessId);
         List<Goods> goods = goodsMapper.findGood(businessId);
         PageInfo pageInfo = new PageInfo(goods);

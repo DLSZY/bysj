@@ -13,12 +13,12 @@
         </div>
         <div class="collapse navbar-collapse" id="example-navbar-collapse">
             <ul class="nav navbar-nav navbar-right">
-                <p style="padding-left: 15px" class="navbar-text">你好: <a href="#" class="">${admin.username}</a></p>
+                <p style="padding-left: 15px" class="navbar-text">你好: <a href="#" class="">${sessionScope.businessUsername}</a></p>
                 <li><a href="javascript:exit()">退出登录 <span class="glyphicon glyphicon-log-out"></span></a></li>
                 <script>
                     function exit() {
-                        $.post("${app}/admin/exit",function (result) {
-                            window.location.href="${app}/login.jsp"
+                        $.post("${app}/business/exit",function (result) {
+                            window.location.href="${app}/business/login.jsp"
                         })
                     }
                 </script>

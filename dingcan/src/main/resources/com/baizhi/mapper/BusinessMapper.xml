@@ -2,4 +2,19 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.baizhi.dao.BusinessMapper" >
 
+    <select id="findByFirst" resultType="business">
+    SELECT b.id,b.name,b.start_price startPrice,b.distribution_fee distributionFee,b.img_url imgUrl
+    from goods_cate c1 RIGHT JOIN goods_cate c2 on c1.id = c2.parent_id
+                       RIGHT JOIN goods g on g.cate_id = c2.id
+                       RIGHT JOIN business b on b.id = g.business_id
+    where c1.name = #{cateName}
+    GROUP BY b.name
+    </select>
+    <select id="findBySecond" resultType="business">
+        SELECT b.id,b.name,b.start_price startPrice,b.distribution_fee distributionFee,b.img_url imgUrl
+        from goods_cate c2 RIGHT JOIN goods g on g.cate_id = c2.id
+                           RIGHT JOIN business b on b.id = g.business_id
+        where c2.name = #{name}
+        GROUP BY b.name
+    </select>
 </mapper>

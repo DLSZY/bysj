@@ -30,10 +30,24 @@
                 $("#notice").val(result.notice);
             })
 
-            $("#change").on("click",function () {
+            /*$("#change").on("click",function () {
                 $.post("${app}/business/changeInfo",$("#info").serialize(),function (result) {
                     alert("修改成功")
                 })
+            })*/
+
+            $("#change").on("click",function () {
+                var formData = new FormData($("#info")[0]);
+                $.ajax({
+                    url:"${app}/business/changeInfo",
+                    type:"POST",
+                    data:formData,
+                    processData: false,  // 告诉jQuery不要去处理发送的数据
+                    contentType: false,   // 告诉jQuery不要去设置Content-Type请求头
+                    success: function(result){
+                        alert("修改成功")
+                    }
+                });
             })
         })
 
@@ -96,7 +110,13 @@
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">公告：</label>
                                 <div class="col-sm-8">
-                                   <textarea rows="3" class="form-control" name="notice" id="notice" placeholder="请输入本店公告..."></textarea>
+                                    <textarea rows="3" class="form-control" name="notice" id="notice" placeholder="请输入本店公告..."></textarea>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">本店图标：</label>
+                                <div class="col-sm-8">
+                                    <input type="file" name="multipartFile" id="imgUrl">
                                 </div>
                             </div>
 

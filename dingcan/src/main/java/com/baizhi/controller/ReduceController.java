@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @RestController
@@ -15,13 +16,15 @@ public class ReduceController {
     private ReduceService reduceService;
 
     @RequestMapping("add")
-    public void add(Reduce reduce){
-        reduceService.add(reduce);
+    public void add(Reduce reduce, HttpSession session){
+        String businessId = (String) session.getAttribute("businessId");
+        reduceService.add(reduce,businessId);
     }
 
     @RequestMapping("findAll")
-    public List findAll(){
-        return reduceService.findAll();
+    public List findAll(HttpSession session){
+        String businessId = (String) session.getAttribute("businessId");
+        return reduceService.findAll(businessId);
     }
 
     @RequestMapping("delete")

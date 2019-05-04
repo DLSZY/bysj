@@ -37,6 +37,17 @@
                 })
             })
 
+            //登录
+            $("#login").on("click",function(){
+                $.post("${app}/business/login",$("#infoFrom").serialize(),function (result) {
+                    if(result.success == 1){
+                        window.location.href = "${app}/business/cateinstore.jsp"
+                    }else{
+                        alert(result.msg);
+                    }
+                })
+            })
+
             $("#checkCode").on("click",function () {
                 /*$.post("${app}/business/checkPhoneCode",$("#codeForm").serialize(),function (result) {
                     console.log(result);
@@ -68,23 +79,23 @@
                         <div class="col-sm-10 col-sm-offset-1">
                             <hr>
                         </div>
-                        <form class="form-horizontal" role="form">
+                        <form class="form-horizontal" role="form" id="infoFrom">
                             <div class="form-group">
                                 <div class="col-sm-10 col-sm-offset-1">
-                                    <input type="text" class="form-control" id="firstname" placeholder="请输入账号">
+                                    <input type="text" class="form-control" name="username" placeholder="请输入账号">
                                 </div>
                             </div>
 
                             <div class="form-group">
                                 <div class="col-sm-10 col-sm-offset-1">
-                                    <input type="text" class="form-control" id="lastname" placeholder="请输入密码" style="padding-right: 90px">
+                                    <input type="text" class="form-control" name="password" placeholder="请输入密码" style="padding-right: 90px">
                                     <a href="updatepass.jsp" id="forget">忘记密码?</a>
                                 </div>
                             </div>
 
                             <div class="form-group">
                                 <div class="col-sm-offset-1 col-sm-10">
-                                    <button type="submit" class="btn btn-primary btn-block" style="height: 40px">登录</button>
+                                    <a class="btn btn-primary btn-block" id="login" style="height: 40px">登录</a>
                                 </div>
                             </div>
                             <div class="form-group text-left">

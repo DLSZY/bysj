@@ -18,15 +18,17 @@ public class ReduceServiceImpl implements ReduceService {
     private ReduceMapper reduceMapper;
 
     @Override
-    public void add(Reduce reduce) {
+    public void add(Reduce reduce,String businessId) {
         reduce.setId(UUID.randomUUID().toString());
-        reduce.setBusinessId("1");      //从session获取
+        reduce.setBusinessId(businessId);      //从session获取
         reduceMapper.insert(reduce);
     }
 
     @Override
-    public List<Reduce> findAll() {
-        return reduceMapper.selectAll();
+    public List<Reduce> findAll(String businessId) {
+        Reduce reduce = new Reduce();
+        reduce.setBusinessId(businessId);
+        return reduceMapper.select(reduce);
     }
 
     @Override

@@ -63,6 +63,14 @@ public class CategoryServiceImpl implements CategoryService {
         example.createCriteria().andEqualTo("parentId",id);
         cateMapper.deleteByExample(example);
     }
+
+    @Override
+    public List<GoodsCate> selectByFistName(String firstName) {
+        Example example = new Example(GoodsCate.class);
+        example.createCriteria().andEqualTo("parentName",firstName);
+        List<GoodsCate> cates = cateMapper.selectByExample(example);
+        return cates;
+    }
 }
 
 

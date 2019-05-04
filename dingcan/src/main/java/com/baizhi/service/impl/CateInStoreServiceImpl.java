@@ -26,20 +26,19 @@ public class CateInStoreServiceImpl implements CateInStoreService {
     private GoodsMapper goodsMapper;
 
     @Override
-    public void addCate(String name) {
+    public void addCate(String name,String businessId) {
         GoodsCateinstore cateinstore = new GoodsCateinstore();
         cateinstore.setId(UUID.randomUUID().toString());
         cateinstore.setName(name);
-        cateinstore.setBusinessId("1"); //在session中获取本店id
+        cateinstore.setBusinessId(businessId); //在session中获取本店id
 
         cateinstoreMapper.insert(cateinstore);
     }
 
     @Override
-    public PageBean findAllCate(Integer pageNow,Integer pageCount) {
+    public PageBean findAllCate(Integer pageNow,Integer pageCount,String businessId) {
         PageHelper.startPage(pageNow,pageCount);
         Example example = new Example(GoodsCateinstore.class);
-        String businessId = "1";       //从session中获取商家id
         example.createCriteria().andEqualTo("businessId",businessId);
         List<GoodsCateinstore> cates = cateinstoreMapper.selectByExample(example);
         PageInfo pageInfo = new PageInfo(cates);
@@ -48,9 +47,8 @@ public class CateInStoreServiceImpl implements CateInStoreService {
     }
 
     @Override
-    public List<GoodsCateinstore> findAll() {
+    public List<GoodsCateinstore> findAll(String businessId) {
         Example example = new Example(GoodsCateinstore.class);
-        String businessId = "1";       //从session中获取商家id
         example.createCriteria().andEqualTo("businessId",businessId);
         List<GoodsCateinstore> cates = cateinstoreMapper.selectByExample(example);
         return cates;

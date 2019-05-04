@@ -46,4 +46,6 @@ public class Business {
 
     private String notice;
 
+    private String imgUrl;
+
 }
