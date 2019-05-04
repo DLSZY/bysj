@@ -83,7 +83,7 @@
             </div>
             <div id="collapseFive" class="panel-collapse collapse">
                 <div class="panel-body">
-                    <a href="./albumue.jsp" class="list-group-item">编辑本店信息</a>
+                    <a href="./information.jsp" class="list-group-item">个人中心</a>
                 </div>
             </div>
         </div>

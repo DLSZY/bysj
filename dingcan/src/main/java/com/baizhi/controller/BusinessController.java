@@ -68,6 +68,20 @@ public class BusinessController {
     /*
     * 商家操作
     * */
+    //查询个人信息
+    @RequestMapping("showInfo")
+    public Business showInfo(){
+        String id = "1";    //从session获取id
+        Business info = businessService.findInfo(id);
+        return info;
+    }
+
+    //修改个人信息
+    @RequestMapping("changeInfo")
+    public void changeInfo(Business business){
+        businessService.changeInfo(business);
+    }
+
 
     //修改密码
     @RequestMapping("changePass")

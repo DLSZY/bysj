@@ -45,6 +45,13 @@
                 })
             })
 
+            //弹出模态框
+            function showModal() {
+                $("#codeForm")[0].reset();
+                $("#myModal").modal("show");
+            }
+
+
             //添加类别
             function addCate() {
                 var name = $("#name").val();
@@ -81,7 +88,7 @@
                     </div>
                     <ul class="nav nav-tabs">
                         <li class="active"><a href="#">一级类别列表</a></li>
-                        <li><a href="#myModal" data-toggle="modal">类别添加</a></li>
+                        <li><a href="javascript:showModal()">类别添加</a></li>
                     </ul>
 
                     <%--列表--%>

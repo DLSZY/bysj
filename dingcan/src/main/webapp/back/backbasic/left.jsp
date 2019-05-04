@@ -42,7 +42,7 @@
             </div>
             <div id="collapseTwo" class="panel-collapse collapse">
                 <div class="panel-body">
-                    <a href="./albumue.jsp" class="list-group-item">商品管理</a>
+                    <a href="./goods.jsp" class="list-group-item">商品管理</a>
                 </div>
             </div>
         </div>

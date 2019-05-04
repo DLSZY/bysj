@@ -72,6 +72,18 @@ public class BusinessServiceImpl implements BusinessService {
     }
 
     @Override
+    public Business findInfo(String id) {
+        Business business = businessMapper.selectByPrimaryKey(id);
+        return business;
+    }
+
+    @Override
+    public void changeInfo(Business business) {
+        System.out.println(business);
+        businessMapper.updateByPrimaryKeySelective(business);
+    }
+
+    @Override
     public List<Business> findBusinessByRegister(Integer registerStatus) {
         Example example = new Example(Business.class);
         example.createCriteria().andEqualTo("registerStatus",registerStatus);

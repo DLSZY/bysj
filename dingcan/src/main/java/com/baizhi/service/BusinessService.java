@@ -17,6 +17,11 @@ public interface BusinessService {
     Integer checkUserPhone(String username,String phone);
     //修改密码
     void changePass(String username,String newPassword);
+    //查询本店信息
+    Business findInfo(String id);
+    //修改本店信息
+    void changeInfo(Business business);
+
 
 
     /*

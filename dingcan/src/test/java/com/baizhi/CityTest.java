@@ -39,7 +39,7 @@ public class CityTest {
     }
     @Test
     public void test2(){
-        List<Goods> good = goodsMapper.findGood("1");
+        List<Goods> good = goodsMapper.findGood("2");
         for (Goods goods : good) {
             System.out.println(goods);
         }

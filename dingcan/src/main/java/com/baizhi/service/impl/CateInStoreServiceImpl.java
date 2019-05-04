@@ -1,6 +1,8 @@
 package com.baizhi.service.impl;
 
 import com.baizhi.dao.GoodsCateinstoreMapper;
+import com.baizhi.dao.GoodsMapper;
+import com.baizhi.entity.Goods;
 import com.baizhi.entity.GoodsCateinstore;
 import com.baizhi.entity.PageBean;
 import com.baizhi.service.CateInStoreService;
@@ -20,6 +22,8 @@ public class CateInStoreServiceImpl implements CateInStoreService {
 
     @Autowired
     private GoodsCateinstoreMapper cateinstoreMapper;
+    @Autowired
+    private GoodsMapper goodsMapper;
 
     @Override
     public void addCate(String name) {
@@ -50,5 +54,13 @@ public class CateInStoreServiceImpl implements CateInStoreService {
         example.createCriteria().andEqualTo("businessId",businessId);
         List<GoodsCateinstore> cates = cateinstoreMapper.selectByExample(example);
         return cates;
+    }
+
+    @Override
+    public void delete(String id) {
+        cateinstoreMapper.deleteByPrimaryKey(id);
+        Example example = new Example(Goods.class);
+        example.createCriteria().andEqualTo("cateinstoreId",id);
+        goodsMapper.deleteByExample(example);
     }
 }

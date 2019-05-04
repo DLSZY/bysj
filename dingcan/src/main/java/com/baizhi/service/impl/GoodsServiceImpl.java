@@ -33,14 +33,14 @@ public class GoodsServiceImpl implements GoodsService {
     }
 
     @Override
-    public PageBean findFood(Integer page,Integer rows) {
-        PageHelper.startPage(page,rows);
+    public PageBean findFood(Integer page, Integer rows) {
+        PageHelper.startPage(page, rows);
         Example example = new Example(Goods.class);
         String businessId = "1";    //从session获取
-        example.createCriteria().andEqualTo("businessId",businessId);
+        example.createCriteria().andEqualTo("businessId", businessId);
         List<Goods> goods = goodsMapper.findGood(businessId);
         PageInfo pageInfo = new PageInfo(goods);
-        PageBean pageBean = new PageBean(page,pageInfo.getTotal(),pageInfo.getPages(),pageInfo.getList());
+        PageBean pageBean = new PageBean(page, pageInfo.getTotal(), pageInfo.getPages(), pageInfo.getList());
         return pageBean;
     }
 
@@ -54,4 +54,14 @@ public class GoodsServiceImpl implements GoodsService {
     public void delete(String id) {
         goodsMapper.deleteByPrimaryKey(id);
     }
+
+    @Override
+    public PageBean findAll(Integer page, Integer rows) {
+        PageHelper.startPage(page, rows);
+        List<Goods> goods = goodsMapper.findAll();
+        PageInfo pageInfo = new PageInfo(goods);
+        PageBean pageBean = new PageBean(page, pageInfo.getTotal(), pageInfo.getPages(), pageInfo.getList());
+        return pageBean;
+    }
+
 }

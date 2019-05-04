@@ -83,7 +83,7 @@
                 </div>
                 <ul class="nav nav-tabs">
                     <li class="active"><a href="#">满减列表</a></li>
-                    <li><a href="#myModal" data-toggle="modal">类别满减信息</a></li>
+                    <li><a href="#myModal" data-toggle="modal">添加满减信息</a></li>
                 </ul>
 
                 <%--列表--%>

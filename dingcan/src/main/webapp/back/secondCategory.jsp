@@ -27,7 +27,7 @@
                     colNames:["类别id","类别名","所属类别","操作"],
                     autowidth:true,
                     styleUI:"Bootstrap",
-                    rowNum:2,
+                    rowNum:5,
                     height:"100%",
                     datatype:"json",
                     viewrecords:true,//是否显示总记录数
@@ -48,8 +48,10 @@
 
             //查询所有一级类别添加到模态框
             function addModel() {
+                $("#codeForm")[0].reset();
                 $.post("${app}/category/selectByLevel",{"level":1},function (result) {
                     var fistCate = $("#fistCate");
+                    fistCate.empty();
                     var option1 = $("<option>").text("选择一级类别").attr({"disabled":true,"selected":true})
                     fistCate.append(option1);
 

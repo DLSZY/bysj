@@ -11,4 +11,6 @@ public interface GoodsMapper  extends Mapper<Goods> {
     List<Goods> findGood(String businessId);
 
     Goods findOne(String id);
+
+    List<Goods> findAll();
 }

@@ -59,7 +59,7 @@
         function del(id) {
             var b = window.confirm("删除此类别时该类别下的商品也会被删除，是否要删除？");
             if (b == true) {
-                $.post("${app}/category/deleteFirst", {"id": id}, function () {
+                $.post("${app}/cateInStore/delete", {"id": id}, function () {
                     $("#albumList").trigger("reloadGrid");
                 })
             }

@@ -22,5 +22,9 @@ public class CateInStoreController {
         PageBean allCate = cateInStoreService.findAllCate(page, rows);
         return allCate;
     }
+    @RequestMapping("delete")
+    public void delete(String id){
+        cateInStoreService.delete(id);
+    }
 
 }

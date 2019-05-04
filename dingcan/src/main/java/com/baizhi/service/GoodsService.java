@@ -18,4 +18,6 @@ public interface GoodsService {
     Goods findOne(String id);
     //删除商品
     void delete(String id);
+    //查询所有商品
+    PageBean findAll(Integer page,Integer rows);
 }

@@ -9,6 +9,7 @@ import com.baizhi.service.CateInStoreService;
 import com.baizhi.service.CategoryService;
 import com.baizhi.service.GoodsService;
 import com.baizhi.service.impl.GoodsServiceImpl;
+import com.github.pagehelper.Page;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +37,23 @@ public class GoodsController {
     private GoodsService goodsService;
 
 
+    /*
+    * 后台
+    * */
+    @RequestMapping("findAll")
+    public PageBean findAll(Integer page,Integer rows){
+        return goodsService.findAll(page,rows);
+    }
+    //查看商品详情
+    @RequestMapping("findOneNoOther")
+    public Goods findOneNoOther(String id){
+        return goodsService.findOne(id);
+    }
+
+
+    /*
+    * 商家
+    * */
     //删除
     @RequestMapping("delete")
     public void delete(String id){

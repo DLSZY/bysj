@@ -44,4 +44,6 @@ public class Business {
 
     private Integer status;
 
+    private String notice;
+
 }

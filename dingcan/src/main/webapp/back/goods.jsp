@@ -3,7 +3,7 @@
 <!doctype html>
 <html>
 <head>
-    <title>本店食品管理</title>
+    <title>食品管理</title>
     <%--引入资源--%>
     <%@include file="../basic/resources.jsp" %>
     <style>
@@ -13,6 +13,9 @@
         #imgDiv{
             position: absolute;
             right: 50px;
+        }
+        .optionBtn{
+            padding: 5px 15px;
         }
     </style>
     <script>
@@ -39,8 +42,8 @@
             })
 
             $("#albumList").jqGrid({
-                url: "${app}/goods/findFood",
-                colNames: ["食品名", "食品价格","本店类别","月销售量","操作"],
+                url: "${app}/goods/findAll",
+                colNames: ["食品名","所属商家", "食品价格","所属类别","操作"],
                 autowidth: true,
                 styleUI: "Bootstrap",
                 rowNum: 2,
@@ -50,15 +53,12 @@
                 pager: "#pager",
                 colModel: [
                     {"name": "name"},
+                    {"name": "businessName"},
                     {"name": "price"},
-                    {"name": "cateinstoreName"},
-                    {"name": "saleCount"},
+                    {"name": "cateName"},
                     {
                         formatter: function (value, options, row) {
-                            var content = ""
-                            content += "<a href=\"javascript:show(\'"+row.id+"\')\" ><span class='glyphicon glyphicon-search'></span></a>"
-                            content += "<a href=\"javascript:showUpdateModel(\'"+row.id+"\')\"><span class=\"glyphicon glyphicon-pencil\"></span></a>"
-                            content += "<a href=\"javascript:del(\'"+row.id+"\')\"><span class=\"glyphicon glyphicon-remove\"></span></a>"
+                            var content = "<button class=\"btn btn-primary optionBtn\" onclick=\"show(\'"+row.id+"\')\">查看详情</button>"
                             return content;
                         }
                     }
@@ -67,90 +67,22 @@
         })
 
 
-        //删除以及类别
-        function del(id) {
-            var b = window.confirm("是否要删除此食品？");
-            if (b == true) {
-                $.post("${app}/goods/delete", {"id": id}, function () {
-                    $("#albumList").trigger("reloadGrid");
-                })
-            }
-        }
 
-        //添加模态框
-        function showAddModel() {
-            $("#fileForm")[0].reset();
-            $.post("${app}/goods/findCate",function (result) {
-                var cate = $("#cate");
-                cate.empty();
-                var option1 = $("<option>").text("请选择所属类别").attr({"disabled":true,"selected":true})
-                cate.append(option1);
-                for(var i = 0; i<result.length; i++){
-                    var option = $("<option>").text(result[i].name).val(result[i].id);
-                    cate.append(option);
-                }
-            });
-            $.post("${app}/goods/findCateInStore",function (result) {
-                var cateinstore = $("#cateinstore");
-                cateinstore.empty();
-                var option1 = $("<option>").text("请选择本店类别").attr({"disabled":true,"selected":true})
-                cateinstore.append(option1);
-
-                for(var i = 0; i<result.length; i++){
-                    var option = $("<option>").text(result[i].name).val(result[i].id);
-                    cateinstore.append(option);
-                }
-            });
-            $("#addModel").modal("show");
-        }
-
-        //修改模态框
-        function showUpdateModel(id) {
-            $.post("${app}/goods/findOne",{"id":id},function (result){
-                $("#id").val(result.goods.id);
-                $("#name").val(result.goods.name);
-                $("#price").val(result.goods.price);
-                $("#description").val(result.goods.description);
-
-                //分类的下拉列表
-                var cate = $("#cate");
-                cate.empty();
-                for(var i = 0; i<result.cate.length; i++){
-                    var option = $("<option>").text(result.cate[i].name).val(result.cate[i].id);
-                    if(result.goods.cateId == result.cate[i].id){
-                        option.attr({"selected":true})
-                    }
-                    cate.append(option);
-                }
-
-                //店内分类的下拉列表
-                var cateinstore = $("#cateinstore");
-                cateinstore.empty();
-                for(var i = 0; i<result.cateinstore.length; i++){
-                    var option = $("<option>").text(result.cateinstore[i].name).val(result.cateinstore[i].id);
-                    if(result.goods.cateinstoreId == result.cateinstore[i].id){
-                        option.attr({"selected":true})
-                    }
-                    cateinstore.append(option);
-                }
-            });
-            $("#addModel").modal("show");
-        }
 
         //展示详情
         function show(id) {
             $("#showModel input").attr({"readonly":true});
-            $("#showModel textarea").attr({"readonly":true});
             //console.log($("#showModel input"))
-            $.post("${app}/goods/findOne",{"id":id},function (result){
-                $("#id1").val(result.goods.id);
-                $("#name1").val(result.goods.name);
-                $("#price1").val(result.goods.price);
-                $("#description1").val(result.goods.description);
-                $("#saleCount1").val(result.goods.saleCount);
-                $("#cate1").val(result.goods.cateName);
-                $("#cateinstore1").val(result.goods.cateinstoreName);
-                var imgUrl = "../upload/goodsImg/"+result.goods.imgUrl;
+            $.post("${app}/goods/findOneNoOther",{"id":id},function (result){
+                $("#id1").val(result.id);
+                $("#name1").val(result.name);
+                $("#price1").val(result.price);
+                $("#businessName1").val(result.businessName);
+                $("#description1").val(result.description);
+                $("#saleCount1").val(result.saleCount);
+                $("#cate1").val(result.cateName);
+                $("#cateinstore1").val(result.cateinstoreName);
+                var imgUrl = "../upload/goodsImg/"+result.imgUrl;
                 $("#goodsImg").attr({"src":imgUrl})
             });
             $("#showModel").modal("show");
@@ -163,11 +95,11 @@
 
 <div class="Wrapper">
     <%--导航--%>
-    <%@include file="businessbasic/nav.jsp" %>
+    <%@include file="backbasic/nav.jsp" %>
     <div class="container-fluid">
         <div class="row">
             <%--左--%>
-            <%@include file="businessbasic/left.jsp" %>
+            <%@include file="backbasic/left.jsp" %>
             <%--右--%>
             <div class="col-sm-10" id="main">
                 <div class="page-header" style="margin-top: 0px">
@@ -221,6 +153,12 @@
                             </div>
 
                             <div class="form-group">
+                                <label class="col-sm-2 control-label">所属商家</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" id="businessName1" name="businessName1">
+                                </div>
+                            </div>
+                            <div class="form-group">
                                 <label class="col-sm-2 control-label">所属类别</label>
                                 <div class="col-sm-9">
                                     <input type="text" class="form-control" id="cate1" name="cate1">
@@ -237,7 +175,7 @@
                             <div class="form-group">
                                 <label for="description" class="col-sm-2 control-label">食品描述</label>
                                 <div class="col-sm-9">
-                                    <textarea class="form-control" rows="3" name="description" id="description1" placeholder="请输入食品描述"></textarea>
+                                    <input type="text" class="form-control" name="description" id="description1" placeholder="请输入食品描述">
                                 </div>
                             </div>
 
@@ -296,7 +234,7 @@
                         <div class="form-group">
                             <label for="description" class="col-sm-2 control-label">食品描述</label>
                             <div class="col-sm-9">
-                                <textarea class="form-control" rows="3" name="description" id="description" placeholder="请输入食品描述"></textarea>
+                                <input type="text" class="form-control" name="description" id="description" placeholder="请输入食品描述">
                             </div>
                         </div>
 

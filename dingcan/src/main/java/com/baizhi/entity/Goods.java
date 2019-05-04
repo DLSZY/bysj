@@ -17,6 +17,8 @@ public class Goods {
     private String id;
 
     private String businessId;
+    @Transient
+    private String businessName;
 
     private String cateId;
 

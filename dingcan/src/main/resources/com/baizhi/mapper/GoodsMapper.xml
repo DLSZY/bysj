@@ -4,6 +4,7 @@
     <resultMap id="GoodsMap" type="Goods">
         <id property="id" column="id"/>
         <result property="businessId" column="businessId"/>
+        <result property="businessName" column="businessName"/>
         <result property="name" column="name"/>
         <result property="price" column="price"/>
         <result property="imgUrl" column="imgUrl"/>
@@ -24,10 +25,19 @@
     </select>
 
     <select id="findOne" resultMap="GoodsMap">
-        SELECT g.id,g.business_id businessId,g.name,g.price,g.img_url imgUrl,g.description,
+        SELECT g.id,g.business_id businessId,b.name businessName,g.name,g.price,g.img_url imgUrl,g.description,
                g.sale_count saleCount,cs.id cateinstoreId,cs.name cateinstoreName,c.id cateId,c.name cateName
         FROM goods g LEFT JOIN goods_cateinstore cs on g.cateinstore_id = cs.id
                      LEFT JOIN goods_cate c on g.cate_id = c.id
+                     left join business b on g.business_id = b.id
         where g.id = #{id}
+    </select>
+
+    <select id="findAll" resultMap="GoodsMap">
+        SELECT g.id,g.business_id businessId,b.name businessName,g.name,g.price,g.img_url imgUrl,g.description,
+               g.sale_count saleCount,cs.id cateinstoreId,cs.name cateinstoreName,c.id cateId,c.name cateName
+        FROM goods g LEFT JOIN goods_cateinstore cs on g.cateinstore_id = cs.id
+                     LEFT JOIN goods_cate c on g.cate_id = c.id
+                     left join business b on g.business_id = b.id
     </select>
 </mapper>
