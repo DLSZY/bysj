@@ -17,4 +17,26 @@
         where c2.name = #{name}
         GROUP BY b.name
     </select>
+    <resultMap id="businessMap" type="business">
+        <id property="id" column="bid"/>
+        <result property="name" column="bname"/>
+        <collection property="goodss" javaType="list" ofType="goods">
+            <id property="id" column="gid"/>
+            <result property="name" column="gname"/>
+            <result property="saleCount" column="saleCount"/>
+            <result property="price" column="price"/>
+        </collection>
+    </resultMap>
+    <select id="findByBusiness" resultMap="businessMap">
+        select b.id bid,b.name bname ,g.id gid,g.name gname,g.price,g.sale_count saleCount
+        from business b LEFT JOIN goods g on b.id = g.business_id
+                        LEFT JOIN goods_cate c2 on g.cate_id = c2.id
+        where b.name like concat(concat("%",#{item}),"%")
+    </select>
+    <select id="findByGoods" resultMap="businessMap">
+        select b.id bid,b.name bname ,g.id gid,g.name gname,g.price,g.sale_count saleCount
+        from business b LEFT JOIN goods g on b.id = g.business_id
+                        LEFT JOIN goods_cate c2 on g.cate_id = c2.id
+        where g.name like concat(concat("%",#{item}),"%") or c2.name like concat(concat("%",#{item}),"%")
+    </select>
 </mapper>

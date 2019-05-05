@@ -14,4 +14,5 @@ public class BusinessRefuseReason {
     private String businessId;
     private String reason;
     private Date createDate;
+
 }

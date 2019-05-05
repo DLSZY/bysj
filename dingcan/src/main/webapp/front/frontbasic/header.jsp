@@ -1,5 +1,5 @@
 <%@page pageEncoding="UTF-8" contentType="text/html; UTF-8" %>
-<nav class="navbar" role="navigation" style="background-color: rgb(255,150,0); border: none; margin-bottom: 8px">
+<nav class="navbar" role="navigation" style="background-color: rgb(19,209,190);; border: none; margin-bottom: 8px">
     <div class="container">
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header" style="margin-right: 20px">
@@ -9,7 +9,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#" id="logo">DLSZ</a>
+            <a class="navbar-brand" href="./index.jsp" id="logo">DLSZ</a>
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->

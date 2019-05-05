@@ -41,17 +41,25 @@ public class BusinessController {
     public List<Business> findAllNormal(){
         return businessService.findAllNormal();
     }
-    @RequestMapping("findByFirst")
     //根据一级类别查询商家
+    @RequestMapping("findByFirst")
     public List<Business> findByFirst(String cateName){
         return businessService.findByFirst(cateName);
     }
-    @RequestMapping("findBySecond")
     //根据二级类别查询商家
+    @RequestMapping("findBySecond")
     public List<Business> findBySecond(String cateName){
         return businessService.findBySecond(cateName);
     }
-
+    //用户根据商家或食品搜索
+    @RequestMapping("findBySearch")
+    public List<Business> findBySearch(String item,String cate){
+        if(cate.equals("商家")){
+            return businessService.findByBusiness(item);
+        }else {
+            return businessService.findByGoods(item);
+        }
+    }
 
     /**
     * 管理员操作

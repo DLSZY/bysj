@@ -10,45 +10,15 @@
     <title>外卖商家</title>
     <%--引入资源--%>
     <%@include file="../basic/resources.jsp" %>
+    <link rel="stylesheet" href="frontbasic/basic.css">
     <style>
-        a{
-            text-decoration: none;
-        }
-        body{
-            background: #f7f7f7;
-        }
-        #logo{
-            color: white;
-            font-weight: bold;
-            font-size: 32px;
-            margin: 5px 0px !important;
-            font-family: 'Microsoft JhengHei';
-            padding-left: 0px;
-        }
-        .active a{
-            background-color: rgb(255,111,0) !important;
-        }
-        .navul{
-            height:62px;
-        }
-        .navul a{
-            width: 112px!important;
-            text-align: center;
-            font-size: 16px;
-            color: white;
-            height: 100%;
-            line-height: 37px !important;
-        }
-        .navul a:focus,
-        .navul a:hover{
-            background-color: rgb(255,111,0) !important;
-        }
         #dropul{
             min-width: 0px;
         }
         #dropul a{
             color: gray;
             line-height: 25px !important;
+            font-size: 14px;
         }
         #cate1 a{
             color: #666;
@@ -86,17 +56,6 @@
             color:white;
             background-color: rgb(255,150,0);
         }
-        #searchinput{
-            width: 300px;
-            height: 40px;
-            padding-right: 30px;
-        }
-        #forget{
-            position: absolute;
-            top: 12px;
-            right: 10px;
-            color: gray;
-        }
         .rstblock{
             width: 25%;
             background-color: #fff;
@@ -125,13 +84,35 @@
             text-overflow: ellipsis;
             color: #333;
         }
-        .rstblock:hover{
+        .rstblock:hover,
+        .rstblock:focus{
             background-color: #f7f7f7;
             text-decoration: none;
         }
         .rstblock-cost {
             color: #999;
             margin-top: 3px;
+        }
+        #searchBtn{
+            height: 40px;
+            line-height: 30px;
+            border-left: none;
+            box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+            color: gray;
+        }
+        #searchBtn:active,
+        #searchBtn:hover,
+        #searchBtn:focus{
+            background: white;
+            border: 1px solid #ccc;
+            border-left: none;
+            color: rgb(19,209,190);
+        }
+        #searchinput:focus{
+            box-shadow: none;
+        }
+        #searchUl{
+            min-width: 50px;
         }
     </style>
     <script>
@@ -184,9 +165,25 @@
             $("#cate22").on("click","#allSecondStore",function () {
                 showByFirst($(this).attr("title"));
             })
+
+            //点击查询
+            /* $("#forget").on("click",function () {
+                 if($("#searchinput").val() == ""){
+                     window.location.href="${app}/front/index.jsp?";
+                }else{
+                    window.location.href="${app}/front/search.jsp?item="+$("#searchinput").val();
+                }
+            })*/
+            $(".searcha").on("click",function () {
+                if($("#searchinput").val() == ""){
+                    //window.location.href="${app}/front/index.jsp?";
+                }else{
+                    window.location.href="${app}/front/search.jsp?item="+$("#searchinput").val()+"&cate="+$(this).text();
+                }
+            })
         })
 
-
+    /*方法*/
         //查询所有商家
         function showAll(){
             $.post("${app}/business/findAllNormal",function (result) {
@@ -226,14 +223,20 @@
 
 <div id="main">
     <%--搜索--%>
-    <div class="container">
-        <form class="navbar-form navbar-left pull-right" style="padding: 0px; margin-bottom: 10px">
-            <div class="form-group" style="position: relative">
-                <input type="text" class="form-control" placeholder="搜索商家或美食..." id="searchinput">
-                <a href="updatepass.jsp" id="forget"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></a>
-            </div>
-        </form>
-    </div>
+        <div class="container">
+            <form class="navbar-form navbar-left pull-right" style="padding: 0px; margin-bottom: 10px">
+                <div class="form-group input-group" style="position: relative">
+                    <input type="text" class="form-control" placeholder="搜索商家或美食..." id="searchinput">
+                    <div class="input-group-btn">
+                        <button type="button" id="searchBtn" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+                        <ul class="dropdown-menu dropdown-menu-right" id="searchUl">
+                            <li><a class="searcha">商家</a></li>
+                            <li><a class="searcha">美食</a></li>
+                        </ul>
+                    </div><!-- /btn-group -->
+                </div>
+            </form>
+        </div>
     <%--类别选择--%>
     <div class="container">
         <div class="panel panel-default">

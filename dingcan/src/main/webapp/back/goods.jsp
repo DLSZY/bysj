@@ -46,7 +46,7 @@
                 colNames: ["食品名","所属商家", "食品价格","所属类别","操作"],
                 autowidth: true,
                 styleUI: "Bootstrap",
-                rowNum: 2,
+                rowNum: 6,
                 height: "100%",
                 datatype: "json",
                 viewrecords: true,//是否显示总记录数

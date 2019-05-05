@@ -19,6 +19,10 @@ public interface BusinessService {
     List<Business> findByFirst(String cateName);
     //根据二级类别查询商家
     List<Business> findBySecond(String cateName);
+    //根据商家查询
+    List<Business> findByBusiness(String item);
+    //根据食品或类别查询
+    List<Business> findByGoods(String item);
 
     /**
     *商家

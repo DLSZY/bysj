@@ -10,6 +10,9 @@
 <script src="../statics/jqgrid/js/trirand/i18n/grid.locale-cn.js"></script>
 <style>
     body, html {height: 100%;}
+    a{
+        text-decoration: none;
+    }
 
     .Wrapper{min-height: 100%;}
 

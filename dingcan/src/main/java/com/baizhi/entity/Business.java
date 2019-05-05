@@ -7,7 +7,9 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import javax.persistence.Id;
+import javax.persistence.Transient;
 import java.util.Date;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -47,5 +49,8 @@ public class Business {
     private String notice;
 
     private String imgUrl;
+
+    @Transient
+    private List<Goods> goodss;
 
 }

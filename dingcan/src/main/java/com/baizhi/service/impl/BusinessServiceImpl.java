@@ -45,6 +45,15 @@ public class BusinessServiceImpl implements BusinessService {
     }
 
     @Override
+    public List<Business> findByBusiness(String item) {
+        return businessMapper.findByBusiness(item);
+    }
+    @Override
+    public List<Business> findByGoods(String item) {
+        return businessMapper.findByGoods(item);
+    }
+
+    @Override
     public void register(Business business) {
         business.setId(UUID.randomUUID().toString());
         business.setRegisterTime(new Date());

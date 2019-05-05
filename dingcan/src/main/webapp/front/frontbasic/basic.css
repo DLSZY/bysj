@@ -1,0 +1,68 @@
+body{
+    background: #f7f7f7;
+}
+
+#logo{
+    color: white;
+    font-weight: bold;
+    font-size: 32px;
+    margin: 5px 0px !important;
+    font-family: 'Microsoft JhengHei';
+    padding-left: 0px;
+}
+#logo1{
+    color: white;
+    font-weight: bold;
+    font-size: 2em;
+    font-family: 'Microsoft JhengHei';
+    padding-left: 0px;
+}
+
+.navul{
+    height:62px;
+}
+.navul1{
+    height:42px;
+}
+.navul a{
+    width: 112px!important;
+    text-align: center;
+    font-size: 16px;
+    color: white;
+    height: 100%;
+    line-height: 37px !important;
+}
+.navul1 a{
+    width: 112px!important;
+    text-align: center;
+    color: white;
+    font-size: 16px;
+}
+
+.navul1 a:focus,
+.navul1 a:hover,
+.navul a:focus,
+.navul a:hover{
+    background-color: rgb(115,225,206) !important;
+}
+.active a{
+    background-color: rgb(115,225,206) !important;
+}
+
+
+/*搜索*/
+#searchinput{
+    width: 220px;
+    height: 40px;
+    padding-right: 30px;
+}
+#forget{
+    position: absolute;
+    top: 12px;
+    right: 10px;
+    color: gray;
+}
+#forget:hover{
+    background-color: rgb(115,225,206) !important;
+}
+
