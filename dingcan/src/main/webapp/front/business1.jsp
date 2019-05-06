@@ -30,13 +30,13 @@
             background-size: cover;
             padding-top: 48px;
         }
-        /*#shop-content{
-            height: 142px;
-        }*/
 
-        #myTab{
-            border: none;
-        }
+
+
+        /*#myTab{
+            position: relative;
+            top:-18px
+        }*/
 
         #myTab li a{
             color: black;
@@ -56,26 +56,7 @@
             border:none;
             border-bottom: 2px solid rgb(19,209,190);
         }
-        #shopDiv{
-            margin-top: 20px;
-        }
-        .shopleft{
-            padding-left: 0px;
-            padding-right: 0px;
-        }
-        #cate1 a{
-            color: #666;
-            display: inline-block;
-            margin: 3px 6px;
-            padding: 5px 10px;
-            border-radius: 3px;
-        }
-        #cate1 a:hover,
-        #cate1 a:focus,
-        #cate1 a:active{
-            text-decoration: none;
-            background-color: #f7f7f7;
-        }
+
     </style>
     <script>
         $(function () {
@@ -86,15 +67,7 @@
                 $("#blogo").attr("src","/upload/"+result.imgUrl)
                 $("#starPrice").text(result.startPrice)
                 $("#tranPrice").text(result.distributionFee)
-                $("#notice").text(result.notice);
-            })
-            $.post("${app}/cateInStore/findByBusiness",{"bid":bid},function (result) {
-                console.log(result);
-                var cate11 = $("#cate1");
-                for(var i = 0; i<result.length; i++){
-                    var a = $("<a>").text(result[i].name).attr({"href":"#"})
-                    cate11.append(a);
-                }
+
             })
         })
     </script>
@@ -171,35 +144,15 @@
             </ul>
         </div>
     </div>
-
-    <%--shopmain--%>
-    <div class="container" id="shopDiv">
-        <div id="myTabContent" class="tab-content col-sm-9 shopleft">
-            <div class="tab-pane fade in active panel panel-default" id="home">
-                <div class="panel-body">
-                    <div id="cate1">
-                        <a href="javascript:void(0);" id="allStore">全部</a>
-                    </div>
-                </div>
-
-            </div>
-            <div class="tab-pane fade" id="ios">
-                <p>iOS 是一个由苹果公司开发和发布的手机操作系统。最初是于 2007 年首次发布 iPhone、iPod Touch 和 Apple
-                    TV。iOS 派生自 OS X，它们共享 Darwin 基础。OS X 操作系统是用在苹果电脑上，iOS 是苹果的移动版本。</p>
-            </div>
+    <div id="myTabContent" class="tab-content">
+        <div class="tab-pane fade in active" id="home">
+            <p>菜鸟教程是一个提供最新的web技术站点，本站免费提供了建站相关的技术文档，帮助广大web技术爱好者快速入门并建立自己的网站。菜鸟先飞早入行——学的不仅是技术，更是梦想。</p>
         </div>
-
-        <div class="col-sm-3">
-            <div class="panel panel-default">
-                <div class="panel-heading" style="background-color: rgb(19,209,190); color: white">商家公告</div>
-                <div class="panel-body" style="padding: 10px 15px;line-height: 2;">
-                    <p id="notice"></p>
-                </div>
-            </div>
+        <div class="tab-pane fade" id="ios">
+            <p>iOS 是一个由苹果公司开发和发布的手机操作系统。最初是于 2007 年首次发布 iPhone、iPod Touch 和 Apple
+                TV。iOS 派生自 OS X，它们共享 Darwin 基础。OS X 操作系统是用在苹果电脑上，iOS 是苹果的移动版本。</p>
         </div>
-
     </div>
-
 
 
 </div>

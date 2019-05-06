@@ -114,6 +114,9 @@
         #searchUl{
             min-width: 50px;
         }
+        .active a{
+            background-color: rgb(115,225,206) !important;
+        }
     </style>
     <script>
         $(function () {
@@ -199,9 +202,10 @@
 
         //根据结果显示商家
         function showBusiness(result) {
+            console.log(result);
             $("#panel").empty();
             for(var i = 0; i<result.length; i++){
-                var a = $("<a>").attr({"href":"#"}).addClass("rstblock");
+                var a = $("<a>").attr({"href":"${app}/front/business.jsp?bid="+result[i].id}).addClass("rstblock");
                 var div1 = $("<div>").addClass("rstblock-logo");
                 var img = $("<img>").attr({"src":"../upload/"+result[i].imgUrl}).addClass("rstblock-logo-icon").css({"width":"70","height":"70"})
                 div1.append(img);

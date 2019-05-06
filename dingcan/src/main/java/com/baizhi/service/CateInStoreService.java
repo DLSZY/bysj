@@ -13,7 +13,8 @@ public interface CateInStoreService {
 
     //添加商品时显示类别
     List<GoodsCateinstore> findAll(String businessId);
-
     //删除
     void delete(String id);
+    //查询本店类别
+    List<GoodsCateinstore> findByBusiness(String bid);
 }

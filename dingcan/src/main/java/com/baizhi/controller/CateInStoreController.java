@@ -1,5 +1,6 @@
 package com.baizhi.controller;
 
+import com.baizhi.entity.GoodsCateinstore;
 import com.baizhi.entity.PageBean;
 import com.baizhi.service.CateInStoreService;
 import org.apache.http.client.methods.HttpOptions;
@@ -8,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 @RestController
 @RequestMapping("cateInStore")
@@ -30,6 +32,11 @@ public class CateInStoreController {
     @RequestMapping("delete")
     public void delete(String id){
         cateInStoreService.delete(id);
+    }
+
+    @RequestMapping("findByBusiness")
+    public List<GoodsCateinstore> findByBusiness(String bid){
+        return cateInStoreService.findByBusiness(bid);
     }
 
 }

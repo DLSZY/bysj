@@ -61,4 +61,12 @@ public class CateInStoreServiceImpl implements CateInStoreService {
         example.createCriteria().andEqualTo("cateinstoreId",id);
         goodsMapper.deleteByExample(example);
     }
+
+    @Override
+    public List<GoodsCateinstore> findByBusiness(String bid) {
+        GoodsCateinstore cateinstore = new GoodsCateinstore();
+        cateinstore.setBusinessId(bid);
+        List<GoodsCateinstore> list = cateinstoreMapper.select(cateinstore);
+        return list;
+    }
 }

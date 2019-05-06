@@ -23,6 +23,8 @@ public interface BusinessService {
     List<Business> findByBusiness(String item);
     //根据食品或类别查询
     List<Business> findByGoods(String item);
+    //根据id查询商家（显示商家详情）
+    Business findById(String id);
 
     /**
     *商家

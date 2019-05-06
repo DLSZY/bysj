@@ -54,6 +54,11 @@ public class BusinessServiceImpl implements BusinessService {
     }
 
     @Override
+    public Business findById(String id) {
+        return businessMapper.selectByPrimaryKey(id);
+    }
+
+    @Override
     public void register(Business business) {
         business.setId(UUID.randomUUID().toString());
         business.setRegisterTime(new Date());

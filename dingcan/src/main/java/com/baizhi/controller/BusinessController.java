@@ -60,6 +60,12 @@ public class BusinessController {
             return businessService.findByGoods(item);
         }
     }
+    //显示商家详情
+    @RequestMapping("findById")
+    public Business findById(String bid){
+        return businessService.findById(bid);
+    }
+
 
     /**
     * 管理员操作

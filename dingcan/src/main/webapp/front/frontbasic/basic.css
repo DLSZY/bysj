@@ -39,14 +39,19 @@ body{
     font-size: 16px;
 }
 
-.navul1 a:focus,
-.navul1 a:hover,
+
 .navul a:focus,
 .navul a:hover{
     background-color: rgb(115,225,206) !important;
 }
-.active a{
-    background-color: rgb(115,225,206) !important;
+
+.navul1 a:focus,
+.navul1 a:hover{
+    background-color: rgba(0,0,0,.6) !important;
+}
+.navul2 a:focus,
+.navul2 a:hover{
+    background-color: rgba(0,0,0,.6) !important;
 }
 
 
