@@ -15,7 +15,7 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav navul">
-                <li class="active" style="height: 100%"><a href="#">首页</a></li>
+                <li style="height: 100%"><a href="#">首页</a></li>
                 <li style="height: 100%"><a href="#">我的购物车</a></li>
                 <li style="height: 100%"><a href="#">我的订单</a></li>
             </ul>

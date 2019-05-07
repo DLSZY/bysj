@@ -10,4 +10,10 @@ public interface ReduceService {
     List<Reduce> findAll(String businessId);
 
     void delete(String id);
+
+    /**
+     * 用户
+     */
+    //显示商家时，显示满减信息
+    List<Reduce> findByBusiness(String bid);
 }

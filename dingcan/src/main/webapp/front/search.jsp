@@ -85,6 +85,13 @@
         .active a{
             background-color: rgb(115,225,206) !important;
         }
+        .aname{
+            color: #333;
+        }
+        .aname:hover{
+            text-decoration: none;
+            color: #333;
+        }
     </style>
     <script>
         $(function () {
@@ -93,19 +100,24 @@
             $.post("${app}/business/findBySearch",{"item":item,"cate":cate},function (result) {
                 console.log(result);
                 for(var i = 0; i<result.length; i++){
-                    var h5 = $("<h5>").text(result[i].name);
+                    var aname = $("<a>").text(result[i].name).attr({"href":"${app}/front/business.jsp?bid="+result[i].id}).addClass("aname");
+                    var h5 = $("<h5>").append(aname);
                     var th = $("<th>").attr({"colspan":"4"}).append(h5);
                     var tr1 = $("<tr>").append(th);
                     var thead = $("<thead>").append(tr1);
                     var tbody = $("<tbody>");
                     var goodss = result[i].goodss;
-                    for(var j = 0; j<goodss.length; j++){
+                    var l = 3;              //搜索时显示商家食品的个数
+                    if(goodss.length < 3){
+                        l = goodss.length
+                    }
+                    for(var j = 0; j<l; j++){
                         console.log(goodss[j]);
                         var td1 = $("<td>").css({"width":"68%"}).text(goodss[j].name);
                         var td2 = $("<td>").addClass("td2").text("￥"+goodss[j].price);
                         var a = $("<a>").addClass("btn btn-primary addCart").text("添加购物车");
                         var td3 = $("<td>").addClass("td2").append(a);
-                        var td4 = $("<td>").text("月售"+goodss[j].saleCount+"份");
+                        var td4 = $("<td>").text("月售"+goodss [j].saleCount+"份");
                         var tr2 = $("<tr>").append(td1).append(td2).append(td3).append(td4);
                         tbody.append(tr2);
                     }

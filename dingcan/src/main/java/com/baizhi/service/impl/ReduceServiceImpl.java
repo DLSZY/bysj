@@ -35,4 +35,12 @@ public class ReduceServiceImpl implements ReduceService {
     public void delete(String id) {
         reduceMapper.deleteByPrimaryKey(id);
     }
+
+    @Override
+    public List<Reduce> findByBusiness(String bid) {
+        Reduce reduce = new Reduce();
+        reduce.setBusinessId(bid);
+        List<Reduce> select = reduceMapper.select(reduce);
+        return select;
+    }
 }

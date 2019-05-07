@@ -36,6 +36,7 @@
 
         #myTab{
             border: none;
+            padding-right: 0px;
         }
 
         #myTab li a{
@@ -46,6 +47,19 @@
             height: 55px;
             line-height: 34px;
 
+        }
+        #jian{
+            padding-top: 10px;
+            float: right;
+        }
+        #jian span{
+            color: rgb(19,209,190);
+            line-height: 34px;
+            height: 55px;
+            border: 1px solid rgb(19,209,190);
+            padding: 2px 3px;
+            border-radius: 2px;
+            margin-left: 10px;
         }
         #myTab li a:hover{
             background-color: white;
@@ -143,11 +157,12 @@
             background-color: rgb(19,209,190) !important;
             line-height: 14px;
         }
-
     </style>
     <script>
         $(function () {
+            $('#collapseTwo').collapse('show')
             var bid = "${param.bid}"
+            //查询当前商家信息
             $.post("${app}/business/findById",{"bid":bid},function (result) {
                 console.log(result);
                 $("#bname").text(result.name);
@@ -157,6 +172,18 @@
                 $("#notice").text(result.notice);
             })
 
+            //查询当前商家满减信息
+            $.post("${app}/reduce/findByBusiness",{"bid":bid},function (result) {
+                console.log(result);
+                var li = $("#jian");
+                for(var i = 0; i<result.length; i++){
+                    var span = $("<span>").text(result[i].achieveMoney+"减"+result[i].reduceMoney);
+                    li.append(span)
+                }
+            })
+
+
+            //查询当前商家类别信息
             $.post("${app}/cateInStore/findByBusiness",{"bid":bid},function (result) {
                 var cate1 = $("#cate1");
                 for(var i = 0; i<result.length; i++){
@@ -223,7 +250,6 @@
         </div>
     </div>
 </nav>
-
 <%--main--%>
 <div id="main">
     <%--shopheader--%>
@@ -253,13 +279,18 @@
     <%--shopnav--%>
      <div style="background-color: white">
         <div class="container">
-            <ul id="myTab" class="nav nav-tabs">
+            <ul id="myTab" class="nav nav-tabs col-sm-9">
                 <li class="active">
                     <a href="#home" data-toggle="tab">
                         所有商品
                     </a>
                 </li>
                 <li><a href="#ios" data-toggle="tab">评价</a></li>
+                <li id="jian">
+                   <%-- <span>40减5</span>
+                    <span>50减10</span>--%>
+                </li>
+
             </ul>
         </div>
     </div>
@@ -392,5 +423,6 @@
 
 
 </div>
+
 </body>
 </html>
