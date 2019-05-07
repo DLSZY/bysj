@@ -7,5 +7,6 @@ import tk.mybatis.mapper.common.Mapper;
 import java.util.List;
 
 public interface GoodsCateinstoreMapper extends Mapper<GoodsCateinstore> {
-
+    //查询本店类别并查询类别下的食物
+    List<GoodsCateinstore> findByBusiness(String bid);
 }

@@ -1,5 +1,21 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.baizhi.dao.GoodsCateinstoreMapper" >
-
+    <resultMap id="cateInStoreMap" type="goodsCateinstore">
+        <id property="id" column="gcid"/>
+        <result property="name" column="gcname"/>
+        <collection property="goodss" javaType="list" ofType="Goods">
+            <id property="id" column="gid"/>
+            <result property="name" column="gname"/>
+            <result property="imgUrl" column="img_url"/>
+            <result property="price" column="price"/>
+            <result property="description" column="description"/>
+            <result property="saleCount" column="sale_count"/>
+        </collection>
+    </resultMap>
+    <select id="findByBusiness" resultMap="cateInStoreMap">
+        SELECT gc.id gcid,gc.name gcname,g.id gid,g.name gname,g.img_url,g.price,g.description,g.sale_count
+        from goods_cateinstore gc LEFT JOIN goods g on gc.id = g.cateinstore_id
+        where gc.business_id=#{bid}
+    </select>
 </mapper>

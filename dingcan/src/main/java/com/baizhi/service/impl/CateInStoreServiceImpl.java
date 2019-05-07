@@ -64,9 +64,7 @@ public class CateInStoreServiceImpl implements CateInStoreService {
 
     @Override
     public List<GoodsCateinstore> findByBusiness(String bid) {
-        GoodsCateinstore cateinstore = new GoodsCateinstore();
-        cateinstore.setBusinessId(bid);
-        List<GoodsCateinstore> list = cateinstoreMapper.select(cateinstore);
+        List<GoodsCateinstore> list = cateinstoreMapper.findByBusiness(bid);
         return list;
     }
 }

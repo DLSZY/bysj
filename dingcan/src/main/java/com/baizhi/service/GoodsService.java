@@ -3,11 +3,19 @@ package com.baizhi.service;
 import com.baizhi.entity.Goods;
 import com.baizhi.entity.PageBean;
 
+import java.util.List;
+
 public interface GoodsService {
 
-    /*
+    /**
+     * 用户
+     */
+    //根据店内分类查询食品
+    List<Goods> findByCateInStore(String csid);
+
+    /**
     * 商家
-    * */
+    */
     //添加食品
     void add(Goods goods);
     //修改食品信息

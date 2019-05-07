@@ -76,6 +76,74 @@
             text-decoration: none;
             background-color: #f7f7f7;
         }
+        .foodmain{
+            padding: 0;
+        }
+
+        .foodmain .goodtitle{
+            padding: 20px 0 10px 15px;
+            font-size: 20px;
+            font-weight: 400;
+            margin: 0;
+        }
+
+        .foodmain .fooddiv{
+            padding-left: 0px;
+            background-color: white;
+            margin-bottom: 12px;
+            width: calc(50% - 10px);
+        }
+        .foodmain .fooddiv:nth-child(2n){
+            margin-right: 18px;
+        }
+        .c1 img{
+            margin-right: 14px;
+            float: left;
+        }
+        .c2{
+            /*width: 70%;*/
+            line-height: 20px;
+        }
+        .c2 h3{
+            font-size: 14px;
+            font-weight: 700;
+            margin: 0px;
+            padding-top: 10px;
+
+        }
+        .c2 p {
+            font-size: 12px;
+            margin: 0;
+            padding: 0;
+            color: #999;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+        .price{
+            font-size: 14px;
+            color: #f74342;
+            font-weight: 700;
+            position: absolute;
+            bottom: 10px;
+        }
+        .c2 .btn{
+            float: right;
+            position: absolute;
+            right: 10px;
+            bottom: 10px;
+            border: 0;
+            cursor: pointer;
+            width: 90px;
+            height: 26px;
+            border-radius: 20px;
+            text-align: center;
+            outline: 0;
+            font-size: 12px;
+            background-color: rgb(19,209,190) !important;
+            line-height: 14px;
+        }
+
     </style>
     <script>
         $(function () {
@@ -88,14 +156,38 @@
                 $("#tranPrice").text(result.distributionFee)
                 $("#notice").text(result.notice);
             })
+
             $.post("${app}/cateInStore/findByBusiness",{"bid":bid},function (result) {
-                console.log(result);
-                var cate11 = $("#cate1");
+                var cate1 = $("#cate1");
                 for(var i = 0; i<result.length; i++){
-                    var a = $("<a>").text(result[i].name).attr({"href":"#"})
-                    cate11.append(a);
+                    var a = $("<a>").text(result[i].name).attr({"href":"#"+result[i].id})
+                    cate1.append(a);            //添加本店分类
+
+                    console.log(result[i])
+                    var foodmain = $("<div>").addClass("container-fluid foodmain");
+                    var aa = $("<a>").attr({"name":result[i].id});
+                    var goodtitle = $("<h3>").addClass("goodtitle").text(result[i].name).append(aa);
+                    foodmain.append(goodtitle);     //插入每组分类标题
+
+                    var goodss = result[i].goodss;
+                    for(var j = 0;j<goodss.length;j++){     //遍历添加每组分类下食物
+                        var img =  $("<img>").attr({"src":"../upload/goodsImg/"+goodss[j].imgUrl}).css({"width":"100px","height":"100px"});
+                        var a1 = $("<a>").attr({"href":"#"}).append(img);
+                        var c1 = $("<div>").addClass("c1").append(a1);
+
+                        var h3 = $("<h3>").text(goodss[j].name);
+                        var p1 = $("<p>").text(goodss[j].description);
+                        var p2 = $("<p>").text("月售"+goodss[j].saleCount+"份");
+                        var sp = $("<span>").text("￥"+goodss[j].price).addClass("price");
+                        var a = $("<a>").addClass("btn btn-primary").text("加入购物车");
+                        var c2 = $("<div>").addClass("c2").append(h3).append(p1).append(p2).append(sp).append(a);
+                        var fooddiv = $("<div>").addClass("col-sm-6 fooddiv").append(c1).append(c2);
+                        foodmain.append(fooddiv);
+                    }
+                    var home = $("#home").append(foodmain);
                 }
             })
+
         })
     </script>
 </head>
@@ -175,14 +267,111 @@
     <%--shopmain--%>
     <div class="container" id="shopDiv">
         <div id="myTabContent" class="tab-content col-sm-9 shopleft">
-            <div class="tab-pane fade in active panel panel-default" id="home">
-                <div class="panel-body">
-                    <div id="cate1">
-                        <a href="javascript:void(0);" id="allStore">全部</a>
+            <%--left--%>
+            <div class="tab-pane fade in active" id="home">
+                <div class=" panel panel-default" style="margin-bottom: 0">
+                    <div class="panel-body">
+                        <div id="cate1">
+                            <a href="javascript:void(0);" id="allStore">全部</a>
+                        </div>
                     </div>
                 </div>
+               <%-- <div class="container-fluid foodmain">
+                    <h3 class="goodtitle">池田单品</h3>
+                    <div class="col-sm-6 fooddiv">
+                        <div class="c1">
+                            <a href="#">
+                                <img src="../upload/goodsImg/1556981387992.jpeg" style="width: 100px;height: 100px">
+                            </a>
+                        </div>
+                        <div class="c2">
+                            <h3>秋田十味</h3>
+                            <p>中华沙律、红蟹子、龙虾沙拉、芝麻八爪鱼、芥末章鱼、香辣海螺、香辣鱿鱼等10款军舰组合</p>
+                            <p>月售<span>56</span>份 </p>
+                            <span class="price">￥88</span>
+                            <a class="btn btn-primary">加入购物车</a>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 fooddiv">
+                        <div class="c1">
+                            <a href="#">
+                                <img src="../upload/goodsImg/1556981387992.jpeg" style="width: 100px;height: 100px">
+                            </a>
+                        </div>
+                        <div class="c2">
+                            <h3>秋田十味</h3>
+                            <p>中华沙律、红蟹子、龙虾沙拉、芝麻八爪鱼、芥末章鱼、香辣海螺、香辣鱿鱼等10款军舰组合</p>
+                            <p>月售<span>56</span>份 </p>
+                            <span class="price">￥88</span>
+                            <a class="btn btn-primary">加入购物车</a>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 fooddiv">
+                        <div class="c1">
+                            <a href="#">
+                                <img src="../upload/goodsImg/1556981387992.jpeg" style="width: 100px;height: 100px">
+                            </a>
+                        </div>
+                        <div class="c2">
+                            <h3>秋田十味</h3>
+                            <p>中华沙律、红蟹子、龙虾沙拉、芝麻八爪鱼、芥末章鱼、香辣海螺、香辣鱿鱼等10款军舰组合</p>
+                            <p>月售<span>56</span>份 </p>
+                            <span class="price">￥88</span>
+                            <a class="btn btn-primary">加入购物车</a>
+                        </div>
+                    </div>
 
+                </div>
+                <div class="container-fluid foodmain">
+                    <h3 class="goodtitle">池田单品</h3>
+                    <div class="col-sm-6 fooddiv">
+                        <div class="c1">
+                            <a href="#">
+                                <img src="../upload/goodsImg/1556981387992.jpeg" style="width: 100px;height: 100px">
+                            </a>
+                        </div>
+                        <div class="c2">
+                            <h3>秋田十味</h3>
+                            <p>中华沙律、红蟹子、龙虾沙拉、芝麻八爪鱼、芥末章鱼、香辣海螺、香辣鱿鱼等10款军舰组合</p>
+                            <p>月售<span>56</span>份 </p>
+                            <span class="price">￥88</span>
+                            <a class="btn btn-primary">加入购物车</a>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 fooddiv">
+                        <div class="c1">
+                            <a href="#">
+                                <img src="../upload/goodsImg/1556981387992.jpeg" style="width: 100px;height: 100px">
+                            </a>
+                        </div>
+                        <div class="c2">
+                            <h3>秋田十味</h3>
+                            <p>中华沙律、红蟹子、龙虾沙拉、芝麻八爪鱼、芥末章鱼、香辣海螺、香辣鱿鱼等10款军舰组合</p>
+                            <p>月售<span>56</span>份 </p>
+                            <span class="price">￥88</span>
+                            <a class="btn btn-primary">加入购物车</a>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 fooddiv">
+                        <div class="c1">
+                            <a href="#">
+                                <img src="../upload/goodsImg/1556981387992.jpeg" style="width: 100px;height: 100px">
+                            </a>
+                        </div>
+                        <div class="c2">
+                            <h3>秋田十味</h3>
+                            <p>中华沙律、红蟹子、龙虾沙拉、芝麻八爪鱼、芥末章鱼、香辣海螺、香辣鱿鱼等10款军舰组合</p>
+                            <p>月售<span>56</span>份 </p>
+                            <span class="price">￥88</span>
+                            <a class="btn btn-primary">加入购物车</a>
+                        </div>
+                    </div>
+
+                </div>--%>
             </div>
+
+
+            <%--right--%>
             <div class="tab-pane fade" id="ios">
                 <p>iOS 是一个由苹果公司开发和发布的手机操作系统。最初是于 2007 年首次发布 iPhone、iPod Touch 和 Apple
                     TV。iOS 派生自 OS X，它们共享 Darwin 基础。OS X 操作系统是用在苹果电脑上，iOS 是苹果的移动版本。</p>

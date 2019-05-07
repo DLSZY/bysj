@@ -37,6 +37,14 @@ public class GoodsController {
     @Autowired
     private GoodsService goodsService;
 
+    /**
+     * 用户
+     */
+    @RequestMapping("findByCateInsStore")
+    public List<Goods> findByCateInStore(String csid){
+        List<Goods> list = goodsService.findByCateInStore(csid);
+        return list;
+    }
 
     /*
     * 后台

@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import javax.persistence.Id;
+import javax.persistence.Transient;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -18,4 +20,7 @@ public class GoodsCateinstore {
     private String name;
 
     private String businessId;
+
+    @Transient
+    List<Goods> goodss;
 }

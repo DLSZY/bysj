@@ -21,6 +21,14 @@ public class GoodsServiceImpl implements GoodsService {
     private GoodsMapper goodsMapper;
 
     @Override
+    public List<Goods> findByCateInStore(String csid) {
+        Goods goods = new Goods();
+        goods.setCateinstoreId(csid);
+        List<Goods> list = goodsMapper.select(goods);
+        return list;
+    }
+
+    @Override
     public void add(Goods goods) {
         goods.setId(UUID.randomUUID().toString());
         goods.setSaleCount(0);
