@@ -8,4 +8,6 @@ import java.util.List;
 
 public interface ShopCartMapper  extends Mapper<ShopCart> {
 
+    List<ShopCart> findByUser(String uid);
+
 }

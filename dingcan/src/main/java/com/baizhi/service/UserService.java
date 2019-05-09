@@ -1,0 +1,9 @@
+package com.baizhi.service;
+
+import javax.servlet.http.HttpSession;
+import java.util.Map;
+
+public interface UserService {
+    //登录
+    Map<String,Object> login(String username, String password, HttpSession session);
+}

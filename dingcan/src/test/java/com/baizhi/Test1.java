@@ -3,8 +3,11 @@ package com.baizhi;
 import com.baizhi.dao.BusinessMapper;
 import com.baizhi.dao.GoodsCateinstoreMapper;
 import com.baizhi.dao.GoodsMapper;
+import com.baizhi.dao.ShopCartMapper;
 import com.baizhi.entity.*;
 import com.baizhi.service.AddressService;
+import com.baizhi.service.CartService;
+import com.baizhi.service.CateInStoreService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +15,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 @SpringBootTest(classes = Application.class)
 @RunWith(SpringRunner.class)
@@ -20,6 +25,10 @@ public class Test1 {
     private BusinessMapper businessMapper;
     @Autowired
     private GoodsCateinstoreMapper goodsCateinstoreMapper;
+    @Autowired
+    private CartService cartService;
+    @Autowired
+    private ShopCartMapper cartMapper;
 
     @Test
     public void test1(){
@@ -37,6 +46,20 @@ public class Test1 {
         for (Object cateinstore : cateinstores) {
             System.out.println(cateinstore);
             System.out.println();
+        }
+    }
+    @Test
+    public void test3(){
+        List<Cart> cartByUser = cartService.findCartByUser("1");
+        for (Cart cart : cartByUser) {
+            System.out.println(cart);
+        }
+    }
+    @Test
+    public void test4(){
+        List<ShopCart> byUser = cartMapper.findByUser("1");
+        for (ShopCart shopCart : byUser) {
+            System.out.println(shopCart);
         }
     }
 

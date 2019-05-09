@@ -206,7 +206,7 @@
                         var p1 = $("<p>").text(goodss[j].description);
                         var p2 = $("<p>").text("月售"+goodss[j].saleCount+"份");
                         var sp = $("<span>").text("￥"+goodss[j].price).addClass("price");
-                        var a = $("<a>").addClass("btn btn-primary").text("加入购物车");
+                        var a = $("<a>").addClass("btn btn-primary").text("加入购物车").attr({"href":"javascript:addCart('"+goodss[j].id+"','"+bid+"','"+goodss[j].name+"')"});
                         var c2 = $("<div>").addClass("c2").append(h3).append(p1).append(p2).append(sp).append(a);
                         var fooddiv = $("<div>").addClass("col-sm-6 fooddiv").append(c1).append(c2);
                         foodmain.append(fooddiv);
@@ -214,8 +214,10 @@
                     var home = $("#home").append(foodmain);
                 }
             })
-
         })
+        function addCart(goodsId,businessId,goodsName) {
+            $.post("${app}/cart/add",{"goodsId":goodsId,"businessId":businessId,"goodsName":goodsName})
+        }
     </script>
 </head>
 <body>
@@ -243,7 +245,14 @@
                         <li><a href="#">我的地址</a></li>
                         <li><a href="#">安全设置</a></li>
                         <li class="divider"></li>
-                        <li><a href="#">退出登录</a></li>
+                        <li><a href="javascript:exit()">退出登录</a></li>
+                        <script>
+                            function exit() {
+                                $.post("${app}/user/exit",function (result) {
+                                    window.location.href="${app}/front/login.jsp"
+                                })
+                            }
+                        </script>
                     </ul>
                 </li>
             </ul>

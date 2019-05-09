@@ -15,21 +15,28 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav navul">
-                <li style="height: 100%"><a href="#">首页</a></li>
-                <li style="height: 100%"><a href="#">我的购物车</a></li>
+                <li style="height: 100%"><a href="${app}/front/index.jsp">首页</a></li>
+                <li style="height: 100%"><a href="${app}/front/cart.jsp">我的购物车</a></li>
                 <li style="height: 100%"><a href="#">我的订单</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right navul">
                 <li class="dropdown" style="height: 100%">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        xiaohei <b class="caret"></b>
+                        ${sessionScope.userUsername} <b class="caret"></b>
                     </a>
                     <ul class="dropdown-menu" id="dropul">
                         <li><a href="#">个人中心</a></li>
                         <li><a href="#">我的地址</a></li>
                         <li><a href="#">安全设置</a></li>
                         <li class="divider"></li>
-                        <li><a href="#">退出登录</a></li>
+                        <li><a href="javascript:exit()">退出登录</a></li>
+                        <script>
+                            function exit() {
+                                $.post("${app}/user/exit",function (result) {
+                                    window.location.href="${app}/front/login.jsp"
+                                })
+                            }
+                        </script>
                     </ul>
                 </li>
             </ul>

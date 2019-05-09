@@ -39,6 +39,8 @@
             border: 1px solid #ddd!important;
             background: #f9f9f9!important;
             border-bottom-width: 1px !important;
+            border-right: 0!important;
+            border-left: 0!important;
         }
         .td2{
             text-align: center;
@@ -86,6 +88,7 @@
         }
         h5{
             font-size: 1.2em;
+            cursor: pointer;
         }
         .count1{
             position: relative;
@@ -94,14 +97,248 @@
         }
         .zongqian{
             color: #f74342;
+            font-weight: bold;
+        }
+        .countSpan{
+            padding: 0 5px;
+        }
+        .jian{
+            padding-top: 10px;
+            font-weight: normal;
+            font-size: 12px;
+            text-align: center;
+        }
+        .jian span{
+            color: rgb(19,209,190);
+            line-height: 34px;
+            height: 55px;
+            border: 1px solid rgb(19,209,190);
+            padding: 2px 3px;
+            border-radius: 2px;
+            margin-left: 10px;
+        }
+        .ftd1{
+            text-align: left;
+        }
+        .ftd1 span{
+            font-weight: bold;
+            color: #f74342;
         }
 
     </style>
     <script>
         $(function () {
+            getCart()
+            //点击添加按钮
+            $("#list").on("click",".addc",function () {
+                //购物车商品数量
+                var cspan = $(this).prev();
+                var count = cspan.text()-1+2
+                cspan.text(count);
+
+                //此食品总数的价格
+                var pspan = $(this).parent().prev().children();
+                var price = pspan.text();
+                var oneprice = price / (count-1);
+                pspan.text(oneprice*count)
 
 
+                var tbody = $(this).parent().parent().parent();
+                var table = tbody.parent();
+                var aspan = tbody.find(".aspan");
+                var pspans = tbody.find(".pspan");
+
+                //计算总价格
+                var allPrice = 0;
+                for(var i = 0; i<pspans.length;i++){
+                    allPrice =  (allPrice-1+1) + ($(pspans[i]).text()-1+1);
+                }
+
+                var js = table.find(".jian").children();
+                var jians = new Array()
+                for(var i = 0; i<js.length; i++){
+                    var ts = $(js[i]).text();
+                    var s = ts.split("减");
+                    jians[i]=s;
+                }
+
+                var shao = 0 ;      //计算满减钱数
+                for(var z = 0; z<jians.length; z++){
+                    var da = jians[z][0];
+                    var jian = jians[z][1];
+                    if(allPrice>=da){
+                        jian = parseInt(jian)
+                        shao = parseInt(shao)
+                        if(jian > shao){
+                            shao = jian;
+                        }
+                    }
+                }
+                //减去满减
+                allPrice-=shao;
+
+                //加上配送费
+                var find = table.find(".fee");
+                var fee = find.text()-1+1;
+                allPrice+=fee;
+
+                aspan.text(allPrice);
+                //修改数据库
+                addCount(this.id)
+            })
+
+            //点击减少按钮
+            $("#list").on("click",".reducec",function () {
+                var tr = $(this).parent().parent();
+                var tbody = tr.parent();
+                var table = tbody.parent();
+                var cspan = $(this).next();
+                var count = cspan.text()-1
+                if(count != 0){         //当数量不为0时数量减1
+
+                }else{
+                    tr.remove()
+                    if(tbody.children().length == 1){
+                        tbody.parent().remove();
+                    }
+                }
+                //购物车商品数量
+                cspan.text(count);
+
+                //此食品总数的价格
+                var pspan = $(this).parent().prev().children();
+                var price = pspan.text();
+                var oneprice = price / (count+1);
+                pspan.text(oneprice*count)
+
+                var aspan = tbody.find(".aspan");
+                var pspans = tbody.find(".pspan");
+
+                //计算总价格
+                var allPrice = 0;
+                for(var i = 0; i<pspans.length;i++){
+                    allPrice =  (allPrice-1+1) + ($(pspans[i]).text()-1+1);
+                }
+
+                //获取满减信息
+                var js = table.find(".jian").children();
+                var jians = new Array()
+                for(var i = 0; i<js.length; i++){
+                    var ts = $(js[i]).text();
+                    var s = ts.split("减");
+                    jians[i]=s;
+                }
+
+                //计算满减钱数
+                var shao = 0 ;
+                for(var z = 0; z<jians.length; z++){
+                    var da = jians[z][0];
+                    var jian = jians[z][1];
+                    if(allPrice>=da){
+                        jian = parseInt(jian)
+                        shao = parseInt(shao)
+                        if(jian > shao){
+                            shao = jian;
+                        }
+                    }
+                }
+                allPrice-=shao; //减去满减
+
+                //加上配送费
+                var find = table.find(".fee");
+                var fee = find.text()-1+1;
+                allPrice+=fee;
+
+                aspan.text(allPrice);
+                //修改数据库
+                reduceCount(this.id)
+            })
+
+            //点击跳转到商家
+            $("#list").on("click","h5",function () {
+                window.location.href="${app}/front/business.jsp?bid="+this.id;
+            })
         })
+
+        //数量加一
+        function addCount(cid) {
+            $.post("${app}/cart/editCount",{"cid":cid,"option":"add"});
+        }
+        //数量减一
+        function reduceCount(cid) {
+            $.post("${app}/cart/editCount",{"cid":cid,"option":"reduce"});
+        }
+
+        //获取当前用户的购物车
+        function getCart() {
+            $.post("${app}/cart/findByUser",function (result) {
+                console.log(result);
+                for(var i = 0; i<result.length; i++){
+                    //thead 1
+                    var h5 = $("<h5>").css({"font-size":"1.2em"}).text(result[i].businessName).attr({"id":result[i].businessId});
+                    //var th1 = $("<th>").attr({"colspan":"2"}).append(h5).css({"width":"60%"});
+                    var th1 = $("<th>").append(h5);
+
+                    //tbody 购物车项
+                    var allPrice = 0;
+                    var tbody = $("<tbody>");
+                    var items = result[i].items;
+                    for(var j = 0; j<items.length; j++){
+                        var item = items[j];
+                        var aname = $("<a>").text(item.goodsName);
+                        var td1 = $("<td>").css({"width":"72%"}).append(aname);
+                        //var td2 = $("<td>").text("x"+item.goodsCount);
+                        var price = item.goodsPrice*item.goodsCount;
+                        allPrice+=price;
+                        var pspan = $("<span>").text(price).addClass("pspan");
+                        var td3 = $("<td>").text("￥").addClass("td2").append(pspan);
+                        var ajian = $("<a>").addClass("btn btn-primary delCount count reducec").text("-").attr({"id":item.id});
+                        var ajia = $("<a>").addClass("btn btn-primary addCount count addc").text("+").attr({"id":item.id});
+                        var countSpan = $("<span>").addClass("count1").text(item.goodsCount).addClass("countSpan");
+                        var td4 = $("<td>").append(ajian).append(countSpan).append(ajia).addClass("td2");
+                        var tr2 = $("<tr>").append(td1).append(td3).append(td4);
+                        tbody.append(tr2);
+                    }
+
+                    //计算满减信息
+                    var th2 = $("<th>").addClass("jian").attr({"colspan":"2"});
+                    var shao = 0 ;      //计算满减钱数
+                    var reduces = result[i].reduces;
+                    for(var z = 0; z<reduces.length; z++){
+                        var da = reduces[z].achieveMoney;
+                        var jian = reduces[z].reduceMoney;
+                        var span = $("<span>").text(da+"减"+jian)
+
+                        if(allPrice>=da){
+                            if(jian > shao){
+                                shao = jian;
+                            }
+                        }
+                        th2.append(span)
+                    }
+
+                    //脚
+                    var span12 = $("<span>").text("￥");
+                    var dfee = result[i].distributeFee;
+                    var span11 = $("<span>").text(dfee).addClass("fee");
+                    var ftd1 = $("<td>").addClass("td2 ftd1").text("配送费").append(span12).append(span11);
+
+                    allPrice-=shao; //减去满减
+                    allPrice+=dfee//加上配送费
+                    var aspan = $("<span>").text(allPrice).addClass("aspan");
+                    var ftd3 = $("<td>").addClass("td2 zongqian").text("￥").append(aspan);
+                    var suana = $("<a>").addClass("btn btn-primary suan").text("去结算");
+                    var ftd4 = $("<td>").addClass("td2").append(suana)
+
+                    var tr1 = $("<tr>").append(th1).append(th2);
+                    var thead = $("<thead>").append(tr1);
+                    var foot = $("<tr>").addClass("tfooter").append(ftd1).append(ftd3).append(ftd4);
+                    var table = $("<table>").addClass("table table-bordered").append(thead).append(tbody).append(foot);
+                    var list = $("#list").append(table);
+                }
+            })
+        }
+
     </script>
 </head>
 <body>
@@ -111,21 +348,22 @@
 <div id="main" style="margin-top: 30px">
     <%--搜索列表--%>
     <div class="container" id="list">
-        <table class="table table-bordered">
+       <%-- <table class="table table-bordered">
             <thead>
             <tr>
-                <th colspan="4">
+                <th colspan="2">
                     <h5 style="font-size: 1.2em;">晓寿司(建国门店)</h5>
                 </th>
-               <%-- <th>
-                    123
-                </th>--%>
+                <th class="jian">
+                   <span>40减5</span>
+                   <span>50减10</span>
+                   <span>50减10</span>
+                </th>
             </tr>
             </thead>
             <tbody>
                 <tr>
-                    <td style="width: 68%;"><a id="goodsName">鹅肝寿司</a></td>
-                    <td>x1</td>
+                    <td style="width: 72%;"><a>鹅肝寿司</a></td>
                     <td class="td2">￥33</td>
                     <td class="td2">
                         <a class="btn btn-primary delCount count">-</a>
@@ -135,7 +373,6 @@
                 </tr>
                 <tr>
                     <td style="width: 68%;"><a >三明治</a></td>
-                    <td>x1</td>
                     <td class="td2">￥33</td>
                     <td class="td2">
                         <a class="btn btn-primary delCount count">-</a>
@@ -144,15 +381,16 @@
                     </td>
                 </tr>
                 <tr class="tfooter">
-                    <td class="td2"></td>
-                    <td class="td2"></td>
+                    <td class="td2 ftd1" >
+                        配送费 <span>￥5</span>
+                    </td>
                     <td class="td2 zongqian">￥64</td>
                     <td class="td2">
                         <a href="" class="btn btn-primary suan">去结算</a>
                     </td>
                 </tr>
             </tbody>
-        </table>
+        </table>--%>
     </div>
 </div>
 </body>

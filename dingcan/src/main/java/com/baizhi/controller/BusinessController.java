@@ -110,9 +110,11 @@ public class BusinessController {
     public Map login(String username,String password,HttpSession session){
         return businessService.login(username,password,session);
     }
+    //退出
     @RequestMapping("exit")
     public void exit(HttpSession session){
-        session.invalidate();
+        session.removeAttribute("businessUsername");
+        session.removeAttribute("businessUserId");
     }
     //查询个人信息
     @RequestMapping("showInfo")
