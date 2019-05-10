@@ -5,24 +5,27 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+import javax.persistence.Id;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
 public class Address {
+    @Id
     private String id;
+
+    private String userId;
 
     private String name;
 
-    private Integer provinceId;
-
-    private Integer cityId;
-
-    private Integer countyId;
-
-    private String address;
+    private Integer sex;
 
     private String phone;
 
-    private String userId;
+    private String address;
+
+    private String houseNum;
+
+    private Integer def;
 }

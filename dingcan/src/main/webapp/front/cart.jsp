@@ -256,7 +256,7 @@
 
             //点击跳转到商家
             $("#list").on("click","h5",function () {
-                window.location.href="${app}/front/business.jsp?bid="+this.id;
+                window.location.href="${app}/front/busuness.jsp?bid="+this.id;
             })
         })
 
@@ -327,7 +327,7 @@
                     allPrice+=dfee//加上配送费
                     var aspan = $("<span>").text(allPrice).addClass("aspan");
                     var ftd3 = $("<td>").addClass("td2 zongqian").text("￥").append(aspan);
-                    var suana = $("<a>").addClass("btn btn-primary suan").text("去结算");
+                    var suana = $("<a>").addClass("btn btn-primary suan").text("去结算").attr({"href":"${app}/front/order_info.jsp?bid="+result[i].businessId});
                     var ftd4 = $("<td>").addClass("td2").append(suana)
 
                     var tr1 = $("<tr>").append(th1).append(th2);

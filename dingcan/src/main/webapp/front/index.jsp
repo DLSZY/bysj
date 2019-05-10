@@ -205,7 +205,7 @@
             console.log(result);
             $("#panel").empty();
             for(var i = 0; i<result.length; i++){
-                var a = $("<a>").attr({"href":"${app}/front/business.jsp?bid="+result[i].id}).addClass("rstblock");
+                var a = $("<a>").attr({"href":"${app}/front/busuness.jsp?bid="+result[i].id}).addClass("rstblock");
                 var div1 = $("<div>").addClass("rstblock-logo");
                 var img = $("<img>").attr({"src":"../upload/"+result[i].imgUrl}).addClass("rstblock-logo-icon").css({"width":"70","height":"70"})
                 div1.append(img);

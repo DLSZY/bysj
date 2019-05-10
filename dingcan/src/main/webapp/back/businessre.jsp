@@ -91,7 +91,6 @@
             <ul class="nav nav-tabs">
                 <li class="active"><a href="#">申请列表</a></li>
             </ul>
-
             <%--列表--%>
             <table id="albumList"></table>
             <%--分页--%>

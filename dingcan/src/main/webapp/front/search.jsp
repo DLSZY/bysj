@@ -100,7 +100,7 @@
             $.post("${app}/business/findBySearch",{"item":item,"cate":cate},function (result) {
                 console.log(result);
                 for(var i = 0; i<result.length; i++){
-                    var aname = $("<a>").text(result[i].name).attr({"href":"${app}/front/business.jsp?bid="+result[i].id}).addClass("aname");
+                    var aname = $("<a>").text(result[i].name).attr({"href":"${app}/front/busuness.jsp?bid="+result[i].id}).addClass("aname");
                     var h5 = $("<h5>").append(aname);
                     var th = $("<th>").attr({"colspan":"4"}).append(h5);
                     var tr1 = $("<tr>").append(th);

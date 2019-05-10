@@ -44,8 +44,6 @@ public class UserServiceImpl implements UserService {
                 map.put("success",1);
                 session.setAttribute("userId",users1.get(0).getId());
                 session.setAttribute("userUsername",users1.get(0).getUsername());
-                System.out.println(session.getId());
-                System.out.println(session.getServletContext());
             }
         }
         return map;

@@ -231,8 +231,8 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav navul1">
-                <li><a href="#">首页</a></li>
-                <li><a href="#">我的购物车</a></li>
+                <li><a href="${app}/front/index.jsp">首页</a></li>
+                <li><a href="${app}/front/cart.jsp">我的购物车</a></li>
                 <li><a href="#">我的订单</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right navul1">
