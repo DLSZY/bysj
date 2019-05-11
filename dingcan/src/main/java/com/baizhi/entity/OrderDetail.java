@@ -5,6 +5,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+import javax.persistence.Transient;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -17,5 +19,10 @@ public class OrderDetail {
     private String goodsId;
 
     private Integer goodsCount;
+
+    @Transient
+    private String goodsName;
+    @Transient
+    private Double goodsPrice;
 
 }

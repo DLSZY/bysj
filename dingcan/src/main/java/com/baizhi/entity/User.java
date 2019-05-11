@@ -1,10 +1,12 @@
 package com.baizhi.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+import javax.persistence.Id;
 import java.util.Date;
 
 @Data
@@ -12,6 +14,7 @@ import java.util.Date;
 @AllArgsConstructor
 @ToString
 public class User {
+    @Id
     private String id;
 
     private String username;
@@ -22,10 +25,11 @@ public class User {
 
     private String imgUrl;
 
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:dd",timezone = "GMT+8")
     private Date register;
 
-    private Date lastlogintime;
-
     private String salt;
+
+    private Integer status;
 
 }

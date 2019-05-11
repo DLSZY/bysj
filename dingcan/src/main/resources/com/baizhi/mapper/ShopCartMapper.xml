@@ -10,4 +10,11 @@
                          LEFT JOIN business b on g.business_id = b.id
         where u.id = #{uid}
     </select>
+    <select id="findByUserAndBusiness" resultType="shopCart">
+        select c.id id,g.id goodsId,g.name goodsName,g.price goodsPrice,c.goods_count goodsCount,b.id businessId,b.name businessName,u.id userId
+        from shop_cart c LEFT JOIN `user` u on c.user_id = u.id
+                         LEFT JOIN goods g on c.goods_id = g.id
+                         LEFT JOIN business b on g.business_id = b.id
+        where u.id = #{uid} and b.id = #{bid}
+    </select>
 </mapper>

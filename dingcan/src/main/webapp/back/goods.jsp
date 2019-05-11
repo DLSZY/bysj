@@ -25,22 +25,6 @@
                 $("#albumList").setGridWidth($("#main").width())
             });
 
-            //文件上传
-            $("#addBtn").on("click",function () {
-                var formData = new FormData($("#fileForm")[0]);
-                $.ajax({
-                    url:"${app}/goods/add",
-                    type:"POST",
-                    data:formData,
-                    processData: false,  // 告诉jQuery不要去处理发送的数据
-                    contentType: false,   // 告诉jQuery不要去设置Content-Type请求头
-                    success: function(result){
-                        $("#albumList").trigger("reloadGrid");
-                        $("#addModel").modal("hide");
-                    }
-                });
-            })
-
             $("#albumList").jqGrid({
                 url: "${app}/goods/findAll",
                 colNames: ["食品名","所属商家", "食品价格","所属类别","操作"],
@@ -107,7 +91,6 @@
                 </div>
                 <ul class="nav nav-tabs">
                     <li class="active"><a href="#">食品列表</a></li>
-                    <li><a href="javascript:showAddModel()">添加食品</a></li>
                 </ul>
 
                 <%--列表--%>
@@ -187,73 +170,6 @@
                 </div><!-- /.modal-content -->
             </div><!-- /.modal -->
         </div>
-
-    <%-- 添加修改模态框 --%>
-    <div class="modal fade bs-example-modal-sm" id="addModel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-         aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content ">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title" id="myModalLabel">添加本店类别</h4>
-                </div>
-                <div class="modal-body">
-                    <form class="form-horizontal" role="form" id="fileForm">
-                        <div class="form-group">
-                            <label class="col-sm-2 control-label">食品名称</label>
-                            <div class="col-sm-9">
-                                <input type="hidden" id="id" class="form-control"  name="id">
-                                <input type="text" class="form-control" id="name" name="name" placeholder="请输入食品名">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-2 control-label">食品价格</label>
-                            <div class="col-sm-9">
-                                <input type="text" class="form-control" id="price" name="price" placeholder="请输入食品价格">
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="col-sm-2 control-label">所属类别</label>
-                            <div class="col-sm-9">
-                                <select  class="form-control" name="cateId" id="cate">
-
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="col-sm-2 control-label">本店类别</label>
-                            <div class="col-sm-9">
-                                <select  class="form-control" name="cateinstoreId" id="cateinstore">
-
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="description" class="col-sm-2 control-label">食品描述</label>
-                            <div class="col-sm-9">
-                                <input type="text" class="form-control" name="description" id="description" placeholder="请输入食品描述">
-                            </div>
-                        </div>
-
-                        <div class="form-group" id="fileDiv">
-                            <label for="coverImg" class="col-sm-2 control-label">食品图片</label>
-                            <div class="col-sm-9">
-                                <input type="file" id="coverImg" name="multipartFile">
-                            </div>
-                        </div>
-
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                    <button type="button" class="btn btn-primary" id="addBtn">添加</button>
-                </div>
-            </div><!-- /.modal-content -->
-        </div><!-- /.modal -->
-    </div>
 
 
     <%--页脚--%>

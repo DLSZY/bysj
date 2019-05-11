@@ -51,23 +51,55 @@
             text-align: center;
             cursor: pointer;
         }
+        #uploadimg{
+            width: 100px;
+            height: 100px;
+        }
     </style>
     <script>
         $(function () {
 
+
+
+
+            //查询用户信息
+            $.post("${app}/user/findInfo",function (result) {
+                console.log(result);
+                $("#username").text(result.username);
+                $("#phone").text(result.phone);
+                if(result.imgUrl == null){
+                    $("#uploadimg").attr({"src":"../statics/img/header.png"})
+                }else{
+                    $("#uploadimg").attr({"src":"../upload/"+result.imgUrl})
+                }
+            })
         })
         function upload_review() {
             var img = document.getElementById("uploadimg");
             var input = document.getElementById("file_upload1");
-            var tip = document.getElementById("uploadtip");
 
             var file = input.files.item(0);
             var freader = new FileReader();
             freader.readAsDataURL(file);
             freader.onload = function(e) {
-                img.src = e.target.result;
-                tip.style.display = "none";
+                var src = e.target.result;
+                img.src = src;
+                changeImg()
             };
+        }
+        //文件上传
+        function changeImg(){
+            var formData = new FormData($("#iofoFrom")[0]);
+            $.ajax({
+                url:"${app}/user/change",
+                type:"POST",
+                data:formData,
+                processData: false,  // 告诉jQuery不要去处理发送的数据
+                contentType: false,   // 告诉jQuery不要去设置Content-Type请求头
+                success: function(result){
+
+                }
+            });
         }
     </script>
 </head>
@@ -81,27 +113,26 @@
         <div class="page-header" style="margin-top: 0px">
             <h3  style="margin-top: 0px">我的信息</h3>
         </div>
-        <form class="form-horizontal" role="form">
+        <form class="form-horizontal" role="form" id="iofoFrom">
             <div class="form-group">
                 <label class="col-sm-3 control-label">头像</label>
                 <div class="col-sm-8">
                     <label id="file_upload1_label" for="file_upload1">
-                        <span id="uploadtip"></span>
-                        <img id="uploadimg" src="../statics/img/cs.png" width="100" height="100" class="img-thumbnail"/>
+                        <img id="uploadimg" src="../statics/img/header.png" alt="tianji"class="img-thumbnail"/>
                     </label>
-                    <input type="file" name="cover" class="" id="file_upload1"	onchange="upload_review()">
+                    <input type="file" name="multipartFile" class="" id="file_upload1"	onchange="upload_review()">
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-3 control-label">用户名</label>
                 <div class="col-sm-8">
-                    <p class="form-control-static">xiaohei</p>
+                    <p class="form-control-static" id="username">123</p>
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-3 control-label">手机号</label>
                 <div class="col-sm-8">
-                    <p class="form-control-static">13253356287</p>
+                    <p class="form-control-static"  id="phone">12</p>
                 </div>
             </div>
         </form>

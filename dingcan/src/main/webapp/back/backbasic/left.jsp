@@ -56,7 +56,7 @@
             </div>
             <div id="collapseThree" class="panel-collapse collapse">
                 <div class="panel-body">
-                    <a href="./albumue.jsp" class="list-group-item">用户管理</a>
+                    <a href="./user.jsp" class="list-group-item">用户管理</a>
                 </div>
             </div>
         </div>
@@ -70,7 +70,7 @@
             </div>
             <div id="collapseFour" class="panel-collapse collapse">
                 <div class="panel-body">
-                    <a href="./albumue.jsp" class="list-group-item">订单管理</a>
+                    <a href="./order.jsp" class="list-group-item">订单管理</a>
                 </div>
             </div>
         </div>

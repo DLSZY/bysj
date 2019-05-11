@@ -7,4 +7,5 @@ import tk.mybatis.mapper.common.Mapper;
 import java.util.List;
 
 public interface OrderMasterMapper extends Mapper<OrderMaster> {
+    List<OrderMaster> findAll();
 }

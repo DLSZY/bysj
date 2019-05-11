@@ -1,5 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.baizhi.dao.OrderDetailMapper" >
-
+    <insert id="addDetails" parameterType="list">
+        insert  into order_detail
+        values 
+        <foreach collection="list" item="detail" separator=",">
+            (#{detail.id},#{detail.orderId},#{detail.goodsId},#{detail.goodsCount})
+        </foreach>
+    </insert>
+    
+    <select id="findByOrder" resultType="orderDetail">
+        select g.name goodsName,g.price goodsPrice,od.goods_count goodsCount
+        from order_detail od LEFT JOIN goods g on od.goods_id = g.id
+        where od.order_id = #{oid}
+    </select>
 </mapper>

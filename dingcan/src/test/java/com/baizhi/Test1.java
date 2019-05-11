@@ -1,19 +1,19 @@
 package com.baizhi;
 
-import com.baizhi.dao.BusinessMapper;
-import com.baizhi.dao.GoodsCateinstoreMapper;
-import com.baizhi.dao.GoodsMapper;
-import com.baizhi.dao.ShopCartMapper;
+import com.baizhi.dao.*;
 import com.baizhi.entity.*;
 import com.baizhi.service.AddressService;
 import com.baizhi.service.CartService;
 import com.baizhi.service.CateInStoreService;
+import com.baizhi.utils.MD5Utils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+import tk.mybatis.mapper.annotation.Order;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -29,6 +29,10 @@ public class Test1 {
     private CartService cartService;
     @Autowired
     private ShopCartMapper cartMapper;
+    @Autowired
+    private OrderDetailMapper detailMapper;
+    @Autowired
+    private  OrderMasterMapper masterMapper;
 
     @Test
     public void test1(){
@@ -61,6 +65,25 @@ public class Test1 {
         for (ShopCart shopCart : byUser) {
             System.out.println(shopCart);
         }
+    }
+    @Test
+    public void test5(){
+        OrderDetail detail1 = new OrderDetail("1","123","456",1);
+        OrderDetail detail2 = new OrderDetail("2","123","345",3);
+        List<OrderDetail> orderDetails = new ArrayList<>();
+        orderDetails.add(detail1);
+        orderDetails.add(detail2);
+        detailMapper.addDetails(orderDetails);
+    }
+    @Test
+    public void test6(){
+        String password = MD5Utils.getPassword("123123" + "luffy107");
+        System.out.println(password);
+    }
+    @Test
+    public void test7(){
+        List<OrderMaster> all = masterMapper.findAll();
+        System.out.println(all);
     }
 
 }

@@ -1,10 +1,7 @@
 package com.baizhi.service.impl;
 
 import com.baizhi.dao.ShopCartMapper;
-import com.baizhi.entity.Business;
-import com.baizhi.entity.Cart;
-import com.baizhi.entity.Reduce;
-import com.baizhi.entity.ShopCart;
+import com.baizhi.entity.*;
 import com.baizhi.service.BusinessService;
 import com.baizhi.service.CartService;
 import com.baizhi.service.ReduceService;
@@ -75,6 +72,16 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
+    public List<ShopCart> findByUserAndBusid(String uid, String bid) {
+        ShopCart shopCart = new ShopCart();
+        shopCart.setUserId(uid);
+        shopCart.setBusinessId(bid);
+        List<ShopCart> shopCarts = cartMapper.findByUserAndBusiness(uid,bid);
+        System.out.println(shopCarts);
+        return shopCarts;
+    }
+
+    @Override
     public void editCount(String cid,String option) {
         ShopCart shopCart = new ShopCart();
         shopCart.setId(cid);
@@ -93,4 +100,13 @@ public class CartServiceImpl implements CartService {
             }
         }
     }
+
+    @Override
+    public void delete(String uid, String bid) {
+        ShopCart shopCart = new ShopCart();
+        shopCart.setUserId(uid);
+        shopCart.setBusinessId(bid);
+        cartMapper.delete(shopCart);
+    }
+
 }

@@ -327,7 +327,8 @@
                     allPrice+=dfee//加上配送费
                     var aspan = $("<span>").text(allPrice).addClass("aspan");
                     var ftd3 = $("<td>").addClass("td2 zongqian").text("￥").append(aspan);
-                    var suana = $("<a>").addClass("btn btn-primary suan").text("去结算").attr({"href":"${app}/front/order_info.jsp?bid="+result[i].businessId});
+                    //var suana = $("<a>").addClass("btn btn-primary suan").text("去结算").attr({"href":"${app}/front/order_info.jsp?bid="+result[i].businessId});
+                    var suana = $("<a>").addClass("btn btn-primary suan").text("去结算").attr({"href":"javascript:order('"+result[i].businessId+"')"});
                     var ftd4 = $("<td>").addClass("td2").append(suana)
 
                     var tr1 = $("<tr>").append(th1).append(th2);
@@ -339,6 +340,12 @@
             })
         }
 
+        function order(bid) {
+            var allPrice = $("#"+bid).parent().parent().parent().parent().find(".aspan").text();
+            $.post("${app}/cart/allPrice",{"allPrice":allPrice},function () {
+                window.location="${app}/front/order_info.jsp?bid="+bid;
+            })
+        }
     </script>
 </head>
 <body>

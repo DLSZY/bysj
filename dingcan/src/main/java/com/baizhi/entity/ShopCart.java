@@ -22,9 +22,8 @@ public class ShopCart {
 
     private String userId;
 
-
-    @Transient
     private String businessId;
+
     @Transient
     private String goodsName;
     @Transient

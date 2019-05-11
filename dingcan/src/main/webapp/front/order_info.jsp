@@ -37,6 +37,13 @@
             padding-left: 10px;
             border-left: 1px solid #f5f5f5;
         }
+        .addressinfo1{
+            display: inline-block;
+            padding: 0px 10px;
+            width: 100%;
+            cursor: pointer;
+            padding-top: 10px;
+        }
         .addressinfo p{
             margin: 0;
         }
@@ -113,18 +120,90 @@
         .th2{
             text-align: center;
         }
+        .chooseAdd{
+            padding: 5px ;
+            border-color: rgb(19,209,190);
+            background-color: rgb(19,209,190);
+        }
+        .chooseAdd:hover,
+        .chooseAdd:focus,
+        .chooseAdd:active{
+            background-color: rgb(115,225,206) !important;
+            border-color: rgb(115,225,206) !important;
+            box-shadow: none;
+        }
     </style>
     <script>
         $(function () {
             //查询该用户的地址
             $.post("${app}/userAddress/selectByUser",function (result) {
                 for(var i = 0;i<result.length;i++){
+                    /*模态框显示所有地址*/
+                    var span1 = $("<span>").css({"display":"none"}).text(result[i].id);
+                    if(result[i].sex == 1){
+                        shenfen = "先生"
+                    }else{
+                        身份 = "女士"
+                    }
+                    var pp1 = $("<p>").text(result[i].name +" "+shenfen +" "+ result[i].phone)
+                    var pp2 = $("<p>").text(result[i].address +result[i].houseNum);
+                    var selectAdd = $("<div>").addClass("addressinfo1 bode").append(span1).append(pp1).append(pp2);
+                    $("#alladd").append(selectAdd)
+                    /*显示用户默认地址*/
                     if(result[i].def == 1){
-                        
+                        showAdd(result[i]);
                     }
                 }
             })
+
+            $(".modal-content").on("click",".addressinfo1",function () {
+                var id = $(this).find("span").text();
+                $.post("${app}/userAddress/selectById",{"id":id},function (result) {
+                    showAdd(result);
+                    $("#myModal").modal("hide")
+                })
+            })
+
+            //订单详情显示
+            var bid = '${param.bid}';
+            $.post("${app}/cart/findByUserAndBuss",{"bid":bid},function (result) {
+                console.log(result);
+                var thead = $("thead");
+                for(var i = 0; i<result.length; i++){
+                    var td1  = $("<td>").css({"width":"72%"}).text(result[i].goodsName);
+                    var span = $("<span>").addClass("count1").text(result[i].goodsCount);
+                    var td2 = $("<td>").addClass("td2").append(span);
+                    var price = result[i].goodsCount*result[i].goodsPrice;
+                    var td3 = $("<td>").addClass("td2").text("￥"+price);
+                    var tr = $("<tr>").append(td1).append(td2).append(td3);
+                    thead.append(tr);
+                }
+            })
+
+
+            //确认订单
+            $("#sureOrder").on("click",function () {
+                var addressId = $("#aid").text();
+                var userRemarks = $("#remake").val();
+                $.post("${app}/orderMaster/add",{"addressId":addressId,"userRemarks":userRemarks,"bid":bid},function (result) {
+                    window.location.href="${app}/front/order_success.jsp"
+                })
+            })
         })
+        function showAdd(address) {
+            var re = address;
+            $("#aid").text(re.id);
+            var shenfen = "";
+            if(re.sex == 1){
+                shenfen = "先生"
+            }else{
+                身份 = "女士"
+            }
+            var p1 = re.name +" "+shenfen +" "+ re.phone;
+            $("#ap1").text(p1);
+            var p2 = re.address +re.houseNum;
+            $("#ap2").text(p2);
+        }
     </script>
 </head>
 <body>
@@ -144,13 +223,14 @@
                     <div class="panel-body">
                         <i class="glyphicon glyphicon-map-marker" style="font-size: 30px;margin-right: 5px; color: #8c8c8c"></i>
                         <div class="addressinfo">
-                            <p>张岩 先生 13253356287</p>
-                            <p>郑州大学工学院文化路97号 3号楼寝室</p>
+                            <span style="display: none" id="aid">12321</span>
+                            <p id="ap1">张岩 先生 13253356287</p>
+                            <p id="ap2">郑州大学工学院文化路97号 3号楼寝室</p>
                         </div>
                     </div>
                 </div>
             </div>
-            <a href="" id="otheraddress">选择更多地址</a>
+            <a id="otheraddress" data-toggle="modal" data-target="#myModal">选择更多地址</a>
 
             <div class="form-group">
                 <label class="l">订单详情</label>
@@ -163,7 +243,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
+                   <%-- <tr>
                         <td style="width: 72%;"><a>鹅肝寿司</a></td>
                         <td class="td2">
                             <span class="count1"> 12 </span>
@@ -176,12 +256,12 @@
                             <span class="count1"> 12 </span>
                         </td>
                         <td class="td2">￥33</td>
-                    </tr>
+                    </tr>--%>
                     <tr class="tfooter">
                         <td class="td2 ftd1" >
                             配送费 <span>￥5</span>
                         </td>
-                        <td class="td2" colspan="2">总餐费 <span class="zongqian">￥64</span></td>
+                        <td class="td2" colspan="2">总餐费 <span class="zongqian">￥${sessionScope.allPrice} </span></td>
                     </tr>
                     </tbody>
                 </table>
@@ -189,12 +269,32 @@
 
             <div class="form-group">
                 <label>订单备注</label>
-                <textarea rows="3" class="form-control" placeholder="请输入备注..."></textarea>
+                <textarea rows="3" class="form-control" placeholder="请输入备注..." id="remake"></textarea>
             </div>
-            <button type="submit" class="btn btn-danger pull-right" style="border-radius: 0;margin-top: 15px">确认下单</button>
+            <a class="btn btn-danger pull-right" style="border-radius: 0;margin-top: 15px" id="sureOrder">确认下单</a>
         </form>
     </div>
 </div>
+    <%--选择地址模态框--%>
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">选择送餐地址</h4>
+            </div>
+            <div class="modal-body" id="alladd">
+                <%--<div class="addressinfo1 bode">
+                    <span style="display: none">12321</span>
+                    <p >张岩 先生 13253356287</p>
+                    <p >郑州大学工学院文化路97号 3号楼寝室</p>
+                </div>--%>
+            </div>
+
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+
 
 <div class="FooterPush"></div>
 </div>
