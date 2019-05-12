@@ -15,4 +15,6 @@ public interface BusinessMapper extends Mapper<Business> {
     List<Business> findByBusiness(String item);
     //搜索时食品名，类别名模糊查询
     List<Business> findByGoods(String item);
+    //根据订单查询
+    Business findByOrder(String oid);
 }

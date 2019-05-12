@@ -12,4 +12,5 @@ public interface AddressService {
     List<City> findCity(String provinceCode);
 
     List<Area> findArea(String cityCode);
+
 }

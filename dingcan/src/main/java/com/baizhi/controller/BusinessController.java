@@ -114,7 +114,7 @@ public class BusinessController {
     @RequestMapping("exit")
     public void exit(HttpSession session){
         session.removeAttribute("businessUsername");
-        session.removeAttribute("businessUserId");
+        session.removeAttribute("businessId");
     }
     //查询个人信息
     @RequestMapping("showInfo")

@@ -8,4 +8,6 @@ import java.util.List;
 
 public interface OrderMasterMapper extends Mapper<OrderMaster> {
     List<OrderMaster> findAll();
+
+    List<OrderMaster> findByBusiness(String bid);
 }

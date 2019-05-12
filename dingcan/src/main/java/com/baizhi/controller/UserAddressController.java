@@ -20,7 +20,6 @@ public class UserAddressController {
     /**
      * 用户
      */
-
     @RequestMapping("del")
     public void del(String id){
         addressService.del(id);
@@ -47,6 +46,15 @@ public class UserAddressController {
     @RequestMapping("selectById")
     public Address findById(String id){
         Address address = addressService.findById(id);
+        return address;
+    }
+
+    /**
+     * 后台
+     */
+    @RequestMapping("findByOrder")
+    public Address findByOrder(String oid){
+        Address address = addressService.findByOrder(oid);
         return address;
     }
 

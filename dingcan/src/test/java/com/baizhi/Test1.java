@@ -68,12 +68,12 @@ public class Test1 {
     }
     @Test
     public void test5(){
-        OrderDetail detail1 = new OrderDetail("1","123","456",1);
+       /* OrderDetail detail1 = new OrderDetail("1","123","456",1);
         OrderDetail detail2 = new OrderDetail("2","123","345",3);
         List<OrderDetail> orderDetails = new ArrayList<>();
         orderDetails.add(detail1);
         orderDetails.add(detail2);
-        detailMapper.addDetails(orderDetails);
+        detailMapper.addDetails(orderDetails);*/
     }
     @Test
     public void test6(){

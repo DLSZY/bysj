@@ -50,4 +50,11 @@ public class UserAddressImpl implements UserAddressService {
     public void del(String id) {
         addressMapper.deleteByPrimaryKey(id);
     }
+
+    @Override
+    @Transactional(propagation = Propagation.SUPPORTS)
+    public Address findByOrder(String oid) {
+        Address address = addressMapper.findByOrder(oid);
+        return address;
+    }
 }

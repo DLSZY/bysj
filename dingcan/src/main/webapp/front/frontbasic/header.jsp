@@ -17,7 +17,7 @@
             <ul class="nav navbar-nav navul">
                 <li style="height: 100%"><a href="${app}/front/index.jsp">首页</a></li>
                 <li style="height: 100%"><a href="${app}/front/cart.jsp">我的购物车</a></li>
-                <li style="height: 100%"><a href="#">我的订单</a></li>
+                <li style="height: 100%"><a href="${app}/front/order.jsp">我的订单</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right navul">
                 <li class="dropdown" style="height: 100%">

@@ -54,7 +54,7 @@
             </div>
             <div id="collapseThree" class="panel-collapse collapse">
                 <div class="panel-body">
-                    <a href="./albumue.jsp" class="list-group-item">查看本店订单</a>
+                    <a href="./order.jsp" class="list-group-item">查看本店订单</a>
                 </div>
             </div>
         </div>
@@ -68,7 +68,7 @@
             </div>
             <div id="collapseFour" class="panel-collapse collapse">
                 <div class="panel-body">
-                    <a href="./albumue.jsp" class="list-group-item">查看本店评论</a>
+                    <a href="./comment.jsp" class="list-group-item">查看本店评论</a>
                 </div>
             </div>
         </div>

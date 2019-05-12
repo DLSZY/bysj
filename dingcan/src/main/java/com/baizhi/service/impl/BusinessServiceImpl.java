@@ -195,4 +195,9 @@ public class BusinessServiceImpl implements BusinessService {
         businessMapper.updateByPrimaryKeySelective(business);
     }
 
+    @Override
+    public Business findByOrder(String oid) {
+        return businessMapper.findByOrder(oid);
+    }
+
 }

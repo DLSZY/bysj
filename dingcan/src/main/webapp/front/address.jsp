@@ -255,11 +255,18 @@
                                     <input type="text" class="form-control" id="houseNum1" name="houseNum" placeholder="单元、门牌号">
                                 </div>
                             </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">设为默认</label>
+                                <div class="col-sm-9">
+                                    <input type="checkbox" style="position: relative;top: 5px">
+                                </div>
+                            </div>
                         </form>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                        <button type="button" class="btn btn-primary  editBtn" id="editBtn">修改</button>
+                        <button type="button" class="btn btn-primary  editBtn" id="editBtn">确认修改</button>
                     </div>
                 </div><!-- /.modal-content -->
             </div><!-- /.modal -->

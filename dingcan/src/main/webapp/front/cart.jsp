@@ -342,7 +342,8 @@
 
         function order(bid) {
             var allPrice = $("#"+bid).parent().parent().parent().parent().find(".aspan").text();
-            $.post("${app}/cart/allPrice",{"allPrice":allPrice},function () {
+            var disfee = $("#"+bid).parent().parent().parent().parent().find(".fee").text();
+            $.post("${app}/cart/allPrice",{"allPrice":allPrice,"disfee":disfee},function () {
                 window.location="${app}/front/order_info.jsp?bid="+bid;
             })
         }

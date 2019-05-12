@@ -3,7 +3,7 @@
     <!doctype html>
     <html>
     <head>
-        <title>订单管理</title>
+        <title>本店评论</title>
         <%--引入资源--%>
         <%@include file="../basic/resources.jsp"%>
         <style>
@@ -33,8 +33,8 @@
                 });
 
                 $("#albumList").jqGrid({
-                    url:"${app}/orderMaster/findByPage",
-                    colNames:["订单号","用户名","创建时间","订单金额","订单状态","操作"],
+                    url:"${app}/comment/findByBusiness",
+                    colNames:["订单号","用户名","综合分","评论时间","操作"],
                     autowidth:true,
                     styleUI:"Bootstrap",
                     rowNum:5,
@@ -45,17 +45,8 @@
                     colModel:[
                         {"name":"orderNum"},
                         {"name":"username"},
+                        {"name":"average"},
                         {"name":"createDate"},
-                        {"name":"orderAmount"},
-                        {
-                            formatter:function (value, options, row) {
-                                if(row.status == 1){
-                                    return"正常"
-                                }else {
-                                    return "删除"
-                                }
-                            }
-                        },
                         {
                             formatter:function (value, options, row) {
                                 var content = "<button class=\"btn btn-danger optionBtn\" onclick=\"showDetail(\'"+row.id+"\')\">查看详情</button>"
@@ -68,36 +59,11 @@
 
             //弹出模态框
             function showDetail(oid) {
-                /*查询订单详情*/
+                /*查询详情*/
                 $.post("${app}/orderMaster/findDetail",{"oid":oid},function (result) {
-                    console.log(result);
-                    var dateils = result.details;
-                    var tbody = $("#ttt");
-                    tbody.empty();
-                    for(var i = 0; i<dateils.length; i++){
-                        var td1 = $("<td>").text(dateils[i].goodsName);
-                        var td2 = $("<td>").text(dateils[i].goodsCount);
-                        var td3 = $("<td>").text(dateils[i].goodsCount*dateils[i].goodsPrice);
-                        var tr = $("<tr>").append(td1).append(td2).append(td3);
-                        tbody.append(tr)
-                    }
 
-                    $("#remark").text(result.master.userRemarks)
-                    $("#bname").text(result.business.name)
                 })
-                /*查询地址*/
-                $.post("${app}/userAddress/findByOrder",{"oid":oid},function (result) {
-                    console.log(result);
-                    var s = "";
-                    if(result.sex == 1){
-                        s="先生"
-                    }else{
-                        s="女士"
-                    }
-                    $("#tname").text(result.name+s)
-                    $("#tphone").text(result.phone)
-                    $("#taddress").text(result.address+result.houseNum)
-                })
+
                 $("#myModal").modal("show")
             }
 
@@ -108,18 +74,18 @@
 
     <div class="Wrapper">
         <%--导航--%>
-        <%@include file="backbasic/nav.jsp" %>
+        <%@include file="businessbasic/nav.jsp" %>
         <div class="container-fluid">
             <div class="row">
                 <%--左--%>
-                <%@include file="backbasic/left.jsp" %>
+                <%@include file="businessbasic/left.jsp" %>
                 <%--右--%>
                 <div class="col-sm-10" id="main">
                     <div class="page-header" style="margin-top: 0px">
-                        <h2 style="margin-top: 0px">订单管理</h2>
+                        <h2 style="margin-top: 0px">本店评论</h2>
                     </div>
                     <ul class="nav nav-tabs">
-                        <li class="active"><a href="#">订单列表</a></li>
+                        <li class="active"><a href="#">评论列表</a></li>
                     </ul>
 
                     <%--列表--%>
@@ -140,14 +106,6 @@
                     </div>
                     <div class="modal-body">
                         <form role="form">
-                            <div class="form-group">
-                                <label>订单店铺</label>
-                                <div class="panel panel-default" style="border-radius: 0px">
-                                    <div class="panel-body" id="bname">
-                                        阿斯顿
-                                    </div>
-                                </div>
-                            </div>
                             <div class="form-group">
                                 <label>订单食品</label>
                                 <table class="table table-bordered" id="otable">

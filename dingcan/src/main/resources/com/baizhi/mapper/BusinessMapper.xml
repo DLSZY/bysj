@@ -39,4 +39,10 @@
                         LEFT JOIN goods_cate c2 on g.cate_id = c2.id
         where g.name like concat(concat("%",#{item}),"%") or c2.name like concat(concat("%",#{item}),"%")
     </select>
+
+    <select id="findByOrder" resultType="business">
+        select b.id,b.name,b.distribution_fee distributionFee
+        from order_master om left join business b on om.business_id = b.id
+        where om.id=#{oid}
+    </select>
 </mapper>

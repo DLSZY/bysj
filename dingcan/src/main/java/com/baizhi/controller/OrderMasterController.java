@@ -1,13 +1,12 @@
 package com.baizhi.controller;
 
-import com.baizhi.entity.OrderDetail;
-import com.baizhi.entity.OrderMaster;
-import com.baizhi.entity.PageBean;
-import com.baizhi.entity.ShopCart;
+import com.baizhi.entity.*;
+import com.baizhi.service.BusinessService;
 import com.baizhi.service.CartService;
 import com.baizhi.service.OrderDetailService;
 import com.baizhi.service.OrderMasterService;
 import lombok.experimental.var;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -26,29 +25,64 @@ public class OrderMasterController {
     private OrderMasterService masterService;
     @Autowired
     private OrderDetailService detailService;
+    @Autowired
+    private BusinessService businessService;
 
     /**
      * 管理员
      */
     @RequestMapping("findByPage")
     public PageBean findByPage(Integer page,Integer rows){
-        PageBean byPage = masterService.findByPage(page, rows);
+        PageBean byPage = masterService.findByPage(page, rows,null);
         return byPage;
     }
     @RequestMapping("findDetail")
     public Map<String,Object> findDetail(String oid){
         Map<String,Object> map = new HashMap<>();
+        //订单详情
         List<OrderDetail> details = detailService.findByOrder(oid);
         map.put("details",details);
 
+        //查寻订单
+        OrderMaster master = masterService.findById(oid);
+        map.put("master",master);
+
+        //查询订单商家
+        Business business = businessService.findByOrder(oid);
+        map.put("business",business);
 
 
         return map;
     }
 
     /**
+     * 商家
+     */
+    @RequestMapping("findByBusinessPage")
+    public PageBean findByBusinessPage(Integer page,Integer rows,HttpSession session){
+        String bid = (String) session.getAttribute("businessId");
+        PageBean byPage = masterService.findByPage(page, rows,bid);
+        return byPage;
+    }
+
+    /**
      * 用户
      */
+
+    //查询该用户所有订单
+    @RequestMapping("findByUser")
+    public List<OrderMaster> findByUser(HttpSession session){
+        String uid = (String) session.getAttribute("userId");
+        List<OrderMaster> masters = masterService.findByUser(uid);
+        return masters;
+    }
+    //删除订单
+    @RequestMapping("del")
+    public void del(String oid){
+        masterService.del(oid);
+    }
+
+
     @RequestMapping("add")
     public void add(String addressId, String userRemarks, HttpSession session,String bid){
         //创建订单
@@ -63,6 +97,7 @@ public class OrderMasterController {
         orderMaster.setPayStatus(1);
         orderMaster.setStatus(1);
         orderMaster.setUserRemarks(userRemarks);
+        orderMaster.setBusinessId(bid);
         String userId = (String) session.getAttribute("userId");
         orderMaster.setUserId(userId);
 

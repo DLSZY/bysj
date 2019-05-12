@@ -49,9 +49,11 @@ public class CartController {
 
     //向session中存总费用
     @RequestMapping("allPrice")
-    public void allPrice(Double allPrice,HttpSession session){
+    public void allPrice(Double allPrice,Double disfee,HttpSession session){
         session.removeAttribute("allPrice");
+        session.removeAttribute("disfee");
         session.setAttribute("allPrice",allPrice);
+        session.setAttribute("disfee",disfee);
     }
 
 }

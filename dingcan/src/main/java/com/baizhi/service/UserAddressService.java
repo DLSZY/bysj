@@ -23,4 +23,9 @@ public interface UserAddressService {
     //删除地址
     void del(String id);
 
+    /**
+     * 后台
+     */
+    Address findByOrder(String oid);
+
 }

@@ -5,4 +5,10 @@
         select om.id,user_id userId,address_id addressId,create_date createDate,order_amount orderAmount,om.status,u.username,order_num orderNum
         from order_master om LEFT JOIN `user` u on om.user_id = u.id
     </select>
+    <select id="findByBusiness"  resultType="orderMaster">
+        select om.id,user_id userId,address_id addressId,create_date createDate,order_amount orderAmount,om.status,u.username,order_num orderNum
+        from order_master om LEFT JOIN `user` u on om.user_id = u.id
+        where om.business_id = #{bid}
+    </select>
+
 </mapper>

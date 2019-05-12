@@ -137,23 +137,32 @@
         $(function () {
             //查询该用户的地址
             $.post("${app}/userAddress/selectByUser",function (result) {
-                for(var i = 0;i<result.length;i++){
-                    /*模态框显示所有地址*/
-                    var span1 = $("<span>").css({"display":"none"}).text(result[i].id);
-                    if(result[i].sex == 1){
-                        shenfen = "先生"
-                    }else{
-                        身份 = "女士"
-                    }
-                    var pp1 = $("<p>").text(result[i].name +" "+shenfen +" "+ result[i].phone)
-                    var pp2 = $("<p>").text(result[i].address +result[i].houseNum);
-                    var selectAdd = $("<div>").addClass("addressinfo1 bode").append(span1).append(pp1).append(pp2);
-                    $("#alladd").append(selectAdd)
-                    /*显示用户默认地址*/
-                    if(result[i].def == 1){
-                        showAdd(result[i]);
+                console.log(result);
+                if(result.length == 0){
+                    $("#ap2").hide()
+                    $("#ap1").hide()
+                    $("#sureOrder").addClass("disabled");
+                }else{
+                    $("#ap3").hide()
+                    for(var i = 0;i<result.length;i++){
+                        /*模态框显示所有地址*/
+                        var span1 = $("<span>").css({"display":"none"}).text(result[i].id);
+                        if(result[i].sex == 1){
+                            shenfen = "先生"
+                        }else{
+                            身份 = "女士"
+                        }
+                        var pp1 = $("<p>").text(result[i].name +" "+shenfen +" "+ result[i].phone)
+                        var pp2 = $("<p>").text(result[i].address +result[i].houseNum);
+                        var selectAdd = $("<div>").addClass("addressinfo1 bode").append(span1).append(pp1).append(pp2);
+                        $("#alladd").append(selectAdd)
+                        /*显示用户默认地址*/
+                        if(result[i].def == 1){
+                            showAdd(result[i]);
+                        }
                     }
                 }
+
             })
 
             $(".modal-content").on("click",".addressinfo1",function () {
@@ -224,6 +233,7 @@
                         <i class="glyphicon glyphicon-map-marker" style="font-size: 30px;margin-right: 5px; color: #8c8c8c"></i>
                         <div class="addressinfo">
                             <span style="display: none" id="aid">12321</span>
+                            <p id="ap3" style="position: relative;top: -6px"><a href="${app}/front/address.jsp">点击添加地址</a></p>
                             <p id="ap1">张岩 先生 13253356287</p>
                             <p id="ap2">郑州大学工学院文化路97号 3号楼寝室</p>
                         </div>
@@ -243,23 +253,9 @@
                     </tr>
                     </thead>
                     <tbody>
-                   <%-- <tr>
-                        <td style="width: 72%;"><a>鹅肝寿司</a></td>
-                        <td class="td2">
-                            <span class="count1"> 12 </span>
-                        </td>
-                        <td class="td2">￥33</td>
-                    </tr>
-                    <tr>
-                        <td style="width: 68%;"><a >三明治</a></td>
-                        <td class="td2">
-                            <span class="count1"> 12 </span>
-                        </td>
-                        <td class="td2">￥33</td>
-                    </tr>--%>
                     <tr class="tfooter">
                         <td class="td2 ftd1" >
-                            配送费 <span>￥5</span>
+                            配送费 <span>${sessionScope.disfee}</span>
                         </td>
                         <td class="td2" colspan="2">总餐费 <span class="zongqian">￥${sessionScope.allPrice} </span></td>
                     </tr>

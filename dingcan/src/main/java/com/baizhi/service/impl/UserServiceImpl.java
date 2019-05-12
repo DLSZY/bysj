@@ -28,13 +28,13 @@ public class UserServiceImpl implements UserService {
         User user = new User();
         user.setUsername(username);
         List<User> users = userMapper.select(user);
-        User userdb = users.get(0);
         String salt = "";
 
         if (users.size() == 0){        //账号不存在或申请还未通过
             map.put("success",0);
             map.put("msg","该账号不存在");
         }else{
+            User userdb = users.get(0);
             if(userdb.getStatus() == 0){
                 map.put("success",0);
                 map.put("msg","该账号被冻结");

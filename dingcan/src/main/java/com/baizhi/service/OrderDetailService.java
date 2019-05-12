@@ -1,6 +1,7 @@
 package com.baizhi.service;
 
 import com.baizhi.entity.OrderDetail;
+import com.baizhi.entity.OrderMaster;
 
 import java.util.List;
 
@@ -11,4 +12,5 @@ public interface OrderDetailService {
      * 后台
      */
     List<OrderDetail> findByOrder(String oid);
+
 }

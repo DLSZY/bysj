@@ -9,6 +9,7 @@ import lombok.ToString;
 import javax.persistence.Id;
 import javax.persistence.Transient;
 import java.util.Date;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -35,6 +36,11 @@ public class OrderMaster {
 
     private Integer payStatus;
 
+    private String businessId;
+    @Transient
+    private String businessName;
     @Transient
     private String username;
+    @Transient
+    private List<OrderDetail> orderdetails;
 }

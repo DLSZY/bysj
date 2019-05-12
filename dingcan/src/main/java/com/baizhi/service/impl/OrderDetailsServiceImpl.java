@@ -2,6 +2,7 @@ package com.baizhi.service.impl;
 
 import com.baizhi.dao.OrderDetailMapper;
 import com.baizhi.entity.OrderDetail;
+import com.baizhi.entity.OrderMaster;
 import com.baizhi.service.OrderDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,4 +27,5 @@ public class OrderDetailsServiceImpl implements OrderDetailService {
         List<OrderDetail> details = detailMapper.findByOrder(oid);
         return details;
     }
+
 }

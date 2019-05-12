@@ -3,7 +3,7 @@
     <!doctype html>
     <html>
     <head>
-        <title>订单管理</title>
+        <title>本店订单管理</title>
         <%--引入资源--%>
         <%@include file="../basic/resources.jsp"%>
         <style>
@@ -33,7 +33,7 @@
                 });
 
                 $("#albumList").jqGrid({
-                    url:"${app}/orderMaster/findByPage",
+                    url:"${app}/orderMaster/findByBusinessPage",
                     colNames:["订单号","用户名","创建时间","订单金额","订单状态","操作"],
                     autowidth:true,
                     styleUI:"Bootstrap",
@@ -82,8 +82,7 @@
                         tbody.append(tr)
                     }
 
-                    $("#remark").text(result.master.userRemarks)
-                    $("#bname").text(result.business.name)
+                    $("#remark").text(result.remark)
                 })
                 /*查询地址*/
                 $.post("${app}/userAddress/findByOrder",{"oid":oid},function (result) {
@@ -108,11 +107,11 @@
 
     <div class="Wrapper">
         <%--导航--%>
-        <%@include file="backbasic/nav.jsp" %>
+        <%@include file="businessbasic/nav.jsp" %>
         <div class="container-fluid">
             <div class="row">
                 <%--左--%>
-                <%@include file="backbasic/left.jsp" %>
+                <%@include file="businessbasic/left.jsp" %>
                 <%--右--%>
                 <div class="col-sm-10" id="main">
                     <div class="page-header" style="margin-top: 0px">
@@ -140,14 +139,6 @@
                     </div>
                     <div class="modal-body">
                         <form role="form">
-                            <div class="form-group">
-                                <label>订单店铺</label>
-                                <div class="panel panel-default" style="border-radius: 0px">
-                                    <div class="panel-body" id="bname">
-                                        阿斯顿
-                                    </div>
-                                </div>
-                            </div>
                             <div class="form-group">
                                 <label>订单食品</label>
                                 <table class="table table-bordered" id="otable">

@@ -59,6 +59,8 @@ public interface BusinessService {
     void hide(String id);
     //修改商家状态
     void changeStatus(Business business);
+    //查询订单时查询商家
+    Business findByOrder(String oid);
 
 
 }

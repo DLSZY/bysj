@@ -1,10 +1,12 @@
 package com.baizhi.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+import javax.persistence.Transient;
 import java.util.Date;
 
 @Data
@@ -16,7 +18,7 @@ public class Comment {
 
     private String userId;
 
-    private String goodsId;
+    private String orderId;
 
     private String businessId;
 
@@ -28,5 +30,13 @@ public class Comment {
 
     private Integer distributeGrade;
 
+    @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
     private Date createDate;
+
+    @Transient
+    private String orderNum;
+    @Transient
+    private String username;
+    @Transient
+    private Double average;
 }
