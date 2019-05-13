@@ -27,7 +27,7 @@
                     <ul class="dropdown-menu" id="dropul">
                         <li><a href="${app}/front/information.jsp">个人中心</a></li>
                         <li><a href="${app}/front/address.jsp">我的地址</a></li>
-                        <li><a href="">安全设置</a></li>
+                        <li><a href="${app}/front/change.jsp">安全设置</a></li>
                         <li class="divider"></li>
                         <li><a href="javascript:exit()">退出登录</a></li>
                         <script>

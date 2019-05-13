@@ -256,12 +256,6 @@
                                 </div>
                             </div>
 
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">设为默认</label>
-                                <div class="col-sm-9">
-                                    <input type="checkbox" style="position: relative;top: 5px">
-                                </div>
-                            </div>
                         </form>
                     </div>
                     <div class="modal-footer">

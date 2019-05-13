@@ -47,5 +47,10 @@ public class CommentController {
         Comment byOrder = commentService.findByOrder(oid);
         return byOrder;
     }
+    @RequestMapping("findByBuss")
+    public List<Comment> findByBuss(String bid){
+        List<Comment> comments = commentService.findByBusi(bid);
+        return comments;
+    }
 
 }

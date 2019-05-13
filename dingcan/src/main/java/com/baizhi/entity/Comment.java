@@ -8,6 +8,7 @@ import lombok.ToString;
 
 import javax.persistence.Transient;
 import java.util.Date;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -30,7 +31,7 @@ public class Comment {
 
     private Integer distributeGrade;
 
-    @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:dd",timezone = "GMT+8")
     private Date createDate;
 
     @Transient
@@ -38,5 +39,9 @@ public class Comment {
     @Transient
     private String username;
     @Transient
+    private String imgUrl;
+    @Transient
     private Double average;
+    @Transient
+    private StringBuffer goodNames;
 }

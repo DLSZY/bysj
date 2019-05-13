@@ -49,7 +49,7 @@
                         {"name":"createDate"},
                         {
                             formatter:function (value, options, row) {
-                                var content = "<button class=\"btn btn-danger optionBtn\" onclick=\"showDetail(\'"+row.id+"\')\">查看详情</button>"
+                                var content = "<button class=\"btn btn-danger optionBtn\" onclick=\"showDetail(\'"+row.orderId+"\')\">查看详情</button>"
                                 return content;
                             }
                         }
@@ -59,12 +59,14 @@
 
             //弹出模态框
             function showDetail(oid) {
-                /*查询详情*/
-                $.post("${app}/orderMaster/findDetail",{"oid":oid},function (result) {
-
+                //判断订单是否评论
+                $.post("${app}/comment/findByOrder",{"oid":oid},function (result) {
+                    $("#kou").text(result.goodsGrade);
+                    $("#bao").text(result.packageGrade);
+                    $("#pei").text(result.distributeGrade);
+                    $("#comment").text(result.content);
+                    $("#myModal1").modal("show")
                 })
-
-                $("#myModal").modal("show")
             }
 
 
@@ -158,6 +160,45 @@
                 </div><!-- /.modal-content -->
             </div><!-- /.modal -->
         </div>
+            <%--查看评价--%>
+            <div class="modal fade" id="myModal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            <h4 class="modal-title">查看评价</h4>
+                        </div>
+                        <div class="modal-body">
+                            <form class="form-horizontal">
+                                <div class="form-group">
+                                    <div class="col-sm-4">
+                                        <label>口味:</label> <span id="kou">1</span>分
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <label>包装:</label> <span id="bao">1</span>分
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <label>配送:</label> <span id="pei">1</span>分
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-12">评价</label>
+                                    <div class="col-sm-12">
+                                        <div class="panel panel-default">
+                                            <div class="panel-body" id="comment">
+                                                Basic panel example
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                        </div>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal -->
+            </div>
 
 
         <%--页脚--%>

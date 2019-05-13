@@ -39,6 +39,13 @@ public class UserController {
         session.removeAttribute("userUsername");
         session.removeAttribute("userUserId");
     }
+    //修改密码
+    @RequestMapping("changePass")
+    public Map changePass(String oldPassword,String newPassword,HttpSession session){
+        String userId = (String) session.getAttribute("userId");
+        Map<String, Object> map = userService.changePass(oldPassword, newPassword, userId);
+        return map;
+    }
     @RequestMapping("findInfo")
     public User findInfo(HttpSession session){
         String id = (String) session.getAttribute("userId");

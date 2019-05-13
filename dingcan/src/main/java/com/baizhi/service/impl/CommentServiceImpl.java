@@ -1,16 +1,12 @@
 package com.baizhi.service.impl;
 
 import com.baizhi.dao.CommentMapper;
-import com.baizhi.entity.Comment;
-import com.baizhi.entity.OrderMaster;
-import com.baizhi.entity.PageBean;
-import com.baizhi.entity.User;
-import com.baizhi.service.CommentService;
-import com.baizhi.service.OrderMasterService;
-import com.baizhi.service.UserService;
+import com.baizhi.entity.*;
+import com.baizhi.service.*;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import lombok.experimental.var;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -31,6 +27,8 @@ public class CommentServiceImpl implements CommentService {
     private OrderMasterService masterService;
     @Autowired
     private UserService userService;
+    @Autowired
+    private OrderDetailService detailService;
 
     @Override
     @Transactional(propagation = Propagation.SUPPORTS)
@@ -60,6 +58,33 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
+    public List<Comment> findByBusi(String bid) {
+        Comment comment1 = new Comment();
+        comment1.setBusinessId(bid);
+        List<Comment> comments = commentMapper.select(comment1);
+        for (Comment comment : comments) {
+            //设置用户名
+            String uid = comment.getUserId();
+            User user = userService.findById(uid);
+            comment.setUsername(user.getUsername());
+            comment.setImgUrl(user.getImgUrl());
+            //设置综合分
+            Double allGrade = Double.valueOf(comment.getGoodsGrade()+comment.getPackageGrade()+comment.getDistributeGrade());
+            Double average = (double) Math.round(allGrade/3  * 10) / 10;
+            comment.setAverage(average);
+            //设置商品名
+            StringBuffer names = new StringBuffer();
+            String oid = comment.getOrderId();
+            List<OrderDetail> details = detailService.findByOrder(oid);
+            for (OrderDetail detail : details) {
+                names.append(detail.getGoodsName()+" ");
+            }
+            comment.setGoodNames(names);
+        }
+        return comments;
+    }
+
+    @Override
     public void add(Comment comment) {
         comment.setId(UUID.randomUUID().toString());
         comment.setCreateDate(new Date());
@@ -78,4 +103,6 @@ public class CommentServiceImpl implements CommentService {
             return comments.get(0);
         }
     }
+
+
 }

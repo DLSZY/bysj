@@ -21,4 +21,6 @@ public interface CommentService {
     void add (Comment comment);
     //根据订单查询评论
     Comment findByOrder(String oid);
+    //在商家页显示商家评论
+    List<Comment> findByBusi(String bid);
 }

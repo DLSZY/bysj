@@ -18,6 +18,8 @@ public interface UserService {
     void update(User user);
     //注册
     void register(User user);
+    //修改秘密啊
+    Map<String,Object> changePass(String oldPass,String newPass,String uid);
 
     /**
      * 后台

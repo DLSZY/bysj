@@ -36,6 +36,7 @@ public class OrderMasterServiceImpl implements OrderMasterService {
     public List<OrderMaster> findByUser(String uid) {
         OrderMaster orderMaster = new OrderMaster();
         orderMaster.setUserId(uid);
+        orderMaster.setStatus(1);
         List<OrderMaster> masters = masterMapper.select(orderMaster);
         //查询每个订单下的订单项
         for (OrderMaster master : masters) {

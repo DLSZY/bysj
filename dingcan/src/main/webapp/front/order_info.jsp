@@ -156,10 +156,9 @@
                         var pp2 = $("<p>").text(result[i].address +result[i].houseNum);
                         var selectAdd = $("<div>").addClass("addressinfo1 bode").append(span1).append(pp1).append(pp2);
                         $("#alladd").append(selectAdd)
+
                         /*显示用户默认地址*/
-                        if(result[i].def == 1){
-                            showAdd(result[i]);
-                        }
+                        showAdd(result[i]);
                     }
                 }
 

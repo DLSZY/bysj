@@ -83,6 +83,28 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public Map<String,Object> changePass(String oldPass, String newPass, String uid) {
+        Map<String,Object> map = new HashMap<>();
+        User user = userMapper.selectByPrimaryKey(uid);
+        System.out.println(user+"====");
+        System.out.println(user.getPassword());
+        System.out.println(oldPass);
+        oldPass = MD5Utils.getPassword(oldPass+user.getSalt());
+
+        if(user.getPassword().equals(oldPass)){
+            user.setPassword(MD5Utils.getPassword(newPass+user.getSalt()));
+            userMapper.updateByPrimaryKeySelective(user);
+
+            map.put("msg","修改成功~~");
+            map.put("success",true);
+        }else{
+            map.put("msg","原密码错误！");
+            map.put("success",false);
+        }
+        return map;
+    }
+
+    @Override
     public List<User> findAll() {
         List<User> users = userMapper.selectAll();
         return users;

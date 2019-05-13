@@ -76,7 +76,6 @@
                 $("#uaddr").text(result.address+result.houseNum)
             })
             $("#del").on("click",function () {
-                var oid = $(".oid").attr("id");
                 var b = window.confirm("是否要删除此订单");
                 if(b){
                     $.post("${app}/orderMaster/del",{"oid":oid},function (result) {

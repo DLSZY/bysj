@@ -29,6 +29,22 @@
         #forget:hover{
             text-decoration: none;
         }
+        .color{
+            color: rgb(19,209,190);
+        }
+        .color:hover{
+            color: rgb(115,225,206) !important;
+        }
+        .btn-primary{
+            border-color: rgb(19,209,190);
+            background-color: rgb(19,209,190);
+            line-height: 25px;
+        }
+        .btn-primary:hover,
+        .btn-primary:active{
+            border-color: rgb(115,225,206) !important;
+            background-color: rgb(115,225,206) !important;
+        }
     </style>
     <script>
         $(function () {
@@ -80,7 +96,7 @@
                             <div class="form-group">
                                 <div class="col-sm-10 col-sm-offset-1">
                                     <input type="text" class="form-control" name="password" placeholder="请输入密码" style="padding-right: 90px">
-                                    <a href="updatepass.jsp" id="forget">忘记密码?</a>
+                                    <a href="updatepass.jsp" id="forget" class="color">忘记密码?</a>
                                 </div>
                             </div>
 
@@ -103,7 +119,7 @@
                         <form class="form-horizontal" role="form">
                                 <div class="col-sm-offset-1 col-sm-10">
                                     <span style="color: #878d99;">没有账号？</span>
-                                    <a href="#myModal" data-toggle="modal">去注册</a>
+                                    <a href="./register.jsp" data-toggle="modal" class="color">去注册</a>
                                 </div>
                         </form>
                     </div>

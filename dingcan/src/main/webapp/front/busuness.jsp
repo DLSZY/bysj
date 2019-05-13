@@ -157,6 +157,67 @@
             background-color: rgb(19,209,190) !important;
             line-height: 14px;
         }
+        .commentlist {
+            padding: 0 20px 20px 0;
+        }
+        .commentitem {
+            padding: 20px 0;
+            margin-left: 130px;
+            position: relative;
+            border-bottom: 1px solid #eee;
+            min-height: 100px;
+        }
+        .preimg {
+            position: absolute;
+            left: -130px;
+            width: 130px;
+            text-align: center;
+        }
+        ul{
+            list-style: none;
+        }
+        .preimg img {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            position: relative;
+            top: 10px;
+        }
+        .commentbox {
+            background-color: #fff;
+            border: 1px solid #eee;
+        }
+        .commentitem-username {
+            margin-bottom: 15px;
+            font-weight: 400;
+            display: block;
+            font-size: 14px;
+        }
+        .comment-main {
+            padding-top: 15px;
+            padding-bottom: 15px;
+            border-top: 1px solid #f7f7f7;
+        }
+        .comment-date {
+            position: absolute;
+            top: 28px;
+            right: 0;
+            font-size: 12px;
+            color: #999;
+        }
+        .order-main {
+            margin-bottom: 20px;
+        }
+        .grade {
+            vertical-align: middle;
+            color: #999;
+        }
+        .food{
+            color: #eb6643;
+            margin-right: 10px;
+            line-height: normal;
+            vertical-align: middle;
+        }
     </style>
     <script>
         $(function () {
@@ -164,7 +225,7 @@
             var bid = "${param.bid}"
             //查询当前商家信息
             $.post("${app}/business/findById",{"bid":bid},function (result) {
-                console.log(result);
+                //console.log(result);
                 $("#bname").text(result.name);
                 $("#blogo").attr("src","/upload/"+result.imgUrl)
                 $("#starPrice").text(result.startPrice)
@@ -174,7 +235,7 @@
 
             //查询当前商家满减信息
             $.post("${app}/reduce/findByBusiness",{"bid":bid},function (result) {
-                console.log(result);
+                //console.log(result);
                 var li = $("#jian");
                 for(var i = 0; i<result.length; i++){
                     var span = $("<span>").text(result[i].achieveMoney+"减"+result[i].reduceMoney);
@@ -190,7 +251,7 @@
                     var a = $("<a>").text(result[i].name).attr({"href":"#"+result[i].id})
                     cate1.append(a);            //添加本店分类
 
-                    console.log(result[i])
+                    //console.log(result[i])
                     var foodmain = $("<div>").addClass("container-fluid foodmain");
                     var aa = $("<a>").attr({"name":result[i].id});
                     var goodtitle = $("<h3>").addClass("goodtitle").text(result[i].name).append(aa);
@@ -213,6 +274,31 @@
                     }
                     var home = $("#home").append(foodmain);
                 }
+            })
+            $("#commentli").on("click",function () {
+                $.post("${app}/comment/findByBuss",{"bid":bid},function (result) {
+                    $("#commentlist").empty();
+                    console.log(result);
+                    for(var i = 0; i<result.length; i++){
+                        var comment =  result[i];
+                        var img = $("<img>").attr({"src":"../upload/"+comment.imgUrl})
+                        var prespan = $("<span>").addClass("preimg").append(img);
+
+                        var username = $("<h4>").addClass("commentitem-username").text(comment.username);
+                        var span1 = $("<span>").addClass("food").text(comment.goodNames);
+                        var span2 = $("<span>").addClass("grade").text(comment.goodsGrade+"分")
+                        var div1 = $("<div>").addClass("order-main").append(span1).append(span2);
+                        var span3 = $("<span>").text(comment.content);
+                        var div2 = $("<div>").addClass("comment-main").append(span3);
+                        var span4 = $("<span>").addClass("comment-date").text(comment.createDate);
+                        var div = $("<div>").addClass("commentitem-content").append(username).append(div1).append(div2).append(span4);
+
+                        var li = $("<li>").addClass("commentitem").append(prespan).append(div);
+                        $("#commentlist").append(li);
+                    }
+
+
+                })
             })
         })
         function addCart(goodsId,businessId,goodsName) {
@@ -294,7 +380,7 @@
                         所有商品
                     </a>
                 </li>
-                <li><a href="#ios" data-toggle="tab">评价</a></li>
+                <li><a href="#ios" data-toggle="tab" id="commentli">评价</a></li>
                 <li id="jian">
                    <%-- <span>40减5</span>
                     <span>50减10</span>--%>
@@ -410,11 +496,29 @@
                 </div>--%>
             </div>
 
-
             <%--right--%>
-            <div class="tab-pane fade" id="ios">
-                <p>iOS 是一个由苹果公司开发和发布的手机操作系统。最初是于 2007 年首次发布 iPhone、iPod Touch 和 Apple
-                    TV。iOS 派生自 OS X，它们共享 Darwin 基础。OS X 操作系统是用在苹果电脑上，iOS 是苹果的移动版本。</p>
+            <div class="tab-pane fade commentbox " id="ios">
+                <ul class="commentlist" id="commentlist">
+                    <%--<li class="commentitem">
+                        <span class="preimg">
+                            <img src="../statics/img/header.png" alt="">
+                        </span>
+                        <div class="commentitem-content" >
+                            <h4 class="commentitem-username">xiaohei</h4>
+                            <div class="order-main" >
+                                <span class="food" >海带寿司</span>
+                                <span class="grade">2分</span>
+                            </div>
+                            <div class="comment-main">
+                                <span>好吃</span>
+                            </div>
+                            <span class="comment-date">
+                                2019-05-12 12:00:00
+                            </span>
+                        </div>
+                    </li>--%>
+
+                </ul>
             </div>
         </div>
 
