@@ -218,9 +218,81 @@
             line-height: normal;
             vertical-align: middle;
         }
+        .iteminfo-imagegroup  {
+            white-space: normal;
+            display: inline-block;
+            vertical-align: top;
+            margin-right: 30px;
+            width: 360px;
+            overflow: auto;
+        }
+        .iteminfo-info {
+            display: inline-block;
+            vertical-align: top;
+            white-space: normal;
+            width: 430px;
+        }
+        .iteminfo-imagegroup .mainimage {
+            width: 360px;
+            height: 360px;
+        }
+        .iteminfo-info h5 {
+            font-size: 22px;
+            color: #333;
+            margin-bottom: .5em;
+        }
+        .iteminfo-info .description {
+             padding: 5px 0;
+             border: 1px dashed #ccc;
+             border-left: 0;
+             border-right: 0;
+             color: #aaa;
+             line-height: 1.8em;
+             font-size: 13px;
+         }
+        .iteminfo-cartitem {
+            position: relative;
+            margin: 20px 0 30px;
+            height: 35px;
+        }
+        .iteminfo-price {
+            color: #f17530;
+            line-height: 1;
+            padding-top: 5px;
+            display: inline-block;
+        }
+        .iteminfo-price .price1 {
+            font-size: 28px;
+            font-weight: 800;
+        }
+        .yen {
+            font-size: 16px;
+        }
+        .shop-btn{
+            background-color: rgb(19,209,190) !important;
+            border-color: rgb(19,209,190) !important;
+            border-radius: 20px;
+        }
+
+        .shop-btn:hover,
+        .shop-btn:active{
+            border-color: rgb(115,225,206) !important;
+            background-color: rgb(115,225,206) !important;
+        }
+        #alert{
+            position: fixed;
+            width: 350px;
+            left: 560px;
+            top: 40px;
+            z-index: 10;
+            padding: 20px 30px;
+        }
     </style>
     <script>
         $(function () {
+
+            $("#alert").hide();
+
             $('#collapseTwo').collapse('show')
             var bid = "${param.bid}"
             //查询当前商家信息
@@ -257,10 +329,11 @@
                     var goodtitle = $("<h3>").addClass("goodtitle").text(result[i].name).append(aa);
                     foodmain.append(goodtitle);     //插入每组分类标题
 
+                    //遍历添加每组分类下食物
                     var goodss = result[i].goodss;
-                    for(var j = 0;j<goodss.length;j++){     //遍历添加每组分类下食物
+                    for(var j = 0;j<goodss.length;j++){
                         var img =  $("<img>").attr({"src":"../upload/goodsImg/"+goodss[j].imgUrl}).css({"width":"100px","height":"100px"});
-                        var a1 = $("<a>").attr({"href":"#"}).append(img);
+                        var a1 = $("<a>").attr({"href":"javascript:showModal('"+goodss[j].id+"','"+bid+"','"+goodss[j].name+"','"+goodss[j].price+"','"+goodss[j].description+"','"+goodss[j].imgUrl+"')"}).append(img);
                         var c1 = $("<div>").addClass("c1").append(a1);
 
                         var h3 = $("<h3>").text(goodss[j].name);
@@ -275,6 +348,7 @@
                     var home = $("#home").append(foodmain);
                 }
             })
+
             $("#commentli").on("click",function () {
                 $.post("${app}/comment/findByBuss",{"bid":bid},function (result) {
                     $("#commentlist").empty();
@@ -300,9 +374,26 @@
 
                 })
             })
+
         })
+        //加入购物车
         function addCart(goodsId,businessId,goodsName) {
             $.post("${app}/cart/add",{"goodsId":goodsId,"businessId":businessId,"goodsName":goodsName})
+            $("#alert").show(500).delay(300).hide(500);
+        }
+
+        function addCart1(goodsId,businessId,goodsName) {
+            $.post("${app}/cart/add",{"goodsId":goodsId,"businessId":businessId,"goodsName":goodsName})
+            $("#myModal").modal("hide")
+        }
+        //显示模态框
+        function showModal(goodsId,businessId,goodsName,price,description,imgUrl) {
+            $("#fhead").text(goodsName)
+            $("#fprice").text(price)
+            $("#desc").text(description)
+            $("#myModal").modal('show');
+            $("#fimg").attr({"src":"../upload/goodsImg/"+imgUrl})
+            $("#addCartBtn1").attr({"href":"javascript:addCart1('"+goodsId+"','"+businessId+"','"+goodsName+"')"});
         }
     </script>
 </head>
@@ -345,10 +436,16 @@
         </div>
     </div>
 </nav>
+
+<div class="alert alert-success" id="alert">
+    添加购物车成功~~
+</div>
+
 <%--main--%>
 <div id="main">
     <%--shopheader--%>
     <div class="shop">
+
         <div id="shop-content" class="container" style="padding-left: 0px">
             <div class="col-sm-5" style="padding: 20px 0">
                 <img src="../statics/img/cs.png" id="blogo" class="img-circle" width="95px" style="border: 4px solid rgba(255,255,255,.3);vertical-align: middle;margin-right: 15px">
@@ -529,6 +626,33 @@
                     <p id="notice"></p>
                 </div>
             </div>
+        </div>
+
+        <!-- 模态框（Modal） -->
+        <div class="modal fade bs-example-modal-lg"  id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg" >
+                <div class="modal-content">
+                    <div class="modal-body" style="padding: 30px">
+                        <div class="iteminfo-imagegroup">
+                            <img src="../statics/img/f1.jpeg" alt="" class="mainimage" id="fimg">
+                        </div>
+                        <div class="iteminfo-info" >
+                            <h5 id="fhead">鳗鱼寿司2粒</h5>
+                            <p class="description ng-binding" id="desc">每份2粒，寿司饭12-14g 主要原料: 鳗鱼</p>
+                            <div class="iteminfo-cartitem">
+                                <div class="iteminfo-price">
+                                    <span class="price1">
+                                        <span class="yen">￥</span><span class="price1 ng-binding" id="fprice">12</span>
+                                    </span>
+                                </div>
+                                <a class="btn btn-primary pull-right shop-btn" id="addCartBtn1">
+                                    加入购物车
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal -->
         </div>
 
     </div>

@@ -49,7 +49,7 @@ public class UserServiceImpl implements UserService {
                     //登录成功
                     map.put("success",1);
                     session.setAttribute("userId",users1.get(0).getId());
-                    session.setAttribute("userUsername",users1.get(0).getUsername());
+                    session.setAttribute("username",users1.get(0).getUsername());
                 }
             }
         }

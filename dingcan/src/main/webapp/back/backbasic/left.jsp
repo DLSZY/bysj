@@ -36,13 +36,13 @@
             <div class="panel-heading">
                 <h4 class="panel-title">
                     <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
-                        商品模块
+                        食品模块
                     </a>
                 </h4>
             </div>
             <div id="collapseTwo" class="panel-collapse collapse">
                 <div class="panel-body">
-                    <a href="./goods.jsp" class="list-group-item">商品管理</a>
+                    <a href="./goods.jsp" class="list-group-item">食品管理</a>
                 </div>
             </div>
         </div>

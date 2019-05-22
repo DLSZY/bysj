@@ -54,7 +54,7 @@
         #cate2 a:focus{
             text-decoration: none;
             color:white;
-            background-color: rgb(255,150,0);
+            background-color:rgb(19,209,190);
         }
         .rstblock{
             width: 25%;
@@ -189,8 +189,11 @@
     /*方法*/
         //查询所有商家
         function showAll(){
-            $.post("${app}/business/findAllNormal",function (result) {
-                showBusiness(result)
+            $.post("${app}/business/findAllNormal",function (result,index,xhr) {
+                showBusiness(result);
+                console.log(xhr.getAllResponseHeaders());
+
+                if(xhr.getResponseHeader("isLogin") ){window.location.href = "${app}/business/login.jsp"}
             })
         }
         //根据一级类别查询商家

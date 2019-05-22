@@ -7,7 +7,7 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>我的购物车</title>
+    <title>我的订单</title>
     <%--引入资源--%>
     <%@include file="../basic/resources.jsp" %>
     <link rel="stylesheet" href="frontbasic/basic.css">
@@ -90,11 +90,19 @@
                         var td2 = $("<td>").addClass("td2").append(div1);
                         var td3 = $("<td>").addClass("td2 ltd").text("￥"+order.orderAmount);
                         var tr = $("<tr>").append(td1).append(td2).append(td3).attr({"id":order.id});
-                        $("#tbody").append(tr);
+
+                        if(order.isComment == 0){
+                            $("#tbody1").append(tr);
+                        }else{
+                            $("#tbody").append(tr);
+                        }
                     }
                 }
             })
             $("#tbody").on("click","tr",function () {
+                window.location.href="${app}/front/order_detail.jsp?oid="+this.id
+            })
+            $("#tbody1").on("click","tr",function () {
                 window.location.href="${app}/front/order_detail.jsp?oid="+this.id
             })
         })
@@ -114,7 +122,7 @@
             <thead>
             <tr>
                 <th colspan="3">
-                    <h5 style="font-size: 1.2em;">我的订单</h5>
+                    <h5 style="font-size: 1.2em;">已评价</h5>
                 </th>
             </tr>
             </thead>
@@ -134,6 +142,33 @@
                     </td>
                     <td class="td2 ltd">￥33</td>
                 </tr>--%>
+
+            </tbody>
+        </table>
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th colspan="3">
+                    <h5 style="font-size: 1.2em;">未评价</h5>
+                </th>
+            </tr>
+            </thead>
+            <tbody id="tbody1">
+            <%--  <tr>
+                  <td class="pricolor">鹅肝寿司鹅肝寿司鹅肝寿司鹅肝寿司鹅肝寿司</td>
+                  <td class="td2">鹅肝寿司+三明治</td>
+                  <td class="td2">￥33</td>
+
+              </tr>--%>
+            <%--<tr>
+                <td class="pricolor">鹅肝寿司</td>
+                <td class="td2">
+                    <div class="tdtext">
+                        鹅肝寿司+三明治鹅肝寿司+三明治鹅肝寿司+三明治鹅肝寿司+三明治鹅肝寿司+三明治鹅肝寿司+三明治
+                    </div>
+                </td>
+                <td class="td2 ltd">￥33</td>
+            </tr>--%>
 
             </tbody>
         </table>

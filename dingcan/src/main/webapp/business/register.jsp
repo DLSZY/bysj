@@ -57,9 +57,11 @@
             //提交注册表单
             $("#register").on("click",function () {
                 $.post("${app}/business/register",$("#businessForm").serialize(),function (result) {
-
+                    alert("提交完成~~等待管理员审核")
+                    window.location.href="${app}/business/login.jsp";
                 })
             })
+
 
 
         })

@@ -24,11 +24,15 @@
 
 
             $("#albumList").jqGrid({
+                loadError:function(){   //请求失败时，触发事件
+                    window.location.href="${app}/business/login.jsp"
+                },
+
                 url: "${app}/cateInStore/findAll",
                 colNames: ["类别id", "类别名", "操作"],
                 autowidth: true,
                 styleUI: "Bootstrap",
-                rowNum: 2,
+                rowNum: 5,
                 height: "100%",
                 datatype: "json",
                 viewrecords: true,//是否显示总记录数
@@ -42,16 +46,18 @@
                             return content;
                         }
                     }
-                ]
+                ],
             })
         })
 
         //添加类别
         function addCate() {
             var name = $("#name").val();
-            $.post("${app}/cateInStore/add", {"name": name}, function () {
+            $.post("${app}/cateInStore/add", {"name": name}, function (result,index,xhr) {
                 $("#albumList").trigger("reloadGrid");
                 $("#myModal").modal("hide");
+                //判断是否登录
+                if(xhr.getResponseHeader("isLogin") ){window.location.href = "${app}/front/login.jsp"}
             })
         }
 

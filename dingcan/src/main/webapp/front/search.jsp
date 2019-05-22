@@ -92,9 +92,20 @@
             text-decoration: none;
             color: #333;
         }
+        #alert{
+            position: fixed;
+            width: 350px;
+            left: 560px;
+            top: 80px;
+            z-index: 10;
+            padding: 20px 30px;
+        }
     </style>
     <script>
         $(function () {
+
+            $("#alert").hide()
+
             var item = "${param.item}"
             var cate = "${param.cate}"
             $.post("${app}/business/findBySearch",{"item":item,"cate":cate},function (result) {
@@ -115,7 +126,7 @@
                         console.log(goodss[j]);
                         var td1 = $("<td>").css({"width":"68%"}).text(goodss[j].name);
                         var td2 = $("<td>").addClass("td2").text("￥"+goodss[j].price);
-                        var a = $("<a>").addClass("btn btn-primary addCart").text("添加购物车");
+                        var a = $("<a>").addClass("btn btn-primary addCart").text("添加购物车").attr({"href":"javascript:addCart('"+goodss[j].id+"','"+result[i].id+"','"+goodss[j].name+"')"});
                         var td3 = $("<td>").addClass("td2").append(a);
                         var td4 = $("<td>").text("月售"+goodss [j].saleCount+"份");
                         var tr2 = $("<tr>").append(td1).append(td2).append(td3).append(td4);
@@ -143,11 +154,21 @@
                 }
             })
         })
+
+        //加入购物车
+        function addCart(goodsId,businessId,goodsName) {
+            $.post("${app}/cart/add",{"goodsId":goodsId,"businessId":businessId,"goodsName":goodsName})
+            $("#alert").show(500).delay(300).hide(500);
+        }
     </script>
 </head>
 <body>
 <%--header--%>
 <%@include file="frontbasic/header.jsp" %>
+
+<div class="alert alert-success" id="alert">
+    添加购物车成功~~
+</div>
 
 <div id="main">
     <%--搜索--%>

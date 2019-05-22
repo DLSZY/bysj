@@ -36,8 +36,8 @@ public class UserController {
     //退出
     @RequestMapping("exit")
     public void exit(HttpSession session){
-        session.removeAttribute("userUsername");
-        session.removeAttribute("userUserId");
+        session.removeAttribute("username");
+        session.removeAttribute("userId");
     }
     //修改密码
     @RequestMapping("changePass")

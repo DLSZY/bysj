@@ -39,11 +39,14 @@
             })
 
             $("#albumList").jqGrid({
+                loadError:function(){   //请求失败时，触发事件
+                    window.location.href="${app}/business/login.jsp"
+                },
                 url: "${app}/goods/findFood",
                 colNames: ["食品名", "食品价格","本店类别","月销售量","操作"],
                 autowidth: true,
                 styleUI: "Bootstrap",
-                rowNum: 2,
+                rowNum: 6,
                 height: "100%",
                 datatype: "json",
                 viewrecords: true,//是否显示总记录数

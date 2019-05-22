@@ -27,10 +27,6 @@ public class CommentController {
         PageBean pageBean= commentService.findByBusiness(bid,page,rows);
         return pageBean;
     }
-    @RequestMapping("findById")
-    public Map<String,Object> findById(String cid){
-        return null;
-    }
 
     /**
      * 用户

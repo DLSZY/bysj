@@ -24,6 +24,9 @@
 
 
             $("#albumList").jqGrid({
+                loadError:function(){   //请求失败时，触发事件
+                    window.location.href="${app}/business/login.jsp"
+                },
                 url: "${app}/reduce/findAll",
                 colNames: ["所达金额", "所减少金额", "操作"],
                 autowidth: true,

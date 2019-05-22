@@ -24,7 +24,7 @@
                 colNames:["用户名","密码","店铺名","省份编号","城市编号","区县编号","详细地址","手机号","申请时间","操作"],
                 autowidth:true,
                 styleUI:"Bootstrap",
-                rowNum:2,
+                rowNum:6,
                 height:"100%",
                 datatype:"json",
                 viewrecords:true,//是否显示总记录数

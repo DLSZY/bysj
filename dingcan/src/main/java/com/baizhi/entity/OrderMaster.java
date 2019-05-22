@@ -34,7 +34,7 @@ public class OrderMaster {
 
     private String userRemarks;
 
-    private Integer payStatus;
+    private Integer isComment;
 
     private String businessId;
     @Transient

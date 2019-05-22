@@ -30,6 +30,7 @@ public class CommentServiceImpl implements CommentService {
     @Autowired
     private OrderDetailService detailService;
 
+
     @Override
     @Transactional(propagation = Propagation.SUPPORTS)
     public PageBean findByBusiness(String bid,Integer pageNow,Integer pageCount) {
@@ -88,7 +89,14 @@ public class CommentServiceImpl implements CommentService {
     public void add(Comment comment) {
         comment.setId(UUID.randomUUID().toString());
         comment.setCreateDate(new Date());
+        //添加评论
         commentMapper.insert(comment);
+        //修改订单信息为已评论状态
+        String orderId = comment.getOrderId();
+        OrderMaster orderMaster = new OrderMaster();
+        orderMaster.setId(orderId);
+        orderMaster.setIsComment(1);
+        masterService.changeIsComment(orderMaster);
     }
 
     @Override

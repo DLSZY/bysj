@@ -33,6 +33,9 @@
                 });
 
                 $("#albumList").jqGrid({
+                    loadError:function(){   //请求失败时，触发事件
+                        window.location.href="${app}/business/login.jsp"
+                    },
                     url:"${app}/comment/findByBusiness",
                     colNames:["订单号","用户名","综合分","评论时间","操作"],
                     autowidth:true,

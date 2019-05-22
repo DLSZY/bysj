@@ -27,11 +27,20 @@
             padding: 20px 18px;
             border-radius: 5px;
         }
-        .bode{
+
+        .bode1{
             border: 1px solid rgb(19,209,190);
             border-radius: 0px;
             margin-bottom: 5px;
         }
+        .bode{
+            border: 1px solid gray;
+            border-radius: 0px;
+            margin-bottom: 5px;
+        }
+        .bode:hover{
+              border: 1px solid rgb(19,209,190);
+          }
         .addressinfo{
             display: inline-block;
             padding-left: 10px;
@@ -141,6 +150,7 @@
                 if(result.length == 0){
                     $("#ap2").hide()
                     $("#ap1").hide()
+                    $("#otheraddress").hide();
                     $("#sureOrder").addClass("disabled");
                 }else{
                     $("#ap3").hide()
@@ -227,7 +237,7 @@
         <form role="form">
             <div class="form-group">
                 <label class="l">收货地址</label>
-                <div class="panel panel-default bode">
+                <div class="panel panel-default bode1">
                     <div class="panel-body">
                         <i class="glyphicon glyphicon-map-marker" style="font-size: 30px;margin-right: 5px; color: #8c8c8c"></i>
                         <div class="addressinfo">

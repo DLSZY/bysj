@@ -16,6 +16,8 @@ public interface OrderMasterService {
     List<OrderMaster> findByUser(String uid);
     //删除订单（改变订单状态）
     void del(String oid);
+    //修改订单为以评论状态
+    void changeIsComment(OrderMaster orderMaster);
 
     /**
      * 管理员

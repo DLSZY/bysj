@@ -60,6 +60,11 @@ public class OrderMasterServiceImpl implements OrderMasterService {
     }
 
     @Override
+    public void changeIsComment(OrderMaster orderMaster) {
+        masterMapper.updateByPrimaryKeySelective(orderMaster);
+    }
+
+    @Override
     public PageBean findByPage(Integer pageNow,Integer pageCount,String bid) {
         PageHelper.startPage(pageNow,pageCount);
         List<OrderMaster> orderMasters = new ArrayList<>();

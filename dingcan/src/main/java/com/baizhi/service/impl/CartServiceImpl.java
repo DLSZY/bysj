@@ -39,7 +39,7 @@ public class CartServiceImpl implements CartService {
 
     @Override
     @Transactional(propagation = Propagation.SUPPORTS)
-    public List<Cart> findCartByUser(String uid) {
+        public List<Cart> findCartByUser(String uid) {
         List<ShopCart> carts = cartMapper.findByUser(uid);
         Map <String,List> map = new HashMap<>();
         for (ShopCart cart : carts) {

@@ -82,7 +82,7 @@
                         tbody.append(tr)
                     }
 
-                    $("#remark").text(result.remark)
+                    $("#remark").text(result.master.userRemarks)
                 })
                 /*查询地址*/
                 $.post("${app}/userAddress/findByOrder",{"oid":oid},function (result) {

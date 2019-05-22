@@ -51,7 +51,6 @@ public class OrderMasterController {
         Business business = businessService.findByOrder(oid);
         map.put("business",business);
 
-
         return map;
     }
 
@@ -94,7 +93,7 @@ public class OrderMasterController {
         orderMaster.setOrderNum(new Date().getTime()+"");
         String oid = UUID.randomUUID().toString();
         orderMaster.setId(oid);
-        orderMaster.setPayStatus(1);
+        //orderMaster.setPayStatus(1);
         orderMaster.setStatus(1);
         orderMaster.setUserRemarks(userRemarks);
         orderMaster.setBusinessId(bid);

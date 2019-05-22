@@ -22,7 +22,7 @@
             <ul class="nav navbar-nav navbar-right navul">
                 <li class="dropdown" style="height: 100%">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        ${sessionScope.userUsername} <b class="caret"></b>
+                        ${sessionScope.username} <b class="caret"></b>
                     </a>
                     <ul class="dropdown-menu" id="dropul">
                         <li><a href="${app}/front/information.jsp">个人中心</a></li>

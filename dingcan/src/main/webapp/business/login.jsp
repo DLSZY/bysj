@@ -49,16 +49,16 @@
             })
 
             $("#checkCode").on("click",function () {
-                /*$.post("${app}/business/checkPhoneCode",$("#codeForm").serialize(),function (result) {
+                $.post("${app}/business/checkPhoneCode",$("#codeForm").serialize(),function (result) {
                     console.log(result);
                     if (result == "0"){
                         alert("验证码错误")
                     }else{
                         window.location.href = "${app}/business/register.jsp?phone="+$("#phone").val();
                     }
-                })*/
-                //测试
-                window.location.href = "${app}/business/register.jsp?phone="+$("#phone").val();
+                })
+               /* //测试
+                window.location.href = "${app}/business/register.jsp?phone="+$("#phone").val();*/
             })
         })
     </script>
@@ -136,7 +136,7 @@
                                     </div>
                                     <div class="form-group">
                                         <div class="col-sm-12">
-                                            <input type="text" class="form-control" id="code" name="code" placeholder="请输入验证码">
+                                            <input type="text" class="form-control" maxlength="4" id="code" name="code" placeholder="请输入验证码">
                                         </div>
                                     </div>
 

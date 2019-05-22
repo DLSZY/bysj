@@ -124,12 +124,23 @@
             font-weight: bold;
             color: #f74342;
         }
+        .qs1{
+            margin-left: 10px;
+            font-size: 13px;
+        }
+        .qs1 span{
+            color: #f74342;
+        }
+        .fname:hover{
+            text-decoration: none;
+            color: #337ab7;;
+        }
 
     </style>
     <script>
         $(function () {
             getCart()
-            //点击添加按钮
+            //点击添加数量按钮
             $("#list").on("click",".addc",function () {
                 //购物车商品数量
                 var cspan = $(this).prev();
@@ -175,6 +186,7 @@
                     }
                 }
                 //减去满减
+                var allPrice1 = allPrice;
                 allPrice-=shao;
 
                 //加上配送费
@@ -183,6 +195,21 @@
                 allPrice+=fee;
 
                 aspan.text(allPrice);
+
+        //判断是否到起送金额
+                var suan = table.find(".suan");
+                console.log(suan);
+                var startPrice = table.find(".qspan2").text();
+                var businessId = table.find("h5").attr("id");
+                console.log(allPrice1);
+                console.log(startPrice);
+                if(allPrice1 < startPrice){
+                    var cha = startPrice - allPrice1;
+                    suan.text("还差"+cha+"起送").attr({"href":"javascript:void(0)","disabled":true});
+                }else{
+                    suan.text("去结算").attr({"href":"javascript:order('"+businessId+"')","disabled":false});
+                }
+
                 //修改数据库
                 addCount(this.id)
             })
@@ -242,6 +269,7 @@
                         }
                     }
                 }
+                var allPrice1 = allPrice;
                 allPrice-=shao; //减去满减
 
                 //加上配送费
@@ -250,6 +278,20 @@
                 allPrice+=fee;
 
                 aspan.text(allPrice);
+            //判断是否到起送金额
+                var suan = table.find(".suan");
+                console.log(suan);
+                var startPrice = table.find(".qspan2").text();
+                var businessId = table.find("h5").attr("id");
+                console.log(allPrice1);
+                console.log(startPrice);
+                if(allPrice1 < startPrice){
+                    var cha = startPrice - allPrice1;
+                    suan.text("还差"+cha+"起送").attr({"href":"javascript:void(0)","disabled":true});
+                }else{
+                    suan.text("去结算").attr({"href":"javascript:order('"+businessId+"')","disabled":false});
+                }
+
                 //修改数据库
                 reduceCount(this.id)
             })
@@ -275,7 +317,10 @@
                 console.log(result);
                 for(var i = 0; i<result.length; i++){
                     //thead 1
-                    var h5 = $("<h5>").css({"font-size":"1.2em"}).text(result[i].businessName).attr({"id":result[i].businessId});
+                    var qspan1 = $("<span>").text("￥");
+                    var qspan2 = $("<span>").text(result[i].startPrice).addClass("qspan2");
+                    var qspan = $("<span>").addClass("qs1").text("起送").append(qspan1).append(qspan2);
+                    var h5 = $("<h5>").css({"font-size":"1.2em"}).text(result[i].businessName).attr({"id":result[i].businessId}).append(qspan);
                     //var th1 = $("<th>").attr({"colspan":"2"}).append(h5).css({"width":"60%"});
                     var th1 = $("<th>").append(h5);
 
@@ -285,7 +330,7 @@
                     var items = result[i].items;
                     for(var j = 0; j<items.length; j++){
                         var item = items[j];
-                        var aname = $("<a>").text(item.goodsName);
+                        var aname = $("<a>").text(item.goodsName).addClass("fname");
                         var td1 = $("<td>").css({"width":"72%"}).append(aname);
                         //var td2 = $("<td>").text("x"+item.goodsCount);
                         var price = item.goodsPrice*item.goodsCount;
@@ -323,12 +368,20 @@
                     var span11 = $("<span>").text(dfee).addClass("fee");
                     var ftd1 = $("<td>").addClass("td2 ftd1").text("配送费").append(span12).append(span11);
 
+                    var allPrice1 = allPrice;
                     allPrice-=shao; //减去满减
                     allPrice+=dfee//加上配送费
                     var aspan = $("<span>").text(allPrice).addClass("aspan");
                     var ftd3 = $("<td>").addClass("td2 zongqian").text("￥").append(aspan);
                     //var suana = $("<a>").addClass("btn btn-primary suan").text("去结算").attr({"href":"${app}/front/order_info.jsp?bid="+result[i].businessId});
-                    var suana = $("<a>").addClass("btn btn-primary suan").text("去结算").attr({"href":"javascript:order('"+result[i].businessId+"')"});
+                    var startPrice = result[i].startPrice;
+                    var suana;
+                    if(allPrice1 < startPrice){
+                        var cha = startPrice - allPrice1;
+                        suana = $("<a>").addClass("btn btn-primary suan").text("还差"+cha+"起送").attr({"href":"javascript:void(0)","disabled":true});
+                    }else{
+                        suana = $("<a>").addClass("btn btn-primary suan").text("去结算").attr({"href":"javascript:order('"+result[i].businessId+"')"});
+                    }
                     var ftd4 = $("<td>").addClass("td2").append(suana)
 
                     var tr1 = $("<tr>").append(th1).append(th2);
@@ -356,11 +409,11 @@
 <div id="main" style="margin-top: 30px">
     <%--搜索列表--%>
     <div class="container" id="list">
-       <%-- <table class="table table-bordered">
+       <%--<table class="table table-bordered">
             <thead>
             <tr>
                 <th colspan="2">
-                    <h5 style="font-size: 1.2em;">晓寿司(建国门店)</h5>
+                    <h5 style="font-size: 1.2em;">晓寿司(建国门店) <span class="qs1"> 起送:<span>￥</span><span>34</span> </span></h5>
                 </th>
                 <th class="jian">
                    <span>40减5</span>

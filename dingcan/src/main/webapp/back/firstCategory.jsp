@@ -27,7 +27,7 @@
                     colNames:["类别id","类别名","操作"],
                     autowidth:true,
                     styleUI:"Bootstrap",
-                    rowNum:2,
+                    rowNum:6,
                     height:"100%",
                     datatype:"json",
                     viewrecords:true,//是否显示总记录数

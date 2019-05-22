@@ -27,5 +27,4 @@ public class Address {
 
     private String houseNum;
 
-    private Integer def;
 }
