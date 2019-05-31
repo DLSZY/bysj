@@ -121,4 +121,38 @@ public class UserServiceImpl implements UserService {
         }
         userMapper.updateByPrimaryKeySelective(user);
     }
+
+    @Override
+    public void forgetPass(String phone, String newPass) {
+        User user = new User();
+        user.setPhone(phone);
+        User user1 = userMapper.select(user).get(0);
+        user1.setPassword(MD5Utils.getPassword(newPass+user1.getSalt()));
+        userMapper.updateByPrimaryKeySelective(user1);
+    }
+
+    @Override
+    @Transactional(propagation = Propagation.SUPPORTS)
+    public Integer findByUsername(String username) {
+        User user = new User();
+        user.setUsername(username);
+        List<User> select = userMapper.select(user);
+        if (select.size() == 0){
+            return 0;
+        }else {
+            return 1;
+        }
+    }
+
+    @Override
+    public Integer findByPhone(String phone) {
+        User user = new User();
+        user.setPhone(phone);
+        List<User> select = userMapper.select(user);
+        if (select.size() == 0){
+            return 0;
+        }else {
+            return 1;
+        }
+    }
 }

@@ -26,5 +26,15 @@
         padding-top: 70px;
         height: 30px;
     }
+    label.error{
+        color: rgb(19,209,190);
+        font-weight: 600;
+        float: right;
+        margin-top: 5px;
+        margin-bottom: 0px;
+        font-size: 13px;
+    }
+
+
 </style>
 

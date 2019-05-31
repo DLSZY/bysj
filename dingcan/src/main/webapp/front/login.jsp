@@ -45,27 +45,49 @@
             border-color: rgb(115,225,206) !important;
             background-color: rgb(115,225,206) !important;
         }
+        #checkCode{
+            height: 34px;
+        }
     </style>
     <script>
         $(function () {
             $("#sendCode").on("click",function () {
-                $.post("${app}/business/sendPhoneCode",{"phone":$("#phone").val()},function (result) {
+                $.post("${app}/user/sendPhoneCode",{"phone":$("#phone").val()},function (result) {
                 })
             })
 
             //登录
             $("#login").on("click",function(){
-                $.post("${app}/user/login",$("#infoFrom").serialize(),function (result) {
-                    if(result.success == 1){
-                        window.location.href = "${app}/front/index.jsp"
-                    }else{
-                        alert(result.msg);
-                    }
+                var username = $("#username").val();
+                if(username == ""){
+                    alert("用户名不能为空")
+                }else{
+                    $.post("${app}/user/login",$("#infoFrom").serialize(),function (result) {
+                        if(result.success == 1){
+                            window.location.href = "${app}/front/index.jsp"
+                        }else{
+                            alert(result.msg);
+                        }
+                    })
+                }
+            })
+
+            //发送手机验证码
+            $("#sendCode").on("click",function () {
+                $.post("${app}/user/sendPhoneCode",{"phone":$("#phone").val()},function (result) {
                 })
             })
 
+            //检验手机验证码
             $("#checkCode").on("click",function () {
-                window.location.href = "${app}/business/register.jsp?phone="+$("#phone").val();
+                $.post("${app}/user/checkPhoneCode",$("#codeForm").serialize(),function (result) {
+                    console.log(result);
+                    if (result == "0"){
+                        alert("验证码错误")
+                    }else{
+                        window.location.href = "${app}/front/updatepass.jsp";
+                    }
+                })
             })
         })
     </script>
@@ -89,14 +111,14 @@
                         <form class="form-horizontal" role="form" id="infoFrom">
                             <div class="form-group">
                                 <div class="col-sm-10 col-sm-offset-1">
-                                    <input type="text" class="form-control" name="username" placeholder="请输入账号">
+                                    <input type="text" id="username" class="form-control" name="username" placeholder="请输入账号">
                                 </div>
                             </div>
 
                             <div class="form-group">
                                 <div class="col-sm-10 col-sm-offset-1">
                                     <input type="text" class="form-control" name="password" placeholder="请输入密码" style="padding-right: 90px">
-                                    <a href="updatepass.jsp" id="forget" class="color">忘记密码?</a>
+                                    <a href="#myModal" data-toggle="modal" id="forget">忘记密码</a>
                                 </div>
                             </div>
 
@@ -124,10 +146,41 @@
                         </form>
                     </div>
                 </div>
-
             </div>
 
         </div>
+    </div>
+
+    <%--短信验证模态框--%>
+    <div class="modal fade bs-example-modal-sm" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content ">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">手机验证</h4>
+                </div>
+                <div class="modal-body">
+                    <form class="form-horizontal" role="form" id="codeForm">
+                        <div class="form-group">
+                            <div class="col-sm-12">
+                                <input type="text" class="form-control" id="phone" name="phone" placeholder="输入注册时手机号">
+                                <a href="javascript:void(0);" id="sendCode" >发送验证码</a>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-12">
+                                <input type="text" class="form-control" maxlength="4" id="code" name="phoneCode" placeholder="请输入验证码">
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" >关闭</button>
+                    <button type="button" class="btn btn-primary" id="checkCode">确认</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal -->
     </div>
 </div>
 </body>

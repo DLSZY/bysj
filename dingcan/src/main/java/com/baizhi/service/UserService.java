@@ -20,6 +20,12 @@ public interface UserService {
     void register(User user);
     //修改秘密啊
     Map<String,Object> changePass(String oldPass,String newPass,String uid);
+    //忘记密码修改密码
+    void forgetPass(String phone, String newPass);
+    //注册时判断用户名是否存在
+    Integer findByUsername(String username);
+    //注册时判断手机号是否已经被注册
+    Integer findByPhone(String phone);
 
     /**
      * 后台

@@ -33,9 +33,9 @@ public interface BusinessService {
     void register (Business business);
     //登录
     Map<String,Object> login(String username, String password, HttpSession session);
-    //修改密码使判断账号是否存在
+    //(修改密码时|注册时)判断账号是否存在
     Integer checkExist(String username);
-    //修改谜面时判断用户名和手机号是否匹配
+    //修改密码时判断用户名和手机号是否匹配
     Integer checkUserPhone(String username,String phone);
     //修改密码
     void changePass(String username,String newPassword);
@@ -43,6 +43,11 @@ public interface BusinessService {
     Business findInfo(String id);
     //修改本店信息
     void changeInfo(Business business);
+    //判断店铺名是否被注册
+    Integer findByName(String name);
+    //判断手机号是否被注册
+    Integer findByPhone(String phone);
+
 
 
 

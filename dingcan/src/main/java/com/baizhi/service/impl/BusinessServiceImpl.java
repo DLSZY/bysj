@@ -153,6 +153,30 @@ public class BusinessServiceImpl implements BusinessService {
     }
 
     @Override
+    public Integer findByName(String name) {
+        Business business = new Business();
+        business.setName(name);
+        List<Business> select = businessMapper.select(business);
+        if (select.size() == 0){
+            return 0;
+        }else {
+            return 1;
+        }
+    }
+
+    @Override
+    public Integer findByPhone(String phone) {
+        Business business = new Business();
+        business.setPhone(phone);
+        List<Business> select = businessMapper.select(business);
+        if (select.size() == 0){
+            return 1;
+        }else {
+            return 0;
+        }
+    }
+
+    @Override
     public PageBean findBusinessByRegister(Integer pageNow,Integer showCount,Integer registerStatus) {
         PageHelper.startPage(pageNow,showCount);
         Example example = new Example(Business.class);

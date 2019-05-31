@@ -15,7 +15,7 @@ public class InterceptorConf extends WebMvcConfigurerAdapter {
                     .excludePathPatterns("/user/login");*/
 
           //商家连接器
-          /*registry.addInterceptor(new BusinessInterceptor())
+          registry.addInterceptor(new BusinessInterceptor())
                     .addPathPatterns("/business/showInfo")
                     .addPathPatterns("/business/changeInfo")
                     .addPathPatterns("/cateInStore/**")
@@ -26,6 +26,6 @@ public class InterceptorConf extends WebMvcConfigurerAdapter {
                     .addPathPatterns("/goods/add")
                     .addPathPatterns("/orderMaster/findByBusinessPage")
                     .addPathPatterns("/reduce/**")
-                    .excludePathPatterns("/business/login");*/
+                    .excludePathPatterns("/business/login");
         }
 }

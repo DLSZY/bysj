@@ -33,8 +33,18 @@
     <script>
         $(function () {
             $("#sendCode").on("click",function () {
-                $.post("${app}/business/sendPhoneCode",{"phone":$("#phone").val()},function (result) {
-                })
+                var phone = $("#phone").val();
+                var reg = /^1[34578]\d{9}$/;//正则表达式
+                if (!reg.test(phone)){
+                    alert("手机号格式错误");
+                }else{
+                    $.post("${app}/business/sendPhoneCode",{"phone":phone},function (result) {
+                        if (result == 0){
+                            alert("该手机号已经被注册")
+                        }
+                    })
+                }
+
             })
 
             //登录
@@ -139,7 +149,6 @@
                                             <input type="text" class="form-control" maxlength="4" id="code" name="code" placeholder="请输入验证码">
                                         </div>
                                     </div>
-
                                 </form>
                             </div>
                             <div class="modal-footer">

@@ -30,12 +30,16 @@
         .nonef{
             display: none !important;
         }
+        .nav>li>a:focus, .nav>li>a:hover {
+            text-decoration: none;
+            background-color: white;
+            color: #337ab7;
+        }
     </style>
     <script>
         $(function () {
-
             var step = 1;
-
+            var isCode = 0;
             //校验验证码
             $("#inputCode").on("change",function () {
                 var code = $(this).val();
@@ -48,10 +52,12 @@
                         codeDiv.addClass("has-error").removeClass("has-success");
                         span.addClass("glyphicon-remove").removeClass("glyphicon-ok");
                         $("#nextBtn").attr({"disabled":true})
+                        isCode = 0;
                     }else{
                         codeDiv.addClass("has-success").removeClass("has-error");
                         span.addClass("glyphicon-ok").removeClass("glyphicon-remove");
                         $("#nextBtn").attr({"disabled":false})
+                        isCode = 1;
                     }
                     $("#codeDiv").append(span);
                 })
@@ -64,12 +70,15 @@
                     var username = $("#username").val();
                     $.post("${app}/business/checkExist",{"username":username},function (result) {
                         if(result == 0){
-                            alert("账号不存在！");
+                            alert("用户名不存在！");
                         }
-                        if(result == 1){
-                            alert("此账号被冻结,请联系管理员解冻");
+                        else if(result == 1){
+                            alert("用户名被冻结,请联系管理员解冻");
                         }
-                        if(result == 2){
+                        else if(isCode == 0){
+                            alert("验证码错误");
+                        }
+                        if(result == 2 && isCode == 1){
                             $(".first").removeClass("showf").addClass("nonef");
                             $(".second").removeClass("nonef").addClass("showf");
 
@@ -86,15 +95,15 @@
                 else if(step == 2){  //检验手机号验证码
                     console.log(step);
                     //测试
-                    $(".second").removeClass("showf").addClass("nonef");
+                   /* $(".second").removeClass("showf").addClass("nonef");
                     $(".three").removeClass("nonef").addClass("showf");
                     $("#secondSpan").removeClass("active");
                     $("#threeSpan").addClass("active");
                     step = 3;
-                    console.log("修改为"+step)
+                    console.log("修改为"+step)*/
 
                    //正式
-                  /*var phone = $("#phone").val();
+                    var phone = $("#phone").val();
                     var phoneCode = $("#phoneCode").val();
                     $.post("${app}/business/checkUpdatePhoneCode",{"phone":phone,"phoneCode":phoneCode},function (result) {
                         if(result == 0){
@@ -108,31 +117,39 @@
                             step = 3;
                             console.log("修改为"+step)
                         }
-                    })*/
+                    })
 
                 }
                 else if(step == 3){      //修改密码页面
                     console.log(step+"-----");
                     var username = $("#username").val();
                     var newPassword = $("#newPass").val();
+                    var reNewPass = $("#reNewPass").val();
+                    if(newPassword.length<6){
+                        alert("密码长度不能小于6位~~")
+                    }else if(newPassword == reNewPass){
+                        $.post("${app}/business/changePass",{"username":username,"newPassword":newPassword},function () {
+                            $(".three").removeClass("showf").addClass("nonef");
+                            $("#threeSpan").removeClass("active");
+                            $("#fourSpan").addClass("active");
+                            $("#fourSpan").addClass("active");
+                            $("#firstBtn").hide();
+                            $("#msg").show()
+                        })
+                    }else{
+                        alert("两次输入密码不正确~！")
+                    }
                     console.log(newPassword);
-                    $.post("${app}/business/changePass",{"username":username,"newPassword":newPassword},function () {
-                        $(".three").removeClass("showf").addClass("nonef");
-                        $("#threeSpan").removeClass("active");
-                        $("#fourSpan").addClass("active");
-                        $("#fourSpan").addClass("active");
-                        $("#firstBtn").hide();
-                        $("#msg").show()
-                    })
                 }
-
-
             })
+
+
             //判断手机号是否和用户名匹配
             $("#sendCode").on("click",function () {
                 var username = $("#username").val();
                 var phone = $("#phone").val();
                 $.post("${app}/business/checkUserPhone",{"username":username,"phone":phone},function (result) {
+                    console.log(result);
                     if(result == 0){
                         alert("手机号和用户名不匹配！");
                     }else{
@@ -226,6 +243,7 @@
                                 </div>
                             </div>
 
+                            <%--第四--%>
                             <div class="alert alert-info" id="msg" style="display: none;">
                                 <a href="#" class="close" data-dismiss="alert">
                                     &times;

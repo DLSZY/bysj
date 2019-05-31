@@ -8,6 +8,7 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <%@include file="../basic/resources.jsp" %>
+    <script src="../statics/js/jquery.validate.min.js" type="text/javascript"></script>
     <title>商家注册</title>
     <style>
         body{
@@ -20,6 +21,12 @@
             border-bottom: 1px solid #5a5e66;
             margin-bottom: 20px;
             color: #5a5e66;
+        }
+        .panel{
+            margin-bottom: 100px;
+        }
+        label.error{
+            color: #337ab7;
         }
     </style>
 
@@ -54,16 +61,96 @@
                 changeArea(this.value)
             })
 
+
+            //表单验证
+            $("#businessForm").validate({
+                rules: {
+                    username:{
+                        required:true, minlength:6, maxlength:20,
+                        remote: {
+                            type: "post",
+                            url: "/business/checkExist",
+                            data: {
+                                username: function() {
+                                    return $("#username").val();
+                                }
+                            },
+                            dataType: "json",
+                            dataFilter: function(data, type) {
+                                if (data == 0)
+                                    return true;
+                                else
+                                    return false;
+                            }
+                        }
+                    },
+                    password:{
+                        required:true, minlength:6, maxlength:20,
+                    },
+                    name:{
+                        required:true,
+                        remote: {
+                            type: "post",
+                            url: "/business/findByName",
+                            data: {
+                                username: function() {
+                                    return $("#name").val();
+                                }
+                            },
+                            dataType: "json",
+                            dataFilter: function(data, type) {
+                                if (data == 0)
+                                    return true;
+                                else
+                                    return false;
+                            }
+                        }
+                    },
+                    address:{
+                        required:true,
+                    }
+                },
+                messages:{
+                    username:{
+                        required:"用户名不能为空",
+                        minlength:"用户名最小长度为6位",
+                        maxlength:"用户名最大长度为15位",
+                        remote: "该用户名已存在"
+                    },
+                    password:{
+                        required:"密码不能为空",
+                        minlength:"密码最小长度为6位",
+                        maxlength:"密码最大长度为20位"
+                    },
+                    name:{
+                        required:"店铺名不能为空",
+                        remote:"该店铺名已被注册"
+                    },
+                    address:{
+                        required:"详细地址不能为空",
+                    }
+                },
+                submitHandler: function(form) { //通过之后回调
+                    console.log($(form).serialize());
+                    //进行ajax传值
+                    /*$.post("${app}/business/register",$("#businessForm").serialize(),function (result) {
+                        alert("提交完成~~等待管理员审核")
+                        window.location.href="${app}/business/login.jsp";
+                    })*/
+                },
+                invalidHandler: function(form, validator) { //没有通过时的回调函数
+                    return false;
+                }
+            });
+
+
             //提交注册表单
-            $("#register").on("click",function () {
+           /* $("#register").on("click",function () {
                 $.post("${app}/business/register",$("#businessForm").serialize(),function (result) {
                     alert("提交完成~~等待管理员审核")
                     window.location.href="${app}/business/login.jsp";
                 })
-            })
-
-
-
+            })*/
         })
         function changeArea(cityCode) {
             $("#areaSelect").empty();
@@ -99,7 +186,7 @@
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">用户名</label>
                                 <div class="col-sm-9">
-                                    <input type="text" class="form-control" name="username" placeholder="请输入用户名">
+                                    <input type="text" class="form-control" name="username" id="username" placeholder="请输入用户名">
                                 </div>
                             </div>
                             <div class="form-group">
@@ -111,13 +198,13 @@
                             <div class="form-group">
                                 <label  class="col-sm-2 control-label">店铺名</label>
                                 <div class="col-sm-9">
-                                    <input type="text" class="form-control" name="name" placeholder="请输入店铺名">
+                                    <input type="text" class="form-control" name="name" id="name" placeholder="请输入店铺名">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label  class="col-sm-2 control-label">选择地址</label>
                                 <div class="col-sm-3">
-                                    <select class="form-control" id="provinceSelect" name="provinceCode">
+                                    <select class="form-control" id="provinceSelect" name="provinceCode" >
                                         <option selected disabled>省份</option>
                                     </select>
                                 </div>
@@ -127,8 +214,8 @@
                                     </select>
                                 </div>
                                 <div class="col-sm-3">
-                                    <select class="form-control" id="areaSelect" name="areaCode">
-                                        <option>区县</option>
+                                    <select class="form-control" id="areaSelect" name="areaCode" title="请选择开店地址" required>
+                                        <option selected disabled>区县</option>
                                     </select>
                                 </div>
                             </div>
@@ -148,7 +235,7 @@
 
                             <div class="form-group">
                                 <div class="col-sm-4 col-sm-offset-4">
-                                    <a id="register" class="btn btn-primary btn-block"  style="height: 40px;line-height: 28px">提交申请</a>
+                                    <input type="submit" id="register" class="btn btn-primary btn-block"  style="height: 40px;line-height: 28px" value="提交申请"/>
                                 </div>
                                 <div class="col-sm-4" style="padding-top: 17px">
                                     <a href="login.jsp" style="color: gray;font-size: 12px">已有账户，去登陆</a>

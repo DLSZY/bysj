@@ -13,7 +13,9 @@ public class BusinessInterceptor implements HandlerInterceptor {
         Object businessId = request.getSession().getAttribute("businessId");
         System.out.println(businessId+"----bid");
         if(businessId == null){
-            response.setHeader("isLogin","false");
+            //response.setHeader("isLogin","false");
+            System.out.println(request.getContextPath());
+            response.sendRedirect(request.getContextPath()+"/business/login.jsp");
             return false;
         }else{
             return true;

@@ -153,21 +153,30 @@ public class BusinessController {
         Integer result = businessService.checkExist(username);
         return result;
     }
+    //注册时判断店铺名是否存在
+    @RequestMapping("findByName")
+    public Integer findByName(String name){
+        return businessService.findByName(name);
+    }
     //修改密码时，判断手机号和用户名是否匹配 如果匹配则发送验证码
     @RequestMapping("checkUserPhone")
     public Integer checkUserPhone(String username,String phone,HttpServletRequest request){
         Integer integer = businessService.checkUserPhone(username, phone);
-
         if(integer == 1){
-            String code = PhoneIdentify.sendIdentify(phone);
+            //正式
+            /*String code = PhoneIdentify.sendIdentify(phone);
             System.out.println(code);
-            request.getSession().setAttribute(phone,code);                 //存入作用域
+            request.getSession().setAttribute(phone,code);      */
+
+            //测试
+            request.getSession().setAttribute(phone,"1234");
         }
         return integer;
     }
     //修改密码时，检验手机短信验证码
     @RequestMapping("checkUpdatePhoneCode")
     public Integer checkUpdatePhoneCode(String phone,String phoneCode,HttpSession session){
+        System.out.println(phone);
         String code = (String) session.getAttribute(phone);
         System.out.println(code);
         code.equals(phoneCode);
@@ -204,9 +213,17 @@ public class BusinessController {
 
     /*注册发送验证码*/
     @RequestMapping("sendPhoneCode")
-    public void sendPhoneCode(String phone, HttpServletRequest request){
-        String code = PhoneIdentify.sendIdentify(phone);
-        request.getSession().setAttribute(phone,code);                 //存入作用域
+    public Integer sendPhoneCode(String phone, HttpServletRequest request){
+        Integer byPhone = businessService.findByPhone(phone);
+        if (byPhone == 1){
+            String code = PhoneIdentify.sendIdentify(phone);
+            request.getSession().setAttribute(phone,code);                 //存入作用域
+            return 1;
+        }else {
+            return 0;
+        }
+
+
     }
     /*注册检验验证码*/
     @RequestMapping("checkPhoneCode")
