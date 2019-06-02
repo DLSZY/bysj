@@ -135,6 +135,12 @@
             text-decoration: none;
             color: #337ab7;;
         }
+        #isEmpty{
+            background-color: white;
+            text-align: center;
+            padding-top: 10px;
+            padding-bottom:10px;
+        }
 
     </style>
     <script>
@@ -315,80 +321,92 @@
         function getCart() {
             $.post("${app}/cart/findByUser",function (result) {
                 console.log(result);
-                for(var i = 0; i<result.length; i++){
-                    //thead 1
-                    var qspan1 = $("<span>").text("￥");
-                    var qspan2 = $("<span>").text(result[i].startPrice).addClass("qspan2");
-                    var qspan = $("<span>").addClass("qs1").text("起送").append(qspan1).append(qspan2);
-                    var h5 = $("<h5>").css({"font-size":"1.2em"}).text(result[i].businessName).attr({"id":result[i].businessId}).append(qspan);
-                    //var th1 = $("<th>").attr({"colspan":"2"}).append(h5).css({"width":"60%"});
-                    var th1 = $("<th>").append(h5);
+                if(result == ""){
+                    window.location.href="${app}/front/login.jsp"
+                }
+                var isEmpty = result[0].businessId;
+                console.log(isEmpty);
 
-                    //tbody 购物车项
-                    var allPrice = 0;
-                    var tbody = $("<tbody>");
-                    var items = result[i].items;
-                    for(var j = 0; j<items.length; j++){
-                        var item = items[j];
-                        var aname = $("<a>").text(item.goodsName).addClass("fname");
-                        var td1 = $("<td>").css({"width":"72%"}).append(aname);
-                        //var td2 = $("<td>").text("x"+item.goodsCount);
-                        var price = item.goodsPrice*item.goodsCount;
-                        allPrice+=price;
-                        var pspan = $("<span>").text(price).addClass("pspan");
-                        var td3 = $("<td>").text("￥").addClass("td2").append(pspan);
-                        var ajian = $("<a>").addClass("btn btn-primary delCount count reducec").text("-").attr({"id":item.id});
-                        var ajia = $("<a>").addClass("btn btn-primary addCount count addc").text("+").attr({"id":item.id});
-                        var countSpan = $("<span>").addClass("count1").text(item.goodsCount).addClass("countSpan");
-                        var td4 = $("<td>").append(ajian).append(countSpan).append(ajia).addClass("td2");
-                        var tr2 = $("<tr>").append(td1).append(td3).append(td4);
-                        tbody.append(tr2);
-                    }
+                //判断当前用户购物车中是否有食品
+                if(isEmpty != null){
+                    $("#isEmpty").hide();
+                    for(var i = 0; i<result.length; i++){
+                        //thead 1
+                        var qspan1 = $("<span>").text("￥");
+                        var qspan2 = $("<span>").text(result[i].startPrice).addClass("qspan2");
+                        var qspan = $("<span>").addClass("qs1").text("起送").append(qspan1).append(qspan2);
+                        var h5 = $("<h5>").css({"font-size":"1.2em"}).text(result[i].businessName).attr({"id":result[i].businessId}).append(qspan);
+                        //var th1 = $("<th>").attr({"colspan":"2"}).append(h5).css({"width":"60%"});
+                        var th1 = $("<th>").append(h5);
 
-                    //计算满减信息
-                    var th2 = $("<th>").addClass("jian").attr({"colspan":"2"});
-                    var shao = 0 ;      //计算满减钱数
-                    var reduces = result[i].reduces;
-                    for(var z = 0; z<reduces.length; z++){
-                        var da = reduces[z].achieveMoney;
-                        var jian = reduces[z].reduceMoney;
-                        var span = $("<span>").text(da+"减"+jian)
-
-                        if(allPrice>=da){
-                            if(jian > shao){
-                                shao = jian;
-                            }
+                        //tbody 购物车项
+                        var allPrice = 0;
+                        var tbody = $("<tbody>");
+                        var items = result[i].items;
+                        for(var j = 0; j<items.length; j++){
+                            var item = items[j];
+                            var aname = $("<a>").text(item.goodsName).addClass("fname");
+                            var td1 = $("<td>").css({"width":"72%"}).append(aname);
+                            //var td2 = $("<td>").text("x"+item.goodsCount);
+                            var price = item.goodsPrice*item.goodsCount;
+                            allPrice+=price;
+                            var pspan = $("<span>").text(price).addClass("pspan");
+                            var td3 = $("<td>").text("￥").addClass("td2").append(pspan);
+                            var ajian = $("<a>").addClass("btn btn-primary delCount count reducec").text("-").attr({"id":item.id});
+                            var ajia = $("<a>").addClass("btn btn-primary addCount count addc").text("+").attr({"id":item.id});
+                            var countSpan = $("<span>").addClass("count1").text(item.goodsCount).addClass("countSpan");
+                            var td4 = $("<td>").append(ajian).append(countSpan).append(ajia).addClass("td2");
+                            var tr2 = $("<tr>").append(td1).append(td3).append(td4);
+                            tbody.append(tr2);
                         }
-                        th2.append(span)
+
+                        //计算满减信息
+                        var th2 = $("<th>").addClass("jian").attr({"colspan":"2"});
+                        var shao = 0 ;      //计算满减钱数
+                        var reduces = result[i].reduces;
+                        for(var z = 0; z<reduces.length; z++){
+                            var da = reduces[z].achieveMoney;
+                            var jian = reduces[z].reduceMoney;
+                            var span = $("<span>").text(da+"减"+jian)
+
+                            if(allPrice>=da){
+                                if(jian > shao){
+                                    shao = jian;
+                                }
+                            }
+                            th2.append(span)
+                        }
+
+                        //脚
+                        var span12 = $("<span>").text("￥");
+                        var dfee = result[i].distributeFee;
+                        var span11 = $("<span>").text(dfee).addClass("fee");
+                        var ftd1 = $("<td>").addClass("td2 ftd1").text("配送费").append(span12).append(span11);
+
+                        var allPrice1 = allPrice;
+                        allPrice-=shao; //减去满减
+                        allPrice+=dfee//加上配送费
+                        var aspan = $("<span>").text(allPrice).addClass("aspan");
+                        var ftd3 = $("<td>").addClass("td2 zongqian").text("￥").append(aspan);
+                        //var suana = $("<a>").addClass("btn btn-primary suan").text("去结算").attr({"href":"${app}/front/order_info.jsp?bid="+result[i].businessId});
+                        var startPrice = result[i].startPrice;
+                        var suana;
+                        if(allPrice1 < startPrice){
+                            var cha = startPrice - allPrice1;
+                            suana = $("<a>").addClass("btn btn-primary suan").text("还差"+cha+"起送").attr({"href":"javascript:void(0)","disabled":true});
+                        }else{
+                            suana = $("<a>").addClass("btn btn-primary suan").text("去结算").attr({"href":"javascript:order('"+result[i].businessId+"')"});
+                        }
+                        var ftd4 = $("<td>").addClass("td2").append(suana)
+
+                        var tr1 = $("<tr>").append(th1).append(th2);
+                        var thead = $("<thead>").append(tr1);
+                        var foot = $("<tr>").addClass("tfooter").append(ftd1).append(ftd3).append(ftd4);
+                        var table = $("<table>").addClass("table table-bordered").append(thead).append(tbody).append(foot);
+                        var list = $("#list").append(table);
                     }
-
-                    //脚
-                    var span12 = $("<span>").text("￥");
-                    var dfee = result[i].distributeFee;
-                    var span11 = $("<span>").text(dfee).addClass("fee");
-                    var ftd1 = $("<td>").addClass("td2 ftd1").text("配送费").append(span12).append(span11);
-
-                    var allPrice1 = allPrice;
-                    allPrice-=shao; //减去满减
-                    allPrice+=dfee//加上配送费
-                    var aspan = $("<span>").text(allPrice).addClass("aspan");
-                    var ftd3 = $("<td>").addClass("td2 zongqian").text("￥").append(aspan);
-                    //var suana = $("<a>").addClass("btn btn-primary suan").text("去结算").attr({"href":"${app}/front/order_info.jsp?bid="+result[i].businessId});
-                    var startPrice = result[i].startPrice;
-                    var suana;
-                    if(allPrice1 < startPrice){
-                        var cha = startPrice - allPrice1;
-                        suana = $("<a>").addClass("btn btn-primary suan").text("还差"+cha+"起送").attr({"href":"javascript:void(0)","disabled":true});
-                    }else{
-                        suana = $("<a>").addClass("btn btn-primary suan").text("去结算").attr({"href":"javascript:order('"+result[i].businessId+"')"});
-                    }
-                    var ftd4 = $("<td>").addClass("td2").append(suana)
-
-                    var tr1 = $("<tr>").append(th1).append(th2);
-                    var thead = $("<thead>").append(tr1);
-                    var foot = $("<tr>").addClass("tfooter").append(ftd1).append(ftd3).append(ftd4);
-                    var table = $("<table>").addClass("table table-bordered").append(thead).append(tbody).append(foot);
-                    var list = $("#list").append(table);
+                }else{
+                    $("#isEmpty").show();
                 }
             })
         }
@@ -409,6 +427,15 @@
 <div id="main" style="margin-top: 30px">
     <%--搜索列表--%>
     <div class="container" id="list">
+
+        <div class="col-sm-6 col-sm-offset-3" id="isEmpty">
+            <div class="page-header" style="margin-top: 0px">
+                <h3>您的购物车为空</h3>
+            </div>
+            <div class="hint">
+                <p class="text-muted"><a href="${app}/front/index.jsp">浏览并选购商品</a></p>
+            </div>
+        </div>
        <%--<table class="table table-bordered">
             <thead>
             <tr>

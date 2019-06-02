@@ -23,6 +23,10 @@
 
 
                 $("#albumList").jqGrid({
+                    loadError:function(){   //请求失败时，触发事件
+                        window.location.href="${app}/back/login.jsp"
+                    },
+
                     url:"${app}/category/selectByLevelAndPage?level=1",
                     colNames:["类别id","类别名","操作"],
                     autowidth:true,

@@ -65,6 +65,10 @@
 
             /*查询地址*/
             $.post("${app}/userAddress/findByOrder",{"oid":oid},function (result) {
+                //判断是否登录
+                if(result == ""){
+                    window.location.href="${app}/front/login.jsp"
+                }
                 var s = "";
                 if(result.sex == 1){
                     s="先生"
@@ -84,11 +88,21 @@
                     })
                 }
             })
+
+            //添加评价
             $("#addComment").on("click",function () {
-                $.post("${app}/comment/add",$("#info").serialize(),function (result) {
-                    $("#myModal").modal("hide");
-                    init(result)
-                })
+                var goodsGrade = $("#goodsGrade").val();
+                var packageGrade = $("#packageGrade").val();
+                var distributeGrade = $("#distributeGrade").val();
+
+                if(goodsGrade == null || packageGrade == null || distributeGrade == null){
+                    alert("请选择评分")
+                }else {
+                    $.post("${app}/comment/add",$("#info").serialize(),function (result) {
+                        $("#myModal").modal("hide");
+                        init(result)
+                    })
+                }
             })
         })
         
@@ -121,6 +135,7 @@
                 $("#bid").val(business.id);
                 var allPrice = 0;
                 $("#bname").text(business.name);
+                $(".iii").remove();
                 for(var i = 0; i<details.length; i++){
                     var detail = details[i];
                     var td1 = $("<td>").addClass("td1").text(detail.goodsName);
@@ -173,8 +188,8 @@
                 --%>
                     <tr id="foot" class="ltr">
                         <td class="td1 ftd">
-                            配送费 <span style="font-size: 10px">￥</span> <span id="posifee">23</span><br>
-                            满减 <span style="font-size: 10px">￥</span> <span id="jian">123</span>
+                            配送费 <span>￥</span> <span id="posifee">23</span><br>
+                            满减 <span>￥</span> <span id="jian">123</span>
                         </td>
                         <td></td>
                         <td class="rtd" style="color: #f74342;font-weight: bold" id="allPrice">￥124</td>
@@ -257,7 +272,7 @@
                         <input type="text" name="orderId" hidden id="oid">
                         <label class="col-sm-12">评分</label>
                         <div class="col-sm-4">
-                            <select class="form-control" name="goodsGrade">
+                            <select class="form-control" name="goodsGrade" id="goodsGrade">
                                 <option selected disabled>口味</option>
                                 <option>1</option>
                                 <option>2</option>
@@ -267,7 +282,7 @@
                             </select>
                         </div>
                         <div class="col-sm-4">
-                            <select class="form-control"name="packageGrade">
+                            <select class="form-control"name="packageGrade" id="packageGrade">
                                 <option selected disabled>包装</option>
                                 <option>1</option>
                                 <option>2</option>
@@ -277,7 +292,7 @@
                             </select>
                         </div>
                         <div class="col-sm-4">
-                            <select class="form-control" name="distributeGrade" >
+                            <select class="form-control" name="distributeGrade" id="distributeGrade">
                                 <option selected disabled>配送</option>
                                 <option>1</option>
                                 <option>2</option>

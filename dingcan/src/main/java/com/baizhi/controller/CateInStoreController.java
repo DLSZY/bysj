@@ -34,6 +34,8 @@ public class CateInStoreController {
         cateInStoreService.delete(id);
     }
 
+
+    //用户
     @RequestMapping("findByBusiness")
     public List<GoodsCateinstore> findByBusiness(String bid){
         return cateInStoreService.findByBusiness(bid);

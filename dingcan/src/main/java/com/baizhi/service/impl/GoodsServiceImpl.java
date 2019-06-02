@@ -29,6 +29,13 @@ public class GoodsServiceImpl implements GoodsService {
     }
 
     @Override
+    public void addSaleCount(String bid,Integer count) {
+        Goods goods = goodsMapper.selectByPrimaryKey(bid);
+        goods.setSaleCount(goods.getSaleCount()+count);
+        goodsMapper.updateByPrimaryKeySelective(goods);
+    }
+
+    @Override
     public void add(Goods goods) {
         goods.setId(UUID.randomUUID().toString());
         goods.setSaleCount(0);

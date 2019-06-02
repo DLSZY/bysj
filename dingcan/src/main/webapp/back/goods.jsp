@@ -26,6 +26,10 @@
             });
 
             $("#albumList").jqGrid({
+                loadError:function(){   //请求失败时，触发事件
+                    window.location.href="${app}/back/login.jsp"
+                },
+
                 url: "${app}/goods/findAll",
                 colNames: ["食品名","所属商家", "食品价格","所属类别","操作"],
                 autowidth: true,

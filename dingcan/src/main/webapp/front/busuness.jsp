@@ -290,24 +290,26 @@
     </style>
     <script>
         $(function () {
-
             $("#alert").hide();
-
             $('#collapseTwo').collapse('show')
             var bid = "${param.bid}"
             //查询当前商家信息
             $.post("${app}/business/findById",{"bid":bid},function (result) {
                 //console.log(result);
-                $("#bname").text(result.name);
-                $("#blogo").attr("src","/upload/"+result.imgUrl)
-                $("#starPrice").text(result.startPrice)
-                $("#tranPrice").text(result.distributionFee)
-                $("#notice").text(result.notice);
+                if(result == ""){
+                    window.location.href="${app}/front/login.jsp"
+                }else{
+                    $("#bname").text(result.name);
+                    $("#blogo").attr("src","/upload/"+result.imgUrl)
+                    $("#starPrice").text(result.startPrice)
+                    $("#tranPrice").text(result.distributionFee)
+                    $("#notice").text(result.notice);
+                }
             })
 
             //查询当前商家满减信息
             $.post("${app}/reduce/findByBusiness",{"bid":bid},function (result) {
-                //console.log(result);
+                console.log(result);
                 var li = $("#jian");
                 for(var i = 0; i<result.length; i++){
                     var span = $("<span>").text(result[i].achieveMoney+"减"+result[i].reduceMoney);
@@ -318,6 +320,7 @@
 
             //查询当前商家类别信息
             $.post("${app}/cateInStore/findByBusiness",{"bid":bid},function (result) {
+                console.log(result);
                 var cate1 = $("#cate1");
                 for(var i = 0; i<result.length; i++){
                     var a = $("<a>").text(result[i].name).attr({"href":"#"+result[i].id})
@@ -360,7 +363,7 @@
 
                         var username = $("<h4>").addClass("commentitem-username").text(comment.username);
                         var span1 = $("<span>").addClass("food").text(comment.goodNames);
-                        var span2 = $("<span>").addClass("grade").text(comment.goodsGrade+"分")
+                        var span2 = $("<span>").addClass("grade").text(comment.average+"分")
                         var div1 = $("<div>").addClass("order-main").append(span1).append(span2);
                         var span3 = $("<span>").text(comment.content);
                         var div2 = $("<div>").addClass("comment-main").append(span3);
@@ -370,8 +373,6 @@
                         var li = $("<li>").addClass("commentitem").append(prespan).append(div);
                         $("#commentlist").append(li);
                     }
-
-
                 })
             })
 
@@ -386,7 +387,8 @@
             $.post("${app}/cart/add",{"goodsId":goodsId,"businessId":businessId,"goodsName":goodsName})
             $("#myModal").modal("hide")
         }
-        //显示模态框
+
+        //显示模态框(显示食品详情)
         function showModal(goodsId,businessId,goodsName,price,description,imgUrl) {
             $("#fhead").text(goodsName)
             $("#fprice").text(price)
@@ -410,17 +412,17 @@
             <ul class="nav navbar-nav navul1">
                 <li><a href="${app}/front/index.jsp">首页</a></li>
                 <li><a href="${app}/front/cart.jsp">我的购物车</a></li>
-                <li><a href="#">我的订单</a></li>
+                <li><a href="${app}/front/order.jsp">我的订单</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right navul1">
                 <li class="dropdown" style="height: 100%">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        xiaohei <b class="caret"></b>
+                        ${sessionScope.username} <b class="caret"></b>
                     </a>
                     <ul class="dropdown-menu" id="dropul">
-                        <li><a href="#">个人中心</a></li>
-                        <li><a href="#">我的地址</a></li>
-                        <li><a href="#">安全设置</a></li>
+                        <li><a href="${app}/front/information.jsp">个人中心</a></li>
+                        <li><a href="${app}/front/address.jsp">我的地址</a></li>
+                        <li><a href="${app}/front/change.jsp">安全设置</a></li>
                         <li class="divider"></li>
                         <li><a href="javascript:exit()">退出登录</a></li>
                         <script>
@@ -626,6 +628,12 @@
                     <p id="notice"></p>
                 </div>
             </div>
+            <%--<div class="panel panel-default">
+                <div class="panel-heading" style="background-color: rgb(19,209,190); color: white">满减信息</div>
+                <div class="panel-body" style="padding: 10px 15px;line-height: 2;">
+                    <p id="manjian"></p>
+                </div>
+            </div>--%>
         </div>
 
         <!-- 模态框（Modal） -->

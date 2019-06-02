@@ -31,6 +31,10 @@ public class CartController {
     public List<Cart> findByUser(HttpSession session){
         String userId = (String) session.getAttribute("userId");
         List<Cart> cartList = cartService.findCartByUser(userId);
+        if(cartList.size() == 0){
+            Cart cart = new Cart();
+            cartList.add(cart);
+        }
         return cartList;
     }
     //根据用户和商家查询购物车

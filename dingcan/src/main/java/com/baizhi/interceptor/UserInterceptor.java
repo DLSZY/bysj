@@ -10,11 +10,12 @@ public class UserInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object o) throws Exception {
         Object userId = request.getSession().getAttribute("userId");
-        System.out.println(userId+"----uid");
-        if(userId == null){
+        Object phoneCode = request.getSession().getAttribute("phoneCode");  //手机验证码验证通过
+        if(userId == null && phoneCode == null){
             response.setHeader("isLogin","false");
             return false;
         }else{
+            System.out.println("---");
             return true;
         }
     }

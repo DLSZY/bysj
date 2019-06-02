@@ -74,15 +74,29 @@
 
             //发送手机验证码
             $("#sendCode").on("click",function () {
-                $.post("${app}/user/sendPhoneCode",{"phone":$("#phone").val()},function (result) {
-                })
+                var phone = $("#phone").val();
+                var reg = /^1[34578]\d{9}$/;//正则表达式
+                if (!reg.test(phone)){
+                    alert("手机号格式错误");
+                }else{
+                    $.post("${app}/user/sendPhoneCode",{"phone":phone},function (result) {
+                        if (result == 0){
+                            alert("该手机号还未注册~!")
+                        }else {
+                            alert("验证码已发送~~")
+                        }
+                    })
+                }
+
             })
 
             //检验手机验证码
             $("#checkCode").on("click",function () {
                 $.post("${app}/user/checkPhoneCode",$("#codeForm").serialize(),function (result) {
                     console.log(result);
-                    if (result == "0"){
+                    if (result == "2"){
+                        alert("请点击发送验证码~~")
+                    }else if (result == "0"){
                         alert("验证码错误")
                     }else{
                         window.location.href = "${app}/front/updatepass.jsp";

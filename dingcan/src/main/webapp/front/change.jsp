@@ -68,15 +68,41 @@
     </style>
     <script>
         $(function () {
+            $.post("${app}/user/judge",function (result) {
+                if(result == ""){
+                    window.location.href="${app}/front/login.jsp"
+                }
+            })
             $("#changeBtn").on("click",function () {
-                $.post("${app}/user/changePass",$("#iofoFrom").serialize(),function (result) {
-                    if(result.success == true){
-                        alert(result.msg);
-                        $('#iofoFrom')[0].reset();
+                var oldPass = $("#oldPass").val();
+                var newPass = $("#newPass").val();
+                var reNewPass = $("#reNewPass").val();
+                var reg = /^[A-Za-z0-9]+$/;//正则表达式
+                console.log(reg.test(newPass));
+                if(oldPass == ""){
+                    alert("请输入原密码~_~")
+                }else{
+                    if(newPass == ""){
+                        alert("请输入新密码~_~")
+                    }else if(!reg.test(newPass)){
+                        alert("密码中不能包括中文或特殊字符")
+                    } else if(newPass.length < 6){
+                        alert("密码长度不能小于6")
+                    }else if(newPass == reNewPass){
+                        $.post("${app}/user/changePass",$("#iofoFrom").serialize(),function (result) {
+                            if(result.success == true){
+                                alert(result.msg);
+                                $('#iofoFrom')[0].reset();
+                            }else{
+                                alert(result.msg);
+                            }
+                        })
                     }else{
-                        alert(result.msg);
+                        alert("两次输入密码不正确~~")
                     }
-                })
+                }
+
+
             })
         })
 
@@ -96,19 +122,19 @@
             <div class="form-group">
                 <label class="col-sm-3 control-label">原始密码</label>
                 <div class="col-sm-8">
-                    <input type="text" name="oldPassword" class="form-control" id="password" placeholder="请输入原始密码">
+                    <input type="text" name="oldPassword" class="form-control" id="oldPass" placeholder="请输入原始密码">
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-3 control-label">新密码</label>
                 <div class="col-sm-8">
-                    <input type="text" name="newPassword" class="form-control" id="oldPassword" placeholder="请输入新密码">
+                    <input type="text" name="newPassword" class="form-control" id="newPass" placeholder="请输入新密码">
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-3 control-label">确认密码</label>
                 <div class="col-sm-8">
-                    <input type="text"  class="form-control" id="newPassword" placeholder="再次输入新密码">
+                    <input type="text"  class="form-control" id="reNewPass" placeholder="再次输入新密码">
                 </div>
             </div>
             <div class="form-group">

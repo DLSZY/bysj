@@ -103,9 +103,7 @@
     </style>
     <script>
         $(function () {
-
             $("#alert").hide()
-
             var item = "${param.item}"
             var cate = "${param.cate}"
             $.post("${app}/business/findBySearch",{"item":item,"cate":cate},function (result) {
@@ -128,7 +126,7 @@
                         var td2 = $("<td>").addClass("td2").text("￥"+goodss[j].price);
                         var a = $("<a>").addClass("btn btn-primary addCart").text("添加购物车").attr({"href":"javascript:addCart('"+goodss[j].id+"','"+result[i].id+"','"+goodss[j].name+"')"});
                         var td3 = $("<td>").addClass("td2").append(a);
-                        var td4 = $("<td>").text("月售"+goodss [j].saleCount+"份");
+                        var td4 = $("<td>").text("月售 "+goodss [j].saleCount+" 份");
                         var tr2 = $("<tr>").append(td1).append(td2).append(td3).append(td4);
                         tbody.append(tr2);
                     }
@@ -148,7 +146,7 @@
             })*/
             $(".searcha").on("click",function () {
                 if($("#searchinput").val() == ""){
-                    //window.location.href="${app}/front/index.jsp?";
+                    window.location.href="${app}/front/index.jsp";
                 }else{
                     window.location.href="${app}/front/search.jsp?item="+$("#searchinput").val()+"&cate="+$(this).text();
                 }

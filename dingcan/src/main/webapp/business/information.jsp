@@ -21,13 +21,18 @@
     <script>
         $(function () {
             $.post("${app}/business/showInfo",function (result) {
-                $("#id").val(result.id);
-                $("#name").val(result.name);
-                $("#phone").val(result.phone);
-                $("#startPrice").val(result.startPrice);
-                $("#distributionFee").val(result.distributionFee    );
-                $("#address").val(result.address);
-                $("#notice").val(result.notice);
+                if(result == ""){
+                    window.location.href="${app}/business/login.jsp"
+                }else{
+                    $("#id").val(result.id);
+                    $("#name").val(result.name);
+                    $("#phone").val(result.phone);
+                    $("#startPrice").val(result.startPrice);
+                    $("#distributionFee").val(result.distributionFee    );
+                    $("#address").val(result.address);
+                    $("#notice").val(result.notice);
+                }
+
             })
 
             /*$("#change").on("click",function () {

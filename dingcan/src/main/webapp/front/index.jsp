@@ -134,6 +134,7 @@
             $("#cate11").on("click","a:not(#allStore)",function () {
                 var parentName = $(this).text();
                 $.post("${app}/category/selectByFirstName",{"firstName":parentName},function (result) {
+                    console.log(result);
                     var cate22 = $("#cate22");
                     cate22.empty();
                     cate22.show();
@@ -179,7 +180,7 @@
             })*/
             $(".searcha").on("click",function () {
                 if($("#searchinput").val() == ""){
-                    //window.location.href="${app}/front/index.jsp?";
+                    window.location.href="${app}/front/index.jsp?";
                 }else{
                     window.location.href="${app}/front/search.jsp?item="+$("#searchinput").val()+"&cate="+$(this).text();
                 }
@@ -190,10 +191,12 @@
         //查询所有商家
         function showAll(){
             $.post("${app}/business/findAllNormal",function (result,index,xhr) {
-                showBusiness(result);
-                console.log(xhr.getAllResponseHeaders());
+                if(result == ""){
+                    window.location.href="${app}/front/login.jsp"
+                }else{
+                    showBusiness(result);
+                }
 
-                if(xhr.getResponseHeader("isLogin") ){window.location.href = "${app}/business/login.jsp"}
             })
         }
         //根据一级类别查询商家

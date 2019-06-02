@@ -67,12 +67,25 @@
         .ltd{
             width: 20%;
         }
+        #no1 td,
+        #no2 td{
+            height: 80px;
+            text-align: center;
+            font-size: 18px;
+            line-height: 50px;
+        }
 
     </style>
     <script>
         $(function () {
             $.post("${app}/orderMaster/findByUser",function (result) {
                 console.log(result);
+                //判断是否登录
+                if(result == ""){
+                    window.location.href="${app}/front/login.jsp"
+                }
+                var isComment = false;
+                var noComment = false;
                 for(var i = 0; i<result.length; i++){
                     var order = result[i];
                     if(order.status == 1){
@@ -91,10 +104,24 @@
                         var td3 = $("<td>").addClass("td2 ltd").text("￥"+order.orderAmount);
                         var tr = $("<tr>").append(td1).append(td2).append(td3).attr({"id":order.id});
 
+
                         if(order.isComment == 0){
+                            noComment = true;
+                            $("#no2").hide();
                             $("#tbody1").append(tr);
-                        }else{
+                        }
+
+                        if(order.isComment == 1){
+                            isComment = true;
+                            $("#no1").hide();
                             $("#tbody").append(tr);
+                        }
+
+                        if(isComment == false){
+                            $("#no1").show();
+                        }
+                        if(noComment == false){
+                            $("#no2").show();
                         }
                     }
                 }
@@ -127,6 +154,9 @@
             </tr>
             </thead>
             <tbody id="tbody">
+            <tr id="no1">
+                <td>您无已评价订单~</td>
+            </tr>
               <%--  <tr>
                     <td class="pricolor">鹅肝寿司鹅肝寿司鹅肝寿司鹅肝寿司鹅肝寿司</td>
                     <td class="td2">鹅肝寿司+三明治</td>
@@ -154,6 +184,9 @@
             </tr>
             </thead>
             <tbody id="tbody1">
+            <tr id="no2">
+                <td>您无未评价订单~</td>
+            </tr>
             <%--  <tr>
                   <td class="pricolor">鹅肝寿司鹅肝寿司鹅肝寿司鹅肝寿司鹅肝寿司</td>
                   <td class="td2">鹅肝寿司+三明治</td>

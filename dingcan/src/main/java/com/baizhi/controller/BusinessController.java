@@ -184,7 +184,6 @@ public class BusinessController {
         else return 0;
     }
 
-
     //修改密码时验证码  需要联网使用
     @RequestMapping("updateCode")
     public void updateCode(HttpServletResponse response, HttpServletRequest request) throws IOException {
@@ -216,20 +215,31 @@ public class BusinessController {
     public Integer sendPhoneCode(String phone, HttpServletRequest request){
         Integer byPhone = businessService.findByPhone(phone);
         if (byPhone == 1){
-            String code = PhoneIdentify.sendIdentify(phone);
+            //String code = PhoneIdentify.sendIdentify(phone);
+            String code = "1234";
             request.getSession().setAttribute(phone,code);                 //存入作用域
             return 1;
         }else {
             return 0;
         }
-
-
     }
+
     /*注册检验验证码*/
     @RequestMapping("checkPhoneCode")
     public String checkPhoneCode(String phone, String code, HttpSession session){
         String phoneCode = (String) session.getAttribute(phone);
-        if (code.equals(phoneCode)) return "1";
+        if(phoneCode == null){
+            return "2";
+        }else if (code.equals(phoneCode)) {
+            session.setAttribute("isBussCode",true);
+            return "1";
+        }
         else  return "0";
     }
+    //清除手机验证码标记
+    @RequestMapping("clearPhoneCode")
+    public void clearPhoneCode(HttpSession session){
+        session.removeAttribute("isBussCode");
+    }
+
 }

@@ -32,12 +32,20 @@
 
     <script>
         $(function () {
+
+
             /*设置号码*/
             var phone = ${param.phone}
             $("#phone").val(phone);
 
             /*设置省份*/
             $.post("${app}/address/findAllProvince",function (result) {
+                console.log(result);
+                //判断是否输入手机验证码
+                if(result == ""){
+                    window.location.href="${app}/business/login.jsp"
+                }
+
                 for(var i =0; i<result.length; i++){
                     var option = $("<option>").val(result[i].code).text(result[i].name);
                     $("#provinceSelect").append(option);
@@ -145,12 +153,15 @@
 
 
             //提交注册表单
-           /* $("#register").on("click",function () {
+           $("#register").on("click",function () {
                 $.post("${app}/business/register",$("#businessForm").serialize(),function (result) {
                     alert("提交完成~~等待管理员审核")
                     window.location.href="${app}/business/login.jsp";
                 })
-            })*/
+            })
+
+            //清除手机验证码标记
+            $.post("${app}/business/clearPhoneCode");
         })
         function changeArea(cityCode) {
             $("#areaSelect").empty();

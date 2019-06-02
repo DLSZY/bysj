@@ -17,6 +17,9 @@ public class CategoryController {
     @Autowired
     private CategoryService categoryService;
 
+    /**
+     * 管理员
+     */
     @RequestMapping("add")
     public void add(GoodsCate cate){
         categoryService.add(cate);

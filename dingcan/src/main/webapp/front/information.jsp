@@ -59,11 +59,12 @@
     <script>
         $(function () {
 
-
-
-
             //查询用户信息
             $.post("${app}/user/findInfo",function (result) {
+                //判断是否登录
+                if(result == ""){
+                    window.location.href="${app}/front/login.jsp"
+                }
                 console.log(result);
                 $("#username").text(result.username);
                 $("#phone").text(result.phone);

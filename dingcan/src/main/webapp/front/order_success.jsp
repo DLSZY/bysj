@@ -34,6 +34,12 @@
     </style>
     <script>
         $(function () {
+            //判断是否登录
+            $.post("${app}/user/judge",function (result) {
+                if(result == ""){
+                    window.location.href="${app}/front/login.jsp"
+                }
+            })
            var second = $("#second");
             var m = 5;
             var timers = window.setInterval(function() {

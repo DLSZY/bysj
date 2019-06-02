@@ -39,6 +39,7 @@
             $("#userForm").validate({
                 rules: {　　
                     username:{
+                        chinese:true,
                         required: true, minlength: 6, maxlength:15,
                         remote: {
                             type: "post",
@@ -58,6 +59,7 @@
                         }
                     },
                     password:{
+                        chinese:true,
                         required:true, minlength:6, maxlength:20,
                     },
                     repassword:{
@@ -124,6 +126,11 @@
                 var reg = /^1[34578]\d{9}$/;//正则表达式
                 return reg.test(value);
             },"手机号码格式不正确");
+
+            $.validator.addMethod("chinese",function(value,element,params){
+                var reg = /^[A-Za-z0-9]+$/;//正则表达式
+                return reg.test(value);
+            },"不能存在中文或特殊字符");
         });
 
 

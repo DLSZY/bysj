@@ -1,10 +1,7 @@
 package com.baizhi.controller;
 
 import com.baizhi.entity.*;
-import com.baizhi.service.BusinessService;
-import com.baizhi.service.CartService;
-import com.baizhi.service.OrderDetailService;
-import com.baizhi.service.OrderMasterService;
+import com.baizhi.service.*;
 import lombok.experimental.var;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +24,8 @@ public class OrderMasterController {
     private OrderDetailService detailService;
     @Autowired
     private BusinessService businessService;
+    @Autowired
+    private GoodsService goodsService;
 
     /**
      * 管理员
@@ -67,12 +66,17 @@ public class OrderMasterController {
     /**
      * 用户
      */
-
     //查询该用户所有订单
     @RequestMapping("findByUser")
     public List<OrderMaster> findByUser(HttpSession session){
         String uid = (String) session.getAttribute("userId");
         List<OrderMaster> masters = masterService.findByUser(uid);
+        if(masters.size() == 0){
+            OrderMaster orderMaster = new OrderMaster();
+            orderMaster.setId("0");
+            masters.add(orderMaster);
+        }
+        System.out.println(masters);
         return masters;
     }
     //删除订单
@@ -81,7 +85,7 @@ public class OrderMasterController {
         masterService.del(oid);
     }
 
-
+    //添加订单
     @RequestMapping("add")
     public void add(String addressId, String userRemarks, HttpSession session,String bid){
         //创建订单
@@ -99,6 +103,7 @@ public class OrderMasterController {
         orderMaster.setBusinessId(bid);
         String userId = (String) session.getAttribute("userId");
         orderMaster.setUserId(userId);
+        orderMaster.setIsComment(0);
 
         masterService.add(orderMaster);
 
@@ -112,6 +117,10 @@ public class OrderMasterController {
             detail.setGoodsId(cart.getGoodsId());
             detail.setId(UUID.randomUUID().toString());
             details.add(detail);
+
+            //修改订单中的食品销售量
+            cart.getGoodsCount();
+            goodsService.addSaleCount(cart.getGoodsId(),cart.getGoodsCount());
         }
         detailService.addDetails(details);
 

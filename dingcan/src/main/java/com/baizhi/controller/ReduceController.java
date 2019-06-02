@@ -32,6 +32,10 @@ public class ReduceController {
         reduceService.delete(id);
     }
 
+
+    /**
+     * 用户
+     */
     @RequestMapping("findByBusiness")
     public List<Reduce> findByBusiness(String bid){
         List<Reduce> reduceList = reduceService.findByBusiness(bid);

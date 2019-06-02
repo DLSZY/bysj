@@ -145,9 +145,14 @@
     <script>
         $(function () {
             //查询该用户的地址
-            $.post("${app}/userAddress/selectByUser",function (result) {
-                console.log(result);
-                if(result.length == 0){
+            $.post("${app}/userAddress/selectByUser",function (result,statusTest,xhr) {
+                var isLogin = xhr.getResponseHeader('isLogin');
+
+                //判断是否登录
+                if(isLogin == "false"){
+                    window.location.href="${app}/front/login.jsp"
+                }
+                if(result == ""){
                     $("#ap2").hide()
                     $("#ap1").hide()
                     $("#otheraddress").hide();

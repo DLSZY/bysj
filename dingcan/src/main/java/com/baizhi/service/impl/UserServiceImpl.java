@@ -78,6 +78,7 @@ public class UserServiceImpl implements UserService {
         user.setRegister(new Date());
         user.setSalt(salt);
         user.setPassword(MD5Utils.getPassword(user.getPassword()+salt));
+        user.setImgUrl("userImg/header.png");
         user.setStatus(1);
         userMapper.insert(user);
     }

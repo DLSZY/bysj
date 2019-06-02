@@ -52,6 +52,9 @@
             });
 
             $("#jq").jqGrid({
+                loadError:function(){   //请求失败时，触发事件
+                    window.location.href="${app}/business/login.jsp"
+                },
                 url:"${app}/userAddress/selectByUser",
                 colNames:["姓名","身份","联系方式","地址","门牌号","操作"],
                 autowidth:true,
@@ -169,7 +172,7 @@
                                 <label class="col-sm-2 control-label">身份</label>
                                 <div class="col-sm-9">
                                     <label class="radio-inline">
-                                        <input type="radio" name="sex" id="inlineRadio1" value="1"> 先生
+                                        <input type="radio" name="sex" id="inlineRadio1" value="1" checked> 先生
                                     </label>
                                     <label class="radio-inline">
                                         <input type="radio" name="sex" id="inlineRadio2" value="2"> 女士
@@ -227,7 +230,7 @@
                                 <label class="col-sm-2 control-label">身份</label>
                                 <div class="col-sm-9" id="sexRe">
                                     <label class="radio-inline">
-                                        <input type="radio" name="sex" id="inlineRadio3" value="1"> 先生
+                                        <input type="radio" name="sex" id="inlineRadio3" value="1" checked> 先生
                                     </label>
                                     <label class="radio-inline">
                                         <input type="radio" name="sex" id="inlineRadio4" value="2"> 女士

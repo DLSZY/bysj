@@ -35,10 +35,19 @@
 
     <script>
         $(function () {
+            $.post("${app}/user/judge",function (result) {
+                console.log(result);
+                //判断是否登录
+                if(result == ""){
+                    window.location.href="${app}/front/login.jsp"
+                }
+            });
+
             $("#userForm").validate({
                 rules: {
                     password:{
                         required:true, minlength:6, maxlength:20,
+                        chinese:true,
                     },
                     repass:{
                         required:true, equalTo: "#password"
@@ -68,7 +77,10 @@
                 }
 
             });
-
+            $.validator.addMethod("chinese",function(value,element,params){
+                var reg = /^[A-Za-z0-9]+$/;//正则表达式
+                return reg.test(value);
+            },"不能存在中文或特殊字符");
             //提交注册表单
            /* $("#changeBtn").on("click",function () {
                 var password = $("#password").val();
@@ -82,6 +94,7 @@
                     alert("两次输入密码不一致")
                 }
             })*/
+            $.post("${app}/user/clearPhoneCode");
         })
     </script>
 </head>

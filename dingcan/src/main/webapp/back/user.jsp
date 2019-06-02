@@ -27,6 +27,10 @@
 
 
             $("#albumList").jqGrid({
+                loadError:function(){   //请求失败时，触发事件
+                    window.location.href="${app}/back/login.jsp"
+                },
+
                 url: "${app}/user/findAll",
                 colNames: ["用户名","密码", "手机号","头像路径","注册时间","状态","操作"],
                 autowidth: true,

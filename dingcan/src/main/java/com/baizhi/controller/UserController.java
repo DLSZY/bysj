@@ -51,22 +51,33 @@ public class UserController {
 
     /*修改密码时发送手机验证码*/
     @RequestMapping("sendPhoneCode")
-    public void sendPhoneCode(String phone, HttpServletRequest request){
-        //String code = PhoneIdentify.sendIdentify(phone);
-        String code = "1234";
-
-        request.getSession().setAttribute("user"+phone,code);                 //存入作用域
-        request.getSession().setAttribute("userPhone",phone);
+    public Integer sendPhoneCode(String phone, HttpServletRequest request){
+        Integer byPhone = userService.findByPhone(phone);
+        if(byPhone == 1){
+            //String code = PhoneIdentify.sendIdentify(phone);
+            String code = "1234";
+            request.getSession().setAttribute("user"+phone,code);                 //存入作用域
+            request.getSession().setAttribute("userPhone",phone);
+            return 1;
+        }else {
+            return 0;
+        }
     }
 
     //修改密码时输入手机号判断验证码
     @RequestMapping("checkPhoneCode")
     public Integer checkUpdatePhoneCode(String phone,String phoneCode,HttpSession session){
         String code = (String) session.getAttribute("user"+phone);
-        System.out.println(code);
-        code.equals(phoneCode);
-        if(code.equals(phoneCode)) return 1;
-        else return 0;
+        if (code == null){
+            return 2;
+        }else{
+            if(code.equals(phoneCode)) {
+                session.setAttribute("phoneCode",true);
+                return 1;
+            }
+            else return 0;
+        }
+
     }
 
     //忘记密码修改密码
@@ -89,13 +100,14 @@ public class UserController {
         return result;
     }
 
-
+    //用户查看自己信息
     @RequestMapping("findInfo")
     public User findInfo(HttpSession session){
         String id = (String) session.getAttribute("userId");
         User user = userService.findById(id);
         return user;
     }
+    //改变用户头像
     @RequestMapping("change")
     public void change(MultipartFile multipartFile, HttpSession session) throws IOException {
         String id = (String) session.getAttribute("userId");
@@ -111,9 +123,19 @@ public class UserController {
         userService.update(user);
     }
 
+    //添加（注册）
     @RequestMapping("register")
     public void register(User user){
         userService.register(user);
+    }
+    //判断是否登录或手机验证码是否正确
+    @RequestMapping("judge")
+    public String judge(){
+        return "1";
+    }
+    @RequestMapping("clearPhoneCode")
+    public void clearPhoneCode(HttpSession session){
+        session.removeAttribute("phoneCode");
     }
 
     /**

@@ -70,6 +70,7 @@ public class CommentServiceImpl implements CommentService {
             comment.setUsername(user.getUsername());
             comment.setImgUrl(user.getImgUrl());
             //设置综合分
+
             Double allGrade = Double.valueOf(comment.getGoodsGrade()+comment.getPackageGrade()+comment.getDistributeGrade());
             Double average = (double) Math.round(allGrade/3  * 10) / 10;
             comment.setAverage(average);

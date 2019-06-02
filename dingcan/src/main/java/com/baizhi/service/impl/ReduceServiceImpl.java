@@ -6,6 +6,7 @@ import com.baizhi.service.ReduceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import tk.mybatis.mapper.entity.Example;
 
 import java.util.List;
 import java.util.UUID;
@@ -38,9 +39,16 @@ public class ReduceServiceImpl implements ReduceService {
 
     @Override
     public List<Reduce> findByBusiness(String bid) {
-        Reduce reduce = new Reduce();
+        /*Reduce reduce = new Reduce();
         reduce.setBusinessId(bid);
-        List<Reduce> select = reduceMapper.select(reduce);
-        return select;
+        List<Reduce> select = reduceMapper.select(reduce);*/
+
+        Example example = new Example(Reduce.class);
+        Example.Criteria criteria = example.createCriteria();
+        criteria.andEqualTo("businessId",bid);
+        example.setOrderByClause("achieve_money ASC");
+        List<Reduce> reduces = reduceMapper.selectByExample(example);
+
+        return reduces;
     }
 }

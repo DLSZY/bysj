@@ -40,7 +40,9 @@
                 }else{
                     $.post("${app}/business/sendPhoneCode",{"phone":phone},function (result) {
                         if (result == 0){
-                            alert("该手机号已经被注册")
+                            alert("该手机号已经被注册~！")
+                        }else{
+                            alert("验证码已经发送~~")
                         }
                     })
                 }
@@ -61,7 +63,9 @@
             $("#checkCode").on("click",function () {
                 $.post("${app}/business/checkPhoneCode",$("#codeForm").serialize(),function (result) {
                     console.log(result);
-                    if (result == "0"){
+                    if(result == "2"){
+                        alert("请点击发送验证码~~")
+                    }else if (result == "0"){
                         alert("验证码错误")
                     }else{
                         window.location.href = "${app}/business/register.jsp?phone="+$("#phone").val();

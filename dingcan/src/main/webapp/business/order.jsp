@@ -33,6 +33,9 @@
                 });
 
                 $("#albumList").jqGrid({
+                    loadError:function(){   //请求失败时，触发事件
+                        window.location.href="${app}/business/login.jsp"
+                    },
                     url:"${app}/orderMaster/findByBusinessPage",
                     colNames:["订单号","用户名","创建时间","订单金额","订单状态","操作"],
                     autowidth:true,
