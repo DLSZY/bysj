@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import tk.mybatis.mapper.annotation.Order;
+import tk.mybatis.mapper.entity.Example;
 
 import java.util.Date;
 import java.util.List;
@@ -60,9 +61,15 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public List<Comment> findByBusi(String bid) {
-        Comment comment1 = new Comment();
-        comment1.setBusinessId(bid);
-        List<Comment> comments = commentMapper.select(comment1);
+
+        Example example = new Example(Comment.class);
+        Example.Criteria criteria = example.createCriteria();
+        criteria.andEqualTo("businessId",bid);
+        example.setOrderByClause("create_date DESC");
+
+
+        List<Comment> comments = commentMapper.selectByExample(example);
+
         for (Comment comment : comments) {
             //设置用户名
             String uid = comment.getUserId();

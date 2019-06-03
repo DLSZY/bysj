@@ -106,8 +106,13 @@
             $("#alert").hide()
             var item = "${param.item}"
             var cate = "${param.cate}"
-            $.post("${app}/business/findBySearch",{"item":item,"cate":cate},function (result) {
+            $.post("${app}/business/findBySearch",{"item":item,"cate":cate},function (result,index,xhr) {
                 console.log(result);
+                //判断是否登录
+                var isLogin = xhr.getResponseHeader('isLogin');
+                if(isLogin == "false"){
+                    window.location.href="${app}/front/login.jsp"
+                }
                 for(var i = 0; i<result.length; i++){
                     var aname = $("<a>").text(result[i].name).attr({"href":"${app}/front/busuness.jsp?bid="+result[i].id}).addClass("aname");
                     var h5 = $("<h5>").append(aname);

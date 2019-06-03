@@ -131,7 +131,7 @@
 
                             <div class="form-group">
                                 <div class="col-sm-10 col-sm-offset-1">
-                                    <input type="text" class="form-control" name="password" placeholder="请输入密码" style="padding-right: 90px">
+                                    <input type="password" class="form-control" name="password" placeholder="请输入密码" style="padding-right: 90px">
                                     <a href="#myModal" data-toggle="modal" id="forget">忘记密码</a>
                                 </div>
                             </div>

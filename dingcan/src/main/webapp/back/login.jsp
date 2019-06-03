@@ -60,7 +60,7 @@
                             </div>
                             <div class="form-group">
                                 <div class="col-sm-10 col-sm-offset-1">
-                                    <input type="text" class="form-control" name="password" id="password" placeholder="请输入密码">
+                                    <input type="password" class="form-control" name="password" id="password" placeholder="请输入密码">
                                 </div>
                             </div>
 

@@ -294,9 +294,11 @@
             $('#collapseTwo').collapse('show')
             var bid = "${param.bid}"
             //查询当前商家信息
-            $.post("${app}/business/findById",{"bid":bid},function (result) {
+            $.post("${app}/business/findById",{"bid":bid},function (result,index,xhr) {
                 //console.log(result);
-                if(result == ""){
+                //判断是否登录
+                var isLogin = xhr.getResponseHeader('isLogin');
+                if(isLogin == "false"){
                     window.location.href="${app}/front/login.jsp"
                 }else{
                     $("#bname").text(result.name);
@@ -352,6 +354,7 @@
                 }
             })
 
+            //查询该商家下的评论
             $("#commentli").on("click",function () {
                 $.post("${app}/comment/findByBuss",{"bid":bid},function (result) {
                     $("#commentlist").empty();

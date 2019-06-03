@@ -166,8 +166,8 @@ public class BusinessController {
             //正式
             /*String code = PhoneIdentify.sendIdentify(phone);
             System.out.println(code);
-            request.getSession().setAttribute(phone,code);      */
-
+            request.getSession().setAttribute(phone,code);
+*/
             //测试
             request.getSession().setAttribute(phone,"1234");
         }
@@ -216,6 +216,9 @@ public class BusinessController {
         Integer byPhone = businessService.findByPhone(phone);
         if (byPhone == 1){
             //String code = PhoneIdentify.sendIdentify(phone);
+            //System.out.println(code);
+
+            //测试
             String code = "1234";
             request.getSession().setAttribute(phone,code);                 //存入作用域
             return 1;

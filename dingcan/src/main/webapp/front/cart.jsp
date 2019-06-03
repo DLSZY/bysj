@@ -319,9 +319,11 @@
 
         //获取当前用户的购物车
         function getCart() {
-            $.post("${app}/cart/findByUser",function (result) {
+            $.post("${app}/cart/findByUser",function (result,index,xhr) {
                 console.log(result);
-                if(result == ""){
+                //判断是否登录
+                var isLogin = xhr.getResponseHeader('isLogin');
+                if(isLogin == "false"){
                     window.location.href="${app}/front/login.jsp"
                 }
                 var isEmpty = result[0].businessId;
@@ -393,6 +395,7 @@
                         var suana;
                         if(allPrice1 < startPrice){
                             var cha = startPrice - allPrice1;
+                            cha = Math.floor(cha * 10) / 10
                             suana = $("<a>").addClass("btn btn-primary suan").text("还差"+cha+"起送").attr({"href":"javascript:void(0)","disabled":true});
                         }else{
                             suana = $("<a>").addClass("btn btn-primary suan").text("去结算").attr({"href":"javascript:order('"+result[i].businessId+"')"});

@@ -85,6 +85,8 @@
             $("#myModalLabel").text("添加食品")
             $("#addBtn").text("添加")
             $("#fileForm")[0].reset();
+
+            //食品一级类别
             $.post("${app}/goods/findCate",function (result) {
                 var cate = $("#cate");
                 cate.empty();
@@ -95,6 +97,8 @@
                     cate.append(option);
                 }
             });
+
+            //本店类别
             $.post("${app}/goods/findCateInStore",function (result) {
                 var cateinstore = $("#cateinstore");
                 cateinstore.empty();
@@ -227,11 +231,13 @@
                             </div>
 
                             <div class="form-group">
-                                <label class="col-sm-2 control-label">所属类别</label>
+                                <label class="col-sm-2 control-label">一级类别</label>
                                 <div class="col-sm-9">
                                     <input type="text" class="form-control" id="cate1" name="cate1">
                                 </div>
                             </div>
+
+
 
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">本店类别</label>

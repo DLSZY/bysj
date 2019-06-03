@@ -64,9 +64,11 @@
             init(oid)
 
             /*查询地址*/
-            $.post("${app}/userAddress/findByOrder",{"oid":oid},function (result) {
+            $.post("${app}/userAddress/findByOrder",{"oid":oid},function (result,index,xhr) {
+                console.log(result);
                 //判断是否登录
-                if(result == ""){
+                var isLogin = xhr.getResponseHeader('isLogin');
+                if(isLogin == "false"){
                     window.location.href="${app}/front/login.jsp"
                 }
                 var s = "";
@@ -142,7 +144,7 @@
                     var span1 = $("<span>").addClass("two").text("x");
                     var span2 = $("<span>").text(detail.goodsCount);
                     var td2 = $("<td>").append(span1).append(span2);
-                    var td3 = $("<td>").text("￥"+detail.goodsPrice).addClass("rtd");
+                    var td3 = $("<td>").text("￥"+detail.goodsPrice*detail.goodsCount).addClass("rtd");
                     var tr = $("<tr>").append(td1).append(td2).append(td3).addClass("iii");
                     $("#foot").before(tr);
                     allPrice = (allPrice-1+1) + (detail.goodsCount*detail.goodsPrice-1+1);

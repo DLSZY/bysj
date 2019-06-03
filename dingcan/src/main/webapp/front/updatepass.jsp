@@ -35,10 +35,11 @@
 
     <script>
         $(function () {
-            $.post("${app}/user/judge",function (result) {
+            $.post("${app}/user/judge",function (result,index,xhr) {
                 console.log(result);
-                //判断是否登录
-                if(result == ""){
+                //判断是否通过手机验证
+                var isLogin = xhr.getResponseHeader('isLogin');
+                if(isLogin == "false"){
                     window.location.href="${app}/front/login.jsp"
                 }
             });

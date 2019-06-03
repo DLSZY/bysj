@@ -75,6 +75,7 @@
                 rules: {
                     username:{
                         required:true, minlength:6, maxlength:20,
+                        chinese:true,
                         remote: {
                             type: "post",
                             url: "/business/checkExist",
@@ -94,6 +95,7 @@
                     },
                     password:{
                         required:true, minlength:6, maxlength:20,
+                        chinese:true,
                     },
                     name:{
                         required:true,
@@ -122,7 +124,7 @@
                     username:{
                         required:"用户名不能为空",
                         minlength:"用户名最小长度为6位",
-                        maxlength:"用户名最大长度为15位",
+                        maxlength:"用户名最大长度为20位",
                         remote: "该用户名已存在"
                     },
                     password:{
@@ -141,24 +143,28 @@
                 submitHandler: function(form) { //通过之后回调
                     console.log($(form).serialize());
                     //进行ajax传值
-                    /*$.post("${app}/business/register",$("#businessForm").serialize(),function (result) {
+                    $.post("${app}/business/register",$("#businessForm").serialize(),function (result) {
                         alert("提交完成~~等待管理员审核")
                         window.location.href="${app}/business/login.jsp";
-                    })*/
+                    })
                 },
                 invalidHandler: function(form, validator) { //没有通过时的回调函数
                     return false;
                 }
             });
+            $.validator.addMethod("chinese",function(value,element,params){
+                var reg = /^[A-Za-z0-9]+$/;//正则表达式
+                return reg.test(value);
+            },"不能存在中文或特殊字符");
 
 
             //提交注册表单
-           $("#register").on("click",function () {
-                $.post("${app}/business/register",$("#businessForm").serialize(),function (result) {
-                    alert("提交完成~~等待管理员审核")
-                    window.location.href="${app}/business/login.jsp";
-                })
-            })
+           /*$("#register").on("click",function () {
+               $.post("${app}/business/register",$("#businessForm").serialize(),function (result) {
+                   alert("提交完成~~等待管理员审核")
+                   window.location.href="${app}/business/login.jsp";
+               })
+           }) */
 
             //清除手机验证码标记
             $.post("${app}/business/clearPhoneCode");

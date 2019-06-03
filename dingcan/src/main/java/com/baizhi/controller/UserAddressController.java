@@ -55,6 +55,7 @@ public class UserAddressController {
     @RequestMapping("findByOrder")
     public Address findByOrder(String oid){
         Address address = addressService.findByOrder(oid);
+        System.out.println(address+"--");
         return address;
     }
 

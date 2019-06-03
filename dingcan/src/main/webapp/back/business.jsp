@@ -22,9 +22,9 @@
                 });
 
                 $("#albumList").jqGrid({
-                   /* loadError:function(){   //请求失败时，触发事件
+                    loadError:function(){   //请求失败时，触发事件
                         window.location.href="${app}/back/login.jsp"
-                    },*/
+                    },
 
                     url:"${app}/business/findBusiness",
                     colNames:["用户名","密码","店铺名","省份编号","城市编号","区县编号","详细地址","手机号","注册时间","图标路径","状态","操作"],

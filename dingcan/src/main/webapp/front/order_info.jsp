@@ -147,7 +147,7 @@
             //查询该用户的地址
             $.post("${app}/userAddress/selectByUser",function (result,statusTest,xhr) {
                 var isLogin = xhr.getResponseHeader('isLogin');
-
+                console.log(result);
                 //判断是否登录
                 if(isLogin == "false"){
                     window.location.href="${app}/front/login.jsp"
@@ -162,10 +162,11 @@
                     for(var i = 0;i<result.length;i++){
                         /*模态框显示所有地址*/
                         var span1 = $("<span>").css({"display":"none"}).text(result[i].id);
+                        var shenfen = "";
                         if(result[i].sex == 1){
                             shenfen = "先生"
                         }else{
-                            身份 = "女士"
+                            shenfen = "女士"
                         }
                         var pp1 = $("<p>").text(result[i].name +" "+shenfen +" "+ result[i].phone)
                         var pp2 = $("<p>").text(result[i].address +result[i].houseNum);
@@ -220,7 +221,7 @@
             if(re.sex == 1){
                 shenfen = "先生"
             }else{
-                身份 = "女士"
+                shenfen = "女士"
             }
             var p1 = re.name +" "+shenfen +" "+ re.phone;
             $("#ap1").text(p1);

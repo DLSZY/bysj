@@ -24,8 +24,6 @@ import java.util.Map;
 public class UserController {
     @Autowired
     private UserService userService;
-
-
     /**
      * 用户
      */
@@ -55,6 +53,8 @@ public class UserController {
         Integer byPhone = userService.findByPhone(phone);
         if(byPhone == 1){
             //String code = PhoneIdentify.sendIdentify(phone);
+            //System.out.println(code);
+            //测试
             String code = "1234";
             request.getSession().setAttribute("user"+phone,code);                 //存入作用域
             request.getSession().setAttribute("userPhone",phone);
@@ -77,7 +77,6 @@ public class UserController {
             }
             else return 0;
         }
-
     }
 
     //忘记密码修改密码

@@ -28,7 +28,7 @@ public class AdminServiceImpl implements AdminService {
             Admin selectAdmin = admins.get(0);
             if(selectAdmin.getPassword().equals(password)){
                 map.put("isLogin",true);
-                session.setAttribute("admminId",selectAdmin.getId());
+                session.setAttribute("adminId",selectAdmin.getId());
                 session.setAttribute("adminUsername",username);
             }else {
                 map.put("isLogin",false);

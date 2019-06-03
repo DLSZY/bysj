@@ -13,6 +13,7 @@ public class BusinessInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object o) throws Exception {
         Object businessId = request.getSession().getAttribute("businessId");
         Object bussCode = request.getSession().getAttribute("isBussCode");
+        System.out.println(businessId);
         if(businessId == null && bussCode == null){ //判断是否登陆 判断验证码验证是否正确
             return false;
         }else{

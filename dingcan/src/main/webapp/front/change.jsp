@@ -68,8 +68,10 @@
     </style>
     <script>
         $(function () {
-            $.post("${app}/user/judge",function (result) {
-                if(result == ""){
+            $.post("${app}/user/judge",function (result,index,xhr) {
+                //判断是否登录
+                var isLogin = xhr.getResponseHeader('isLogin');
+                if(isLogin == "false"){
                     window.location.href="${app}/front/login.jsp"
                 }
             })

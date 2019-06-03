@@ -191,7 +191,9 @@
         //查询所有商家
         function showAll(){
             $.post("${app}/business/findAllNormal",function (result,index,xhr) {
-                if(result == ""){
+                //判断是否登录
+                var isLogin = xhr.getResponseHeader('isLogin');
+                if(isLogin == "false"){
                     window.location.href="${app}/front/login.jsp"
                 }else{
                     showBusiness(result);

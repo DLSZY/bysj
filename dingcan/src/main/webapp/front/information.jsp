@@ -60,9 +60,10 @@
         $(function () {
 
             //查询用户信息
-            $.post("${app}/user/findInfo",function (result) {
+            $.post("${app}/user/findInfo",function (result,index,xhr) {
                 //判断是否登录
-                if(result == ""){
+                var isLogin = xhr.getResponseHeader('isLogin');
+                if(isLogin == "false"){
                     window.location.href="${app}/front/login.jsp"
                 }
                 console.log(result);

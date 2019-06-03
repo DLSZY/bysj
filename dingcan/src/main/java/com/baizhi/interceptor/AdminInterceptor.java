@@ -10,6 +10,7 @@ public class AdminInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object o) throws Exception {
         Object adminId = request.getSession().getAttribute("adminId");
+        System.out.println(adminId);
         if(adminId == null){
             return false;
         }else{

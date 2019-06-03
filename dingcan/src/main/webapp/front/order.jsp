@@ -78,10 +78,11 @@
     </style>
     <script>
         $(function () {
-            $.post("${app}/orderMaster/findByUser",function (result) {
+            $.post("${app}/orderMaster/findByUser",function (result,index,xhr) {
                 console.log(result);
                 //判断是否登录
-                if(result == ""){
+                var isLogin = xhr.getResponseHeader('isLogin');
+                if(isLogin == "false"){
                     window.location.href="${app}/front/login.jsp"
                 }
                 var isComment = false;
